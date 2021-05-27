@@ -1,4 +1,4 @@
-package Sample;
+package Main;
 
 import Database.DBConnection;
 import javafx.application.Application;
@@ -10,11 +10,12 @@ import javafx.stage.Stage;
 public class Main extends Application {
 
     @Override
-    public void start(Stage primaryStage) throws Exception{
-        Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
-        primaryStage.setTitle("Hello World");
-        primaryStage.setScene(new Scene(root, 300, 275));
-        primaryStage.show();
+    public void start(Stage mainStage) throws Exception{
+
+        Parent root = FXMLLoader.load(getClass().getResource("/Views/login_screen.fxml"));
+        mainStage.setTitle("WGU Scheduling Application");
+        mainStage.setScene(new Scene(root));
+        mainStage.show();
     }
 
 

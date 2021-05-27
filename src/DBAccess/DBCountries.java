@@ -3,7 +3,7 @@ package DBAccess;
 import Database.DBConnection;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import Model.Countries;
+import Models.Countries;
 import java.sql.*;
 // TO DO Delete this module
 public class DBCountries {

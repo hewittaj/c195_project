@@ -1,7 +1,7 @@
 package Sample;
 
 import DBAccess.DBCountries;
-import Model.Countries;
+import Models.Countries;
 import javafx.collections.ObservableList;
 import javafx.fxml.Initializable;
 
