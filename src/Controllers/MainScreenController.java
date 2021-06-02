@@ -1,47 +1,37 @@
 package Controllers;
 
-import DBAccess.DBCountries;
-import Models.Countries;
-
-import Sample.Controller;
-import javafx.collections.ObservableList;
-import javafx.fxml.FXML;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.event.ActionEvent;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class MainScreenController implements Initializable{
-    @FXML public TextField userIdTextField;
-    @FXML public Label userLocationLabel;
-    @FXML public Button loginButton;
-    @FXML public PasswordField passwordField;
+public class MainScreenController implements Initializable {
 
-    // public TableColumn idCol; TO DO Delete
-    // public TableColumn nameCol;
-    // public TableView dataTable;
 
+    public Button addCustomerButton;
+    public Button modifyCustomerButton;
+    public Button deleteCustomerButton;
+    public Button addAppointmentButton;
+    public Button modifyAppointmentButton;
+    public Button deleteAppointmentButton;
+    public Button reportButton;
 
     @Override
     public void initialize(URL url, ResourceBundle rb){
 
-
     }
 
-    public void loginButtonAction(ActionEvent actionEvent) throws IOException {
+    public void addCustomerAction(ActionEvent actionEvent) throws IOException {
         // Load next screen
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/Views/customer_screen.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/Views/add_customer_screen.fxml"));
 
         // Set parent and scene
         Parent mainScreenParent = loader.load();
@@ -51,5 +41,35 @@ public class MainScreenController implements Initializable{
         Stage window = (Stage)((Node)actionEvent.getSource()).getScene().getWindow();
         window.setScene(mainScreenScene);
         window.show();
+    }
+
+    public void modifyCustomerAction(ActionEvent actionEvent) throws IOException {
+
+        // Load next screen
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/Views/modify_customer_screen.fxml"));
+
+        // Set parent and scene
+        Parent mainScreenParent = loader.load();
+        Scene mainScreenScene = new Scene(mainScreenParent);
+
+        // This line gets the Stage information
+        Stage window = (Stage)((Node)actionEvent.getSource()).getScene().getWindow();
+        window.setScene(mainScreenScene);
+        window.show();
+    }
+
+    public void addAppointmentAction(ActionEvent actionEvent) {
+    }
+
+    public void modifyAppointmentAction(ActionEvent actionEvent) {
+    }
+
+    public void reportButtonAction(ActionEvent actionEvent) {
+    }
+
+    public void deleteCustomerAction(ActionEvent actionEvent) {
+    }
+
+    public void deleteAppointmentAction(ActionEvent actionEvent) {
     }
 }
