@@ -3,13 +3,13 @@ package DBAccess;
 import Database.DBConnection;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import Models.Countries;
+import Models.Country;
 import java.sql.*;
 // TO DO Delete this module
 public class DBCountries {
 
-    public static ObservableList<Countries> getAllCountries(){
-        ObservableList<Countries> clist = FXCollections.observableArrayList();
+    public static ObservableList<Country> getAllCountries(){
+        ObservableList<Country> clist = FXCollections.observableArrayList();
 
         try{
             String sql = "SELECT * FROM countries";
@@ -19,7 +19,7 @@ public class DBCountries {
             while(rs.next()){
                 int countryId = rs.getInt("Country_ID");
                 String countryName = rs.getString("Country");
-                Countries c = new Countries(countryId, countryName);
+                Country c = new Country(countryId, countryName);
 
                 // Add new country to our observable list
                 clist.add(c);

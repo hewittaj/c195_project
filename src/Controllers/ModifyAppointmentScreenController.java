@@ -10,10 +10,12 @@ import javafx.scene.control.TextField;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class AddAppointmentScreenController implements Initializable {
+public class ModifyAppointmentScreenController implements Initializable {
 
     @FXML public Button saveButton;
     @FXML public Button backButton;
+    @FXML public TextField appointmentIDTextField;
+    @FXML public TextField userIDTextField;
     @FXML public TextField customerIDTextField;
     @FXML public TextField titleTextField;
     @FXML public TextField descriptionTextField;
