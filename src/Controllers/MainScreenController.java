@@ -58,10 +58,32 @@ public class MainScreenController implements Initializable {
         window.show();
     }
 
-    public void addAppointmentAction(ActionEvent actionEvent) {
+    public void addAppointmentAction(ActionEvent actionEvent) throws IOException {
+        // Load next screen
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/Views/add_appointment_screen.fxml"));
+
+        // Set parent and scene
+        Parent mainScreenParent = loader.load();
+        Scene mainScreenScene = new Scene(mainScreenParent);
+
+        // This line gets the Stage information
+        Stage window = (Stage)((Node)actionEvent.getSource()).getScene().getWindow();
+        window.setScene(mainScreenScene);
+        window.show();
     }
 
-    public void modifyAppointmentAction(ActionEvent actionEvent) {
+    public void modifyAppointmentAction(ActionEvent actionEvent) throws IOException {
+        // Load next screen
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/Views/modify_appointment_screen.fxml"));
+
+        // Set parent and scene
+        Parent mainScreenParent = loader.load();
+        Scene mainScreenScene = new Scene(mainScreenParent);
+
+        // This line gets the Stage information
+        Stage window = (Stage)((Node)actionEvent.getSource()).getScene().getWindow();
+        window.setScene(mainScreenScene);
+        window.show();
     }
 
     public void reportButtonAction(ActionEvent actionEvent) {

@@ -12,10 +12,11 @@ import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+
+import Controllers.ErrorChecker;
 
 public class LoginScreenController implements Initializable{
     @FXML public TextField userIdTextField;
@@ -35,6 +36,9 @@ public class LoginScreenController implements Initializable{
     }
 
     public void loginButtonAction(ActionEvent actionEvent) throws IOException {
+        String username = userIdTextField.getText();
+        String password = passwordField.getText();
+        boolean validLogin = ErrorChecker.validateLogin(username, password);
         // Load next screen
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/Views/main_screen.fxml"));
 
