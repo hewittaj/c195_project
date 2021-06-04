@@ -11,10 +11,10 @@ import java.sql.SQLException;
 public class DBConnection {
     private static final String protocol = "jdbc";
     private static final String vendorName = ":mysql:";
-    private static final String ipAddress = "//wgudb.ucertify.com/3306/";
+    private static final String ipAddress = "//wgudb.ucertify.com:3306/";
     private static final String dbName = "WJ07jtV";
 
-    // This will build jdbc:mysql://wgudb.ucertify.com/3306/Wj07jtV
+    // This will build jdbc:mysql://wgudb.ucertify.com:3306/Wj07jtV
     private static final String jdbcUrl = protocol + vendorName + ipAddress + dbName;
     private static final String MYSQLJDBCDriver = "com.mysql.jdbc.Driver";
 
@@ -24,7 +24,7 @@ public class DBConnection {
     public static Connection startConnection(){
         try{
             Class.forName(MYSQLJDBCDriver);
-            conn = DriverManager.getConnection(jdbcUrl, username, "53689048180"); // Fine w/ driver manager
+            conn = DriverManager.getConnection(jdbcUrl, username, Password.getPassword());
 
             System.out.println("Connection successful");
         }
@@ -42,9 +42,11 @@ public class DBConnection {
     public static Connection getConnection(){
         return conn;
     }
+
     public static void closeConnection(){
         try{
             conn.close();
+            System.out.println("Connection closed successfully.");
         }
         catch(Exception e){ // Do Nothing
 
