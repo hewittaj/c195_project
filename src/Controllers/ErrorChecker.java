@@ -8,10 +8,18 @@ import javafx.collections.ObservableList;
 public class ErrorChecker {
 
     public static boolean validateLogin(String username, String password){
+        // Initialize an observable list of users and a boolean for if the login is valid
         ObservableList<User> users = DBUser.getAllUsersInfo();
+        boolean validLogin = false;
+
+        // Loop through users to validate correct username/password combo
         for (User user: users){
-            System.out.println("User_id" + user.getUserId() + " user_name" + user.getUserName() + " password: " + user.getPassword());
+            if(user.getUserName().equals(username)){
+                if(user.getPassword().equals(password)){
+                    validLogin = true;
+                }
+            }
         }
-        return true;
+        return validLogin;
     }
 }

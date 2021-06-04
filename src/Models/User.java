@@ -12,6 +12,7 @@ public class User {
 
     public User(int userId, String userName, String password){
         this.userId = userId;
+        this.userName = userName;
         this.password = password;
     }
 
@@ -31,4 +32,5 @@ public class User {
     public String toString() {
         return userName;
     }
+
 }

@@ -13,7 +13,7 @@ public class DBUser {
         ObservableList<User> users = FXCollections.observableArrayList();
 
         try{
-            String sql = "SELECT User_ID, User_Name, Password FROM Users";
+            String sql = "SELECT User_ID, User_Name, Password FROM users";
             PreparedStatement ps = DBConnection.getConnection().prepareStatement(sql);
 
             ResultSet rs = ps.executeQuery();
