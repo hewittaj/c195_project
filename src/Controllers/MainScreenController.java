@@ -29,6 +29,11 @@ public class MainScreenController implements Initializable {
 
     }
 
+    /**
+     * The addCustomerAction detects whether or not the add customer button was pushed and loads the next screen
+     * @param actionEvent Event caught for the add customer button being pushed
+     * @throws IOException Exception that is caught in case of any IO errors
+     */
     public void addCustomerAction(ActionEvent actionEvent) throws IOException {
         // Load next screen
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/Views/add_customer_screen.fxml"));
@@ -43,6 +48,10 @@ public class MainScreenController implements Initializable {
         window.show();
     }
 
+    /**
+     * @param actionEvent
+     * @throws IOException
+     */
     public void modifyCustomerAction(ActionEvent actionEvent) throws IOException {
 
         // Load next screen
@@ -58,6 +67,10 @@ public class MainScreenController implements Initializable {
         window.show();
     }
 
+    /**
+     * @param actionEvent
+     * @throws IOException
+     */
     public void addAppointmentAction(ActionEvent actionEvent) throws IOException {
         // Load next screen
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/Views/add_appointment_screen.fxml"));
@@ -72,6 +85,10 @@ public class MainScreenController implements Initializable {
         window.show();
     }
 
+    /**
+     * @param actionEvent
+     * @throws IOException
+     */
     public void modifyAppointmentAction(ActionEvent actionEvent) throws IOException {
         // Load next screen
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/Views/modify_appointment_screen.fxml"));
@@ -86,12 +103,21 @@ public class MainScreenController implements Initializable {
         window.show();
     }
 
+    /**
+     * @param actionEvent
+     */
     public void reportButtonAction(ActionEvent actionEvent) {
     }
 
+    /**
+     * @param actionEvent
+     */
     public void deleteCustomerAction(ActionEvent actionEvent) {
     }
 
+    /**
+     * @param actionEvent
+     */
     public void deleteAppointmentAction(ActionEvent actionEvent) {
     }
 }

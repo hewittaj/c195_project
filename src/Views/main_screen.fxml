@@ -74,8 +74,11 @@
          <children>
             <TableView layoutX="29.0" layoutY="25.0" prefHeight="44.0" prefWidth="862.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="50.0">
               <columns>
-                <TableColumn prefWidth="75.0" text="C1" />
-                <TableColumn prefWidth="75.0" text="C2" />
+                <TableColumn fx:id="customerIDColumn" prefWidth="75.0" text="Customer ID" />
+                <TableColumn fx:id="customerNameColumn" prefWidth="128.0" text="Customer Name" />
+                  <TableColumn fx:id="customerAddressColumn" prefWidth="81.0" text="Address" />
+                  <TableColumn fx:id="zipCodeColumn" prefWidth="74.0" text="Zip Code" />
+                  <TableColumn fx:id="phoneNumberColumn" prefWidth="94.0" text="Phone Number" />
               </columns>
             </TableView>
             <Label layoutX="395.0" layoutY="8.0" text="Customers">

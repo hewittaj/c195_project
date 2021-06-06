@@ -28,14 +28,19 @@ public class LoginScreenController implements Initializable{
 
     @Override
     public void initialize(URL url, ResourceBundle rb){
-
+        // Test for french by using Locale.setDefault(new Locale("fr")); rather than rebooting
 
     }
 
     public void loginButtonAction(ActionEvent actionEvent) throws IOException {
+        // Get the text from the login text fields
         String username = userIdTextField.getText();
         String password = passwordField.getText();
+
+        // Boolean created to detect if the username/password combo is valid or not
         boolean validLogin = ErrorChecker.validateLogin(username, password);
+
+        // If a valid login we load the main screen
         if(validLogin == true){
             // Load next screen
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/Views/main_screen.fxml"));
@@ -49,6 +54,7 @@ public class LoginScreenController implements Initializable{
             window.setScene(mainScreenScene);
             window.show();
         }
+        // Else we alert the user it was an invalid login and return to the same login screen
         else{
             Alert invalidLogin = new Alert(Alert.AlertType.ERROR);
             invalidLogin.setTitle("ERROR!");
