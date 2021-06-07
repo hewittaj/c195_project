@@ -57,7 +57,7 @@
       </HBox>
       <AnchorPane layoutX="-2.0" layoutY="94.0" prefHeight="240.0" prefWidth="600.0" style="-fx-border-color: black; -fx-border-radius: 5;" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0">
          <children>
-            <TableView layoutX="275.0" layoutY="51.0" prefWidth="450.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="50.0">
+            <TableView fx:id="appointmentTableView" layoutX="275.0" layoutY="51.0" prefWidth="450.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="50.0">
               <columns>
                 <TableColumn prefWidth="75.0" text="C1" />
                 <TableColumn prefWidth="75.0" text="C2" />
@@ -72,13 +72,14 @@
       </AnchorPane>
       <AnchorPane layoutY="100.0" prefHeight="200.0" prefWidth="900.0" style="-fx-border-color: black; -fx-border-radius: 5;" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0">
          <children>
-            <TableView layoutX="29.0" layoutY="25.0" prefHeight="44.0" prefWidth="862.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="50.0">
+            <TableView fx:id="customerTableView" layoutX="29.0" layoutY="25.0" prefHeight="44.0" prefWidth="862.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="50.0">
               <columns>
                 <TableColumn fx:id="customerIDColumn" prefWidth="75.0" text="Customer ID" />
                 <TableColumn fx:id="customerNameColumn" prefWidth="128.0" text="Customer Name" />
                   <TableColumn fx:id="customerAddressColumn" prefWidth="81.0" text="Address" />
                   <TableColumn fx:id="zipCodeColumn" prefWidth="74.0" text="Zip Code" />
                   <TableColumn fx:id="phoneNumberColumn" prefWidth="94.0" text="Phone Number" />
+                  <TableColumn fx:id="divisionIDColumn" prefWidth="94.0" text="Division ID" />
               </columns>
             </TableView>
             <Label layoutX="395.0" layoutY="8.0" text="Customers">

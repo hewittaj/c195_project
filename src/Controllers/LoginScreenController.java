@@ -11,6 +11,7 @@ import javafx.scene.control.*;
 import javafx.stage.Stage;
 import java.io.IOException;
 import java.net.URL;
+import java.time.ZoneId;
 import java.util.ResourceBundle;
 
 import Controllers.ErrorChecker;
@@ -30,6 +31,8 @@ public class LoginScreenController implements Initializable{
     public void initialize(URL url, ResourceBundle rb){
         // Test for french by using Locale.setDefault(new Locale("fr")); rather than rebooting
 
+        // Set zoneID
+        userLocationLabel.setText(ZoneId.systemDefault().toString());
     }
 
     public void loginButtonAction(ActionEvent actionEvent) throws IOException {

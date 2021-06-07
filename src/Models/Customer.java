@@ -2,14 +2,25 @@ package Models;
 
 public class Customer {
     private int customerId;
+    private int divisionId;
     private String customerName;
     private String customerAddress;
-    private int zipCode;
+    private String zipCode;
     private String phoneNumber;
     private String countryName;
     private String divisionName;
 
-    public Customer(int customerId, String customerName, String customerAddress, int zipCode, String phoneNumber, String countryName, String divisionName) {
+    /**
+     * Constructor used for adding a Customer
+     * @param customerId
+     * @param customerName
+     * @param customerAddress
+     * @param zipCode
+     * @param phoneNumber
+     * @param countryName
+     * @param divisionName
+     */
+    public Customer(int customerId, String customerName, String customerAddress, String zipCode, String phoneNumber, String countryName, String divisionName) {
         this.customerId = customerId;
         this.customerName = customerName;
         this.customerAddress = customerAddress;
@@ -19,11 +30,34 @@ public class Customer {
         this.divisionName = divisionName;
     }
 
+    /**
+     * Constructor used for getting all customer information for main screen
+     * @param customerId
+     * @param customerName
+     * @param customerAddress
+     * @param zipCode
+     * @param phoneNumber
+     * @param divisionId
+     */
+    public Customer(int customerId, String customerName, String customerAddress, String zipCode, String phoneNumber, int divisionId) {
+
+        this.customerId = customerId;
+        this.customerName = customerName;
+        this.customerAddress = customerAddress;
+        this.zipCode = zipCode;
+        this.phoneNumber = phoneNumber;
+        this.divisionId = divisionId;
+    }
+
     public int getCustomerId() {
         return customerId;
     }
 
-    public int getZipCode() {
+    public int getDivisionId(){
+        return divisionId;
+    }
+
+    public String getZipCode() {
         return zipCode;
     }
 

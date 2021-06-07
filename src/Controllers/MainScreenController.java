@@ -1,14 +1,22 @@
 package Controllers;
 
+import DBAccess.DBCustomers;
+import Models.Appointment;
+import Models.Customer;
+
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
-
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -16,16 +24,36 @@ import java.util.ResourceBundle;
 public class MainScreenController implements Initializable {
 
 
-    public Button addCustomerButton;
-    public Button modifyCustomerButton;
-    public Button deleteCustomerButton;
-    public Button addAppointmentButton;
-    public Button modifyAppointmentButton;
-    public Button deleteAppointmentButton;
-    public Button reportButton;
+    @FXML public Button addCustomerButton;
+    @FXML public Button modifyCustomerButton;
+    @FXML public Button deleteCustomerButton;
+    @FXML public Button addAppointmentButton;
+    @FXML public Button modifyAppointmentButton;
+    @FXML public Button deleteAppointmentButton;
+    @FXML public Button reportButton;
+    @FXML public TableColumn<Customer, Integer> customerIDColumn;
+    @FXML public TableColumn<Customer, String> customerNameColumn;
+    @FXML public TableColumn<Customer, String> customerAddressColumn;
+    @FXML public TableColumn<Customer, String> zipCodeColumn;
+    @FXML public TableColumn<Customer, String> phoneNumberColumn;
+    @FXML public TableColumn<Customer, Integer> divisionIDColumn;
+    @FXML public TableView<Appointment> appointmentTableView;
+    @FXML public TableView<Customer> customerTableView;
 
     @Override
     public void initialize(URL url, ResourceBundle rb){
+        ObservableList<Customer> customers = DBCustomers.getMainScreenCustomerInfo();
+
+        // Initialize customer table
+        customerTableView.setItems(customers);
+
+        // Initialize customer column names -> string must match the model's spelling/capitalization
+        customerIDColumn.setCellValueFactory(new PropertyValueFactory<Customer, Integer>("customerId"));
+        customerNameColumn.setCellValueFactory(new PropertyValueFactory<Customer, String>("customerName"));
+        customerAddressColumn.setCellValueFactory(new PropertyValueFactory<Customer, String>("customerAddress"));
+        zipCodeColumn.setCellValueFactory(new PropertyValueFactory<Customer, String>("zipCode"));
+        phoneNumberColumn.setCellValueFactory(new PropertyValueFactory<Customer, String>("phoneNumber"));
+        divisionIDColumn.setCellValueFactory(new PropertyValueFactory<Customer, Integer>("divisionId"));
 
     }
 
