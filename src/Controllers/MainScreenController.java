@@ -40,9 +40,12 @@ public class MainScreenController implements Initializable {
     @FXML public TableView<Appointment> appointmentTableView;
     @FXML public TableView<Customer> customerTableView;
 
+    // List of customers currently in database
+    ObservableList<Customer> customers = DBCustomers.getMainScreenCustomerInfo();
+
     @Override
     public void initialize(URL url, ResourceBundle rb){
-        ObservableList<Customer> customers = DBCustomers.getMainScreenCustomerInfo();
+        customers = DBCustomers.getMainScreenCustomerInfo();
 
         // Initialize customer table
         customerTableView.setItems(customers);
@@ -65,6 +68,8 @@ public class MainScreenController implements Initializable {
     public void addCustomerAction(ActionEvent actionEvent) throws IOException {
         // Load next screen
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/Views/add_customer_screen.fxml"));
+        AddCustomerScreenController controller = new AddCustomerScreenController(customers.size());
+        loader.setController(controller);
 
         // Set parent and scene
         Parent mainScreenParent = loader.load();

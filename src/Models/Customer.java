@@ -1,5 +1,7 @@
 package Models;
 
+import DBAccess.DBCustomers;
+
 public class Customer {
     private int customerId;
     private int divisionId;
@@ -80,6 +82,20 @@ public class Customer {
 
     public String getCustomerAddress(){
         return customerAddress;
+    }
+
+    /**
+     * Gets the last customer Id number for adding a customer functionality
+     * @return The customer ID for the last customer in the list
+     */
+    public static int getLastCustomerId(){
+        int maxId = 0;
+        for(Customer customer: DBCustomers.getMainScreenCustomerInfo()){
+            if(customer.getCustomerId() > maxId){
+                maxId = customer.getCustomerId();
+            }
+        }
+        return maxId;
     }
 
     @Override

@@ -61,4 +61,35 @@ public class AddAppointmentScreenController implements Initializable {
         window.setScene(mainScreenScene);
         window.show();
     }
+
+    public int getSizeOfAllCustomers(){
+        return 0;
+    }
+    /**
+     * Generates the next Id Number for a customer we want to add
+     * // TO DO FIX!!!!!
+     */
+//    public void getNextIdNumber(){
+//        int size = getSizeOfAllCustomers(); // Set the size
+//
+//        if(size == 0){
+//            customerIDTextField.setText("1");
+//        }else{
+//            for(int i = 0; i <=size; i++){ // Loop through the list
+//                if(i == 0){ // Skip 0 as we don't want an ID of zero
+//                    continue;
+//                }
+//                if(lookupPart(i) == null){ // If part returned is null
+//                    partIdTextField.setText(String.valueOf(i)); // We can use the id as our number
+//                    break;// Break from loop
+//                }else if(lookupPart(i) != null){ // If lookup part matches we continue in the loop  --- lookupPart(i).getId() == i
+//                    if(i == size){ // If we get to the last index and its not null we assign the value to the last part id + 1
+//                        // Otherwise we set the id to the last parts id + 1
+//                        partIdTextField.setText(String.valueOf(Inventory.getLastPartId() + 1));
+//                    }
+//                    continue; // If i does not equal the size of the list then continue in the loop
+//                }
+//            }
+//        }
+//    }
 }
