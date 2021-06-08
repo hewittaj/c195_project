@@ -1,7 +1,11 @@
 package Controllers;
 
+import DBAccess.DBCountries;
 import DBAccess.DBCustomers;
+import DBAccess.DBFirstLevelDivisions;
+import Models.Country;
 import Models.Customer;
+import Models.Division;
 
 import javafx.collections.ObservableList;
 import javafx.fxml.Initializable;
@@ -11,7 +15,6 @@ import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
 import javafx.event.ActionEvent;
 import javafx.scene.Node;
 import javafx.scene.Parent;
@@ -33,8 +36,9 @@ public class AddCustomerScreenController implements Initializable {
     @FXML public ComboBox divisionComboBox;
 
     private int numberOfCustomers;
-    ObservableList<Customer> customers = DBCustomers.getMainScreenCustomerInfo();
-
+    private ObservableList<Customer> customers = DBCustomers.getMainScreenCustomerInfo();
+    private ObservableList<Country> countries = DBCountries.getAllCountries();
+    private ObservableList<Division> divisions;
     /**
      * Constructor for the add customer screen controller
      * @param numberOfCustomers
@@ -46,7 +50,7 @@ public class AddCustomerScreenController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb){
         getNextIdNumber();
-
+        fillCountryComboBox();
     }
 
 
@@ -74,10 +78,33 @@ public class AddCustomerScreenController implements Initializable {
         window.show();
     }
 
-    public void deleteButtonAction(ActionEvent actionEvent) {
+    /**
+     * This method fills the Country Combo box for the add customer controller
+     */
+    public void fillCountryComboBox(){
+        for(Country country: countries){
+            countryComboBox.getItems().add(country);
+        }
     }
 
-    public int getSizeOfAllCustomers(){
+    /**
+     * This method fills the division combo box based off what country is selected
+     */
+    public void fillDivisionComboBox(){
+        divisionComboBox.getItems().clear();
+        Country selectedCountry = (Country) countryComboBox.getSelectionModel().getSelectedItem();
+        int countryId = selectedCountry.getId();
+        divisions = DBFirstLevelDivisions.getFirstLevelDivisionInfo(countryId);
+        for(Division division: divisions){
+            divisionComboBox.getItems().add(division.toString());
+        }
+    }
+
+    /**
+     * This method gets the number of customers currently in the database
+     * @return Returns the number of customers currently in the database
+     */
+    public int getNumberOfCustomers(){
         return numberOfCustomers;
     }
 
@@ -85,7 +112,7 @@ public class AddCustomerScreenController implements Initializable {
      * Generates the next Id Number for a customer we want to add
      */
     public void getNextIdNumber(){
-        int size = getSizeOfAllCustomers(); // Set the size
+        int size = getNumberOfCustomers(); // Set the size
 
         if(size == 0){
             customerIDTextField.setText("1");
@@ -110,5 +137,21 @@ public class AddCustomerScreenController implements Initializable {
             }
 
         }
+    }
+
+    /**
+     * This method detects the country combo box was selected.
+     * @param actionEvent Event that is caught to detect selection of combo box
+     */
+    public void countryComboBoxSelected(ActionEvent actionEvent) {
+        divisionComboBox.setDisable(false);
+        fillDivisionComboBox();
+    }
+
+    /**
+     * This method detects the division info combo box was selected.
+     * @param actionEvent Event that is caught to detect selection of combo box
+     */
+    public void divisionInfoComboBoxSelected(ActionEvent actionEvent) {
     }
 }

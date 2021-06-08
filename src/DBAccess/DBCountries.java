@@ -5,11 +5,15 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import Models.Country;
 import java.sql.*;
-// TO DO Delete this module
+
 public class DBCountries {
 
+    /**
+     * This method gets all of the countries in the database
+     * @return Returns an observable list of all countries
+     */
     public static ObservableList<Country> getAllCountries(){
-        ObservableList<Country> clist = FXCollections.observableArrayList();
+        ObservableList<Country> countries = FXCollections.observableArrayList();
 
         try{
             String sql = "SELECT * FROM countries";
@@ -22,12 +26,12 @@ public class DBCountries {
                 Country c = new Country(countryId, countryName);
 
                 // Add new country to our observable list
-                clist.add(c);
+                countries.add(c);
             }
         }
         catch(SQLException e){
             e.printStackTrace();
         }
-        return clist;
+        return countries;
     }
 }
