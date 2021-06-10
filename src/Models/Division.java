@@ -10,14 +10,14 @@ public class Division {
         this.divisionName = divisionName;
         this.countryId = countryId;
     }
-    public int getDivisionIdId(){
+    public int getDivisionId(){
         return divisionId;
     }
     public int getCountryId(){
         return countryId;
     }
 
-    public String getDivisionNameName(){
+    public String getDivisionName(){
         return divisionName;
     }
 

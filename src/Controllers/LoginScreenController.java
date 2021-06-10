@@ -1,5 +1,6 @@
 package Controllers;
 
+import Main.Main;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -45,11 +46,17 @@ public class LoginScreenController implements Initializable{
 
         // If a valid login we load the main screen
         if(validLogin == true){
-            // Load next screen
+            // Load next screen and set controller
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/Views/main_screen.fxml"));
 
             // Set parent and scene
             Parent mainScreenParent = loader.load();
+
+            // Instantiate new controller and call function to pass logged in user
+            MainScreenController controller = loader.getController();
+            controller.passLoggedInUser(username);
+
+            // Instantiate Screen
             Scene mainScreenScene = new Scene(mainScreenParent);
 
             // This line gets the Stage information

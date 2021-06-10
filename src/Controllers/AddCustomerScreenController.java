@@ -35,35 +35,95 @@ public class AddCustomerScreenController implements Initializable {
     @FXML public ComboBox countryComboBox;
     @FXML public ComboBox divisionComboBox;
 
-    private int numberOfCustomers;
+    public int numberOfCustomers;
+    public String loggedInUser;
     private ObservableList<Customer> customers = DBCustomers.getMainScreenCustomerInfo();
     private ObservableList<Country> countries = DBCountries.getAllCountries();
     private ObservableList<Division> divisions;
-    /**
-     * Constructor for the add customer screen controller
-     * @param numberOfCustomers
-     */
-    public AddCustomerScreenController(int numberOfCustomers){
-        this.numberOfCustomers = numberOfCustomers;
-    }
 
     @Override
     public void initialize(URL url, ResourceBundle rb){
-        getNextIdNumber();
         fillCountryComboBox();
     }
 
+    /**
+     * This method passes the number of customers between screens
+     * @param numberOfCustomers
+     */
+    public void passNumberOfCustomers(int numberOfCustomers){
+        this.numberOfCustomers = numberOfCustomers;
+        getNextIdNumber(numberOfCustomers);
+    }
 
-    public void confirmButtonAction(ActionEvent actionEvent) {
+    /**
+     * This method passes the logged in user between screens
+     * @param loggedInUser
+     */
+    public void passLoggedInUser(String loggedInUser){
+        this.loggedInUser = loggedInUser;
+    }
+    /**
+     * This method adds a user after the confirm button has been pressed
+     * @param actionEvent Event that is caught to detect button press
+     * @throws IOException Exception that is caught in case of IO errors
+     */
+    public void confirmButtonAction(ActionEvent actionEvent) throws IOException{
         // Set up an alert
         Alert cancelAlert = new Alert(Alert.AlertType.CONFIRMATION);
-        cancelAlert.setTitle("TEST");
-        cancelAlert.setHeaderText("Are you sure you want to TEST?");
+        cancelAlert.setTitle("Confirm New Customer");
+        cancelAlert.setHeaderText("Are you sure you want to add this customer?");
         cancelAlert.setContentText("Click 'OK' to confirm.");
         Optional<ButtonType> decision = cancelAlert.showAndWait();
+
+        // If user accepts the prompt
+        if(decision.get() == ButtonType.OK){
+            Customer newCustomer;
+            int customerId = Integer.parseInt(customerIDTextField.getText());
+            String customerName = customerNameTextField.getText();
+            String customerAddress = addressTextField.getText();
+            String zipCode = zipTextField.getText();
+            String phoneNumber = phoneTextField.getText();
+            String customerCountry = countryComboBox.getSelectionModel().getSelectedItem().toString();
+            String customerDivision = divisionComboBox.getSelectionModel().getSelectedItem().toString();
+            String createdBy = loggedInUser;
+            String lastUpdatedBy = loggedInUser;
+            int customerDivisionId = 0;
+
+            // Get customer division id so we can add proper info to database
+            for (Division division: divisions){
+                if (division.getDivisionName().equals(customerDivision)){
+                    customerDivisionId = division.getDivisionId();
+                    break;
+                }
+            }
+
+            // Initialize new customer and call database operations
+            newCustomer = new Customer(customerId, customerName, customerAddress, zipCode, phoneNumber, customerCountry,
+                    customerDivisionId, loggedInUser);
+            DBCustomers.addNewCustomer(newCustomer);
+
+            // Load main screen
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Views/main_screen.fxml"));
+
+            // Set parent and scene
+            Parent mainScreenParent = (Parent)loader.load();
+
+            // Instantiate controller and call functions to pass info between screens
+            MainScreenController controller = loader.getController();
+            controller.passLoggedInUser(loggedInUser);
+            Scene mainScreenScene = new Scene(mainScreenParent);
+
+            // This line gets the Stage information
+            Stage window = (Stage)((Node)actionEvent.getSource()).getScene().getWindow();
+            window.setScene(mainScreenScene);
+            window.show();
+        }
     }
 
     public void backButtonAction(ActionEvent actionEvent) throws IOException {
+        // TO DO ASK ARE YOU SURE
+
+
 
         // Load next screen
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/Views/main_screen.fxml"));
@@ -98,22 +158,14 @@ public class AddCustomerScreenController implements Initializable {
         for(Division division: divisions){
             divisionComboBox.getItems().add(division.toString());
         }
-    }
 
-    /**
-     * This method gets the number of customers currently in the database
-     * @return Returns the number of customers currently in the database
-     */
-    public int getNumberOfCustomers(){
-        return numberOfCustomers;
     }
 
     /**
      * Generates the next Id Number for a customer we want to add
      */
-    public void getNextIdNumber(){
-        int size = getNumberOfCustomers(); // Set the size
-
+    public void getNextIdNumber(int numberOfCustomers){
+        int size = numberOfCustomers; // Set the size
         if(size == 0){
             customerIDTextField.setText("1");
         }else{

@@ -11,6 +11,7 @@ public class Customer {
     private String phoneNumber;
     private String countryName;
     private String divisionName;
+    private String loggedInUser;
 
     /**
      * Constructor used for adding a Customer
@@ -20,16 +21,18 @@ public class Customer {
      * @param zipCode
      * @param phoneNumber
      * @param countryName
-     * @param divisionName
+     * @param divisionId
      */
-    public Customer(int customerId, String customerName, String customerAddress, String zipCode, String phoneNumber, String countryName, String divisionName) {
+    public Customer(int customerId, String customerName, String customerAddress, String zipCode, String phoneNumber, String countryName, int divisionId,
+                    String loggedInUser) {
         this.customerId = customerId;
         this.customerName = customerName;
         this.customerAddress = customerAddress;
         this.zipCode = zipCode;
         this.phoneNumber = phoneNumber;
         this.countryName = countryName;
-        this.divisionName = divisionName;
+        this.divisionId = divisionId;
+        this.loggedInUser = loggedInUser;
     }
 
     /**
@@ -42,7 +45,6 @@ public class Customer {
      * @param divisionId
      */
     public Customer(int customerId, String customerName, String customerAddress, String zipCode, String phoneNumber, int divisionId) {
-
         this.customerId = customerId;
         this.customerName = customerName;
         this.customerAddress = customerAddress;
@@ -75,6 +77,9 @@ public class Customer {
         return divisionName;
     }
 
+    public String getLoggedInUser(){
+        return loggedInUser;
+    }
 
     public String getCustomerName(){
         return customerName;

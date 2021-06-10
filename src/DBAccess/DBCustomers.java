@@ -13,6 +13,47 @@ import java.sql.SQLException;
 
 public class DBCustomers {
 
+    /**
+     * This method adds a new customer to the database
+     * @param newCustomer Parameter passed that represents the new customer
+     */
+    public static void addNewCustomer(Customer newCustomer){
+        // Declare new customers information
+        int customerId = newCustomer.getCustomerId();
+        String customerName = newCustomer.getCustomerName();
+        String address = newCustomer.getCustomerAddress();
+        String zipCode = newCustomer.getZipCode();
+        String phoneNumber = newCustomer.getPhoneNumber();
+        int divisionId = newCustomer.getDivisionId();
+        String loggedInUser = newCustomer.getLoggedInUser();
+
+        try{
+            // Set our sql string and prepared statement
+            String sql = "insert into customers (Customer_ID, Customer_Name, Address, Postal_Code," +
+                    "Phone, Division_ID, Created_By, Last_Updated_By) values(?, ?, ?, ?, ?, ?, ?, ?)";
+            PreparedStatement ps = DBConnection.getConnection().prepareStatement(sql);
+            ps.setInt(1, customerId);
+            ps.setString(2, customerName);
+            ps.setString(3, address);
+            ps.setString(4, zipCode);
+            ps.setString(5, phoneNumber);
+            ps.setInt(6, divisionId);
+            ps.setString(7, loggedInUser);
+            ps.setString(8, loggedInUser);
+
+            // Execute the query
+            ps.execute();
+
+        }
+        catch(SQLException e){
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * This method gets the populates the main screen's customer data
+     * @return Returns an observable array list of customers in the database
+     */
     public static ObservableList<Customer> getMainScreenCustomerInfo(){
         ObservableList<Customer> customers = FXCollections.observableArrayList();
 

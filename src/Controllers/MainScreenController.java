@@ -23,7 +23,6 @@ import java.util.ResourceBundle;
 
 public class MainScreenController implements Initializable {
 
-
     @FXML public Button addCustomerButton;
     @FXML public Button modifyCustomerButton;
     @FXML public Button deleteCustomerButton;
@@ -43,6 +42,17 @@ public class MainScreenController implements Initializable {
     // List of customers currently in database
     ObservableList<Customer> customers = DBCustomers.getMainScreenCustomerInfo();
 
+    public String loggedInUser;
+    public int numberOfCustomers;
+
+    public void passLoggedInUser(String loggedInUser){
+        this.loggedInUser = loggedInUser;
+    }
+
+    public int passNumberOfCustomers(int numberOfCustomers){
+        this.numberOfCustomers = numberOfCustomers;
+        return numberOfCustomers;
+    }
     @Override
     public void initialize(URL url, ResourceBundle rb){
         customers = DBCustomers.getMainScreenCustomerInfo();
@@ -68,11 +78,16 @@ public class MainScreenController implements Initializable {
     public void addCustomerAction(ActionEvent actionEvent) throws IOException {
         // Load next screen
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/Views/add_customer_screen.fxml"));
-        AddCustomerScreenController controller = new AddCustomerScreenController(customers.size());
-        loader.setController(controller);
 
-        // Set parent and scene
+        // Set parent
         Parent mainScreenParent = loader.load();
+
+        // Instantiate controller and call functions to pass info between screens
+        AddCustomerScreenController controller = loader.getController();
+        controller.passNumberOfCustomers(customers.size());
+        controller.passLoggedInUser(loggedInUser);
+
+        // Set scene
         Scene mainScreenScene = new Scene(mainScreenParent);
 
         // This line gets the Stage information
