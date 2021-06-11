@@ -62,6 +62,7 @@ public class AddCustomerScreenController implements Initializable {
     public void passLoggedInUser(String loggedInUser){
         this.loggedInUser = loggedInUser;
     }
+
     /**
      * This method adds a user after the confirm button has been pressed
      * @param actionEvent Event that is caught to detect button press
@@ -85,8 +86,6 @@ public class AddCustomerScreenController implements Initializable {
             String phoneNumber = phoneTextField.getText();
             String customerCountry = countryComboBox.getSelectionModel().getSelectedItem().toString();
             String customerDivision = divisionComboBox.getSelectionModel().getSelectedItem().toString();
-            String createdBy = loggedInUser;
-            String lastUpdatedBy = loggedInUser;
             int customerDivisionId = 0;
 
             // Get customer division id so we can add proper info to database
@@ -120,6 +119,11 @@ public class AddCustomerScreenController implements Initializable {
         }
     }
 
+    /**
+     * Method that goes back to the main screen
+     * @param actionEvent
+     * @throws IOException
+     */
     public void backButtonAction(ActionEvent actionEvent) throws IOException {
         // TO DO ASK ARE YOU SURE
 
@@ -156,7 +160,7 @@ public class AddCustomerScreenController implements Initializable {
         int countryId = selectedCountry.getId();
         divisions = DBFirstLevelDivisions.getFirstLevelDivisionInfo(countryId);
         for(Division division: divisions){
-            divisionComboBox.getItems().add(division.toString());
+            divisionComboBox.getItems().add(division);
         }
 
     }

@@ -105,6 +105,6 @@ public class Customer {
 
     @Override
     public String toString() {
-        return countryName;
+        return customerName;
     }
 }

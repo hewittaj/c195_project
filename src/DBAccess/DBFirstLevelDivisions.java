@@ -13,6 +13,30 @@ import java.sql.SQLException;
 
 public class DBFirstLevelDivisions {
 
+
+    public static Division specifiedDivision(int passedDivisionId){
+        Division division = null;
+        try{
+            String sql = "select division_id, division, country_id from first_level_divisions where division_id = ?";
+            PreparedStatement ps = DBConnection.getConnection().prepareStatement(sql);
+            ps.setInt(1, passedDivisionId);
+
+            ResultSet rs = ps.executeQuery();
+            while(rs.next()){
+                int divisionId = rs.getInt("Division_ID");
+                String divisionName = rs.getString("Division");
+                int countryId = rs.getInt("Country_ID");
+                division = new Division(divisionId, divisionName, countryId);
+            }
+        }
+        catch(SQLException e){
+            e.printStackTrace();
+        }
+        return division;
+    }
+    /**
+     * This method returns all the first level division info
+     */
     public static ObservableList<Division> getFirstLevelDivisionInfo(int countryId){
         ObservableList<Division> divisions = FXCollections.observableArrayList();
 

@@ -42,17 +42,12 @@ public class MainScreenController implements Initializable {
     // List of customers currently in database
     ObservableList<Customer> customers = DBCustomers.getMainScreenCustomerInfo();
 
-    public String loggedInUser;
-    public int numberOfCustomers;
+    public String loggedInUser;  // Currently logged in user
 
     public void passLoggedInUser(String loggedInUser){
         this.loggedInUser = loggedInUser;
     }
 
-    public int passNumberOfCustomers(int numberOfCustomers){
-        this.numberOfCustomers = numberOfCustomers;
-        return numberOfCustomers;
-    }
     @Override
     public void initialize(URL url, ResourceBundle rb){
         customers = DBCustomers.getMainScreenCustomerInfo();
@@ -101,12 +96,18 @@ public class MainScreenController implements Initializable {
      * @throws IOException
      */
     public void modifyCustomerAction(ActionEvent actionEvent) throws IOException {
-
+        Customer selectedCustomer = customerTableView.getSelectionModel().getSelectedItem();
         // Load next screen
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/Views/modify_customer_screen.fxml"));
 
-        // Set parent and scene
+        // Set parent
         Parent mainScreenParent = loader.load();
+
+        // Instantiate controller and call functions to pass info between screens
+        ModifyCustomerScreenController controller = loader.getController();
+        controller.passCustomer(selectedCustomer);
+
+        // Set scene
         Scene mainScreenScene = new Scene(mainScreenParent);
 
         // This line gets the Stage information
