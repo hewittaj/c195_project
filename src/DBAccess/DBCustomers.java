@@ -80,4 +80,36 @@ public class DBCustomers {
         }
         return customers;
     }
+
+    /**
+     * This method handles the sql statements to update the selected customer
+     * @param updatedCustomer Customer that is passed that includes the newly updated information
+     * @return Returns the newly updated customer
+     */
+    public static void updateCustomer(Customer updatedCustomer){
+
+        try{
+            String sql = "UPDATE customers\n" +
+                    "SET customer_name = ?, address = ?, postal_code = ?, phone = ?, created_by = ?,\n" +
+                    "last_updated_by = ?, division_id = ?\n" +
+                    "WHERE customer_id = ?";
+            PreparedStatement ps = DBConnection.getConnection().prepareStatement(sql);
+
+            // Set all of the question marks in the query to the related customer information
+            ps.setString(1, updatedCustomer.getCustomerName());
+            ps.setString(2, updatedCustomer.getCustomerAddress());
+            ps.setString(3, updatedCustomer.getZipCode());
+            ps.setString(4, updatedCustomer.getPhoneNumber());
+            ps.setString(5, updatedCustomer.getLoggedInUser());
+            ps.setString(6, updatedCustomer.getLoggedInUser());
+            ps.setInt(7, updatedCustomer.getDivisionId());
+            ps.setInt(8, updatedCustomer.getCustomerId());
+
+            // Execute the query
+            ps.execute();
+        }
+        catch(SQLException e){
+            e.printStackTrace();
+        }
+    }
 }

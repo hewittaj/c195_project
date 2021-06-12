@@ -6,11 +6,13 @@ import DBAccess.DBFirstLevelDivisions;
 import Models.Country;
 import Models.Customer;
 import Models.Division;
+import Controllers.ErrorChecker;
 
 import javafx.collections.ObservableList;
 import javafx.fxml.Initializable;
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
@@ -29,7 +31,6 @@ public class AddCustomerScreenController implements Initializable {
     @FXML public TextField addressTextField;
     @FXML public TextField phoneTextField;
     @FXML public TextField customerIDTextField;
-    @FXML public Button deleteCustomerButton;
     @FXML public Button confirmCustomerButton;
     @FXML public Button backButton;
     @FXML public ComboBox countryComboBox;
@@ -41,9 +42,13 @@ public class AddCustomerScreenController implements Initializable {
     private ObservableList<Country> countries = DBCountries.getAllCountries();
     private ObservableList<Division> divisions;
 
+    private ArrayList<TextField> textFields = new ArrayList<>();
+
+
     @Override
     public void initialize(URL url, ResourceBundle rb){
         fillCountryComboBox();
+        populateTextFieldList();
     }
 
     /**
@@ -69,12 +74,19 @@ public class AddCustomerScreenController implements Initializable {
      * @throws IOException Exception that is caught in case of IO errors
      */
     public void confirmButtonAction(ActionEvent actionEvent) throws IOException{
-        // Set up an alert
-        Alert cancelAlert = new Alert(Alert.AlertType.CONFIRMATION);
-        cancelAlert.setTitle("Confirm New Customer");
-        cancelAlert.setHeaderText("Are you sure you want to add this customer?");
-        cancelAlert.setContentText("Click 'OK' to confirm.");
-        Optional<ButtonType> decision = cancelAlert.showAndWait();
+        // Check that there are no empty text fields and display an alert if necessary
+        boolean emptyTextField = ErrorChecker.validateAddCustomerTextFields(textFields);
+        if(emptyTextField == true){
+            ShowAlerts.showAlert(1);
+            return;
+        }
+
+        // Set up an alert for confirmation
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Confirm New Customer");
+        alert.setHeaderText("Are you sure you want to add this customer?");
+        alert.setContentText("Click 'OK' to confirm.");
+        Optional<ButtonType> decision = alert.showAndWait();
 
         // If user accepts the prompt
         if(decision.get() == ButtonType.OK){
@@ -209,5 +221,17 @@ public class AddCustomerScreenController implements Initializable {
      * @param actionEvent Event that is caught to detect selection of combo box
      */
     public void divisionInfoComboBoxSelected(ActionEvent actionEvent) {
+    }
+
+    /**
+     * This method populates our textFieldList in order to run error checks against it.
+     * For example if a field is empty we will return to the user an error saying so when trying to save.
+     */
+    public void populateTextFieldList(){
+        textFields.add(customerNameTextField);
+        textFields.add(zipTextField);
+        textFields.add(addressTextField);
+        textFields.add(phoneTextField);
+        textFields.add(customerIDTextField);
     }
 }

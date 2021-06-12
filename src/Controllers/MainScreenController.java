@@ -3,6 +3,7 @@ package Controllers;
 import DBAccess.DBCustomers;
 import Models.Appointment;
 import Models.Customer;
+import Controllers.ShowAlerts;
 
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -96,24 +97,31 @@ public class MainScreenController implements Initializable {
      * @throws IOException
      */
     public void modifyCustomerAction(ActionEvent actionEvent) throws IOException {
-        Customer selectedCustomer = customerTableView.getSelectionModel().getSelectedItem();
-        // Load next screen
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/Views/modify_customer_screen.fxml"));
+        try{
+            Customer selectedCustomer = customerTableView.getSelectionModel().getSelectedItem();
+            // Load next screen
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Views/modify_customer_screen.fxml"));
 
-        // Set parent
-        Parent mainScreenParent = loader.load();
+            // Set parent
+            Parent mainScreenParent = loader.load();
 
-        // Instantiate controller and call functions to pass info between screens
-        ModifyCustomerScreenController controller = loader.getController();
-        controller.passCustomer(selectedCustomer);
+            // Instantiate controller and call functions to pass info between screens
+            ModifyCustomerScreenController controller = loader.getController();
+            controller.passCustomer(selectedCustomer);
+            controller.passLoggedInUser(loggedInUser);
 
-        // Set scene
-        Scene mainScreenScene = new Scene(mainScreenParent);
+            // Set scene
+            Scene mainScreenScene = new Scene(mainScreenParent);
 
-        // This line gets the Stage information
-        Stage window = (Stage)((Node)actionEvent.getSource()).getScene().getWindow();
-        window.setScene(mainScreenScene);
-        window.show();
+            // This line gets the Stage information
+            Stage window = (Stage)((Node)actionEvent.getSource()).getScene().getWindow();
+            window.setScene(mainScreenScene);
+            window.show();
+        }
+        catch(NullPointerException e){
+            ShowAlerts.showAlert(0);
+        }
+
     }
 
     /**

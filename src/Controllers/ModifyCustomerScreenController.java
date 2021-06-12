@@ -1,6 +1,7 @@
 package Controllers;
 
 import DBAccess.DBCountries;
+import DBAccess.DBCustomers;
 import DBAccess.DBFirstLevelDivisions;
 import Models.Country;
 import Models.Customer;
@@ -13,13 +14,12 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class ModifyCustomerScreenController implements Initializable {
@@ -37,7 +37,7 @@ public class ModifyCustomerScreenController implements Initializable {
     public static Customer customer; // Customer info of customer to modify
     private ObservableList<Country> countries = DBCountries.getAllCountries();
     private ObservableList<Division> divisions;
-
+    public String loggedInUser;
 
     @Override
     public void initialize(URL url, ResourceBundle rb){
@@ -46,25 +46,96 @@ public class ModifyCustomerScreenController implements Initializable {
 
     }
 
-    public void deleteButtonAction(ActionEvent actionEvent) {
-    }
+    /**
+     * This method confirms the user modification and updates the database
+     * @param actionEvent Event that is caught to detect button press
+     * @throws IOException Exception that is caught in case of IOException
+     */
+    public void confirmButtonAction(ActionEvent actionEvent) throws IOException {
+        // Set up an alert for confirmation
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Confirm New Customer");
+        alert.setHeaderText("Are you sure you want to modify this customer?");
+        alert.setContentText("Click 'OK' to confirm.");
+        Optional<ButtonType> decision = alert.showAndWait();
 
-    public void confirmButtonAction(ActionEvent actionEvent) {
+        // Initialize an empty customer to pull data into
+        Customer updatedCustomer = null;
+
+        // If user accepts the prompt
+        if(decision.get() == ButtonType.OK){
+            int customerId = Integer.parseInt(customerIDTextField.getText());
+            String customerName = customerNameTextField.getText();
+            String zipCode = zipTextField.getText();
+            String customerAddress = addressTextField.getText();
+            String phoneNumber = phoneTextField.getText();
+            String customerCountry = countryComboBox.getSelectionModel().getSelectedItem().toString();
+            String customerDivision = divisionComboBox.getSelectionModel().getSelectedItem().toString();
+            int customerDivisionId = 0;
+
+            // Get customer division id so we can add proper info to database
+            for (Division division: divisions){
+                if (division.getDivisionName().equals(customerDivision)){
+                    customerDivisionId = division.getDivisionId();
+                    break;
+                }
+            }
+
+            // Initialize new customer and call database operations
+            updatedCustomer = new Customer(customerId, customerName, customerAddress, zipCode, phoneNumber, customerCountry,
+                    customerDivisionId, loggedInUser);
+            DBCustomers.updateCustomer(updatedCustomer);
+            // Load main screen
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Views/main_screen.fxml"));
+
+            // Set parent and scene
+            Parent mainScreenParent = (Parent)loader.load();
+
+            // Instantiate controller and call functions to pass info between screens
+            MainScreenController controller = loader.getController();
+            controller.passLoggedInUser(loggedInUser);
+            Scene mainScreenScene = new Scene(mainScreenParent);
+
+            // This line gets the Stage information
+            Stage window = (Stage)((Node)actionEvent.getSource()).getScene().getWindow();
+            window.setScene(mainScreenScene);
+            window.show();
+        }
+        else{
+            return;
+        }
+
+
     }
 
     public void backButtonAction(ActionEvent actionEvent) throws IOException {
+        // Set up an alert for confirmation
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Confirm");
+        alert.setHeaderText("Are you sure you want to go back?");
+        alert.setContentText("Click 'OK' to confirm.");
+        Optional<ButtonType> decision = alert.showAndWait();
+        if(decision.get() == ButtonType.OK){
+            // Load main screen
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Views/main_screen.fxml"));
 
-        // Load next screen
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/Views/main_screen.fxml"));
+            // Set parent and scene
+            Parent mainScreenParent = (Parent)loader.load();
 
-        // Set parent and scene
-        Parent mainScreenParent = loader.load();
-        Scene mainScreenScene = new Scene(mainScreenParent);
+            // Instantiate controller and call functions to pass info between screens
+            MainScreenController controller = loader.getController();
+            controller.passLoggedInUser(loggedInUser);
+            Scene mainScreenScene = new Scene(mainScreenParent);
 
-        // This line gets the Stage information
-        Stage window = (Stage)((Node)actionEvent.getSource()).getScene().getWindow();
-        window.setScene(mainScreenScene);
-        window.show();
+            // This line gets the Stage information
+            Stage window = (Stage)((Node)actionEvent.getSource()).getScene().getWindow();
+            window.setScene(mainScreenScene);
+            window.show();
+        }
+        else{
+            return;
+        }
+
     }
 
     /**
@@ -93,7 +164,7 @@ public class ModifyCustomerScreenController implements Initializable {
     public void passCustomer(Customer customer){
         // Initialize important variables for retrieving data
         this.customer = customer;
-        Country preassociatedCountry = DBCountries.getSpecificCountry(this.customer.getDivisionId());
+        Country preAssociatedCountry = DBCountries.getSpecificCountry(this.customer.getDivisionId());
         int divisionId = this.customer.getDivisionId();
 
         // Initialize text fields to currently selected customer values
@@ -105,11 +176,19 @@ public class ModifyCustomerScreenController implements Initializable {
 
         // Fill country combo box and set predefined value
         fillCountryComboBox();
-        countryComboBox.setValue(preassociatedCountry);
+        countryComboBox.setValue(preAssociatedCountry);
 
         // Fill division combo box and set predefined value
         fillDivisionComboBox();
         divisionComboBox.setValue(DBFirstLevelDivisions.specifiedDivision(divisionId));
+    }
+
+    /**
+     * This method passes the logged in user between screens
+     * @param loggedInUser
+     */
+    public void passLoggedInUser(String loggedInUser){
+        this.loggedInUser = loggedInUser;
     }
 
     /**

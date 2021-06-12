@@ -1,1 +1,1 @@
-select * from customers
+DELETE FROM customers where customer_id =
