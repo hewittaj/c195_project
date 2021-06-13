@@ -59,8 +59,17 @@
          <children>
             <TableView fx:id="appointmentTableView" layoutX="275.0" layoutY="51.0" prefWidth="450.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="50.0">
               <columns>
-                <TableColumn prefWidth="75.0" text="C1" />
-                <TableColumn prefWidth="75.0" text="C2" />
+                <TableColumn fx:id="appointmentIdColumn" prefWidth="102.1739501953125" text="Appointment ID" />
+                  <TableColumn fx:id="userIdAppointmentColumn" prefWidth="102.1739501953125" text="User ID" />
+                <TableColumn fx:id="appointmentCustomerIdColumn" prefWidth="81.349853515625" text="Customer ID" />
+                  <TableColumn fx:id="contactIdColumn" minWidth="2.29840087890625" prefWidth="62.99798583984375" text="Contact ID" />
+                  <TableColumn fx:id="titleColumn" prefWidth="43.150177001953125" text="Title" />
+                  <TableColumn fx:id="descriptionColumn" prefWidth="71.11666870117188" text="Description" />
+                  <TableColumn fx:id="locationColumn" minWidth="8.474212646484375" prefWidth="60.7926025390625" text="Location" />
+                  <TableColumn fx:id="typeColumn" prefWidth="74.70361328125" text="Type" />
+                  <TableColumn fx:id="startTimeColumn" prefWidth="65.29248046875" text="Start Time" />
+                  <TableColumn fx:id="endTimeColumn" prefWidth="82.46844482421875" text="End Time" />
+                  <TableColumn fx:id="dateColumn" prefWidth="138.5" text="Date" />
               </columns>
             </TableView>
             <Label layoutX="379.0" layoutY="14.0" text="Appointments">

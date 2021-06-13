@@ -1,8 +1,11 @@
 package Controllers;
 
+import DBAccess.DBAppointments;
+import Models.Appointment;
 import Models.Contact;
 import DBAccess.DBContacts;
 
+import Models.Customer;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -24,12 +27,13 @@ public class AddAppointmentScreenController implements Initializable {
 
     @FXML public Button saveButton;
     @FXML public Button backButton;
+    @FXML public TextField appointmentIdTextField;
     @FXML public TextField customerIDTextField;
     @FXML public TextField titleTextField;
     @FXML public TextField descriptionTextField;
     @FXML public TextField locationTextField;
-    @FXML public ComboBox contactComboBox;
     @FXML public TextField typeTextField;
+    @FXML public ComboBox contactComboBox;
     @FXML public ComboBox startHourComboBox;
     @FXML public ComboBox startMinuteComboBox;
     @FXML public ComboBox startAMPMComboBox;
@@ -45,7 +49,8 @@ public class AddAppointmentScreenController implements Initializable {
 
     public String loggedInUser;
     public ObservableList<Contact> allContacts = DBContacts.getAllContacts();
-
+    public ObservableList<Appointment> allAppointments = DBAppointments.getAllAppointments();
+    public int numberOfAppointments;
 
     @Override
     public void initialize(URL url, ResourceBundle rb){
@@ -53,6 +58,7 @@ public class AddAppointmentScreenController implements Initializable {
     }
 
     public void saveButtonAction(ActionEvent actionEvent) {
+
     }
 
     public void backButtonAction(ActionEvent actionEvent) throws IOException {
@@ -72,33 +78,36 @@ public class AddAppointmentScreenController implements Initializable {
     public int getSizeOfAllCustomers(){
         return 0;
     }
+
     /**
-     * Generates the next Id Number for a customer we want to add
-     * // TO DO FIX!!!!!
+     * // TO DO FIX FOR APPOINTMENTS
+     * Generates the next Id Number for an appointment we want to add
      */
-//    public void getNextIdNumber(){
-//        int size = getSizeOfAllCustomers(); // Set the size
-//
-//        if(size == 0){
-//            customerIDTextField.setText("1");
-//        }else{
-//            for(int i = 0; i <=size; i++){ // Loop through the list
-//                if(i == 0){ // Skip 0 as we don't want an ID of zero
-//                    continue;
-//                }
-//                if(lookupPart(i) == null){ // If part returned is null
-//                    partIdTextField.setText(String.valueOf(i)); // We can use the id as our number
-//                    break;// Break from loop
-//                }else if(lookupPart(i) != null){ // If lookup part matches we continue in the loop  --- lookupPart(i).getId() == i
-//                    if(i == size){ // If we get to the last index and its not null we assign the value to the last part id + 1
-//                        // Otherwise we set the id to the last parts id + 1
-//                        partIdTextField.setText(String.valueOf(Inventory.getLastPartId() + 1));
-//                    }
-//                    continue; // If i does not equal the size of the list then continue in the loop
-//                }
-//            }
-//        }
-//    }
+    public void getNextIdNumber(int numberOfAppointments){
+        int size = numberOfAppointments; // Set the size
+        if(size == 0){
+            appointmentIdTextField.setText("1");
+        }else{
+            try{
+                for(int i = 0; i <=size; i++){ // Loop through the list
+                    if(i == 0){ // Skip 0 as we don't want an ID of zero
+                        continue;
+                    }
+                    if(allAppointments.get(i).getAppointmentId() == i){ // If customers returned is null
+                        continue; // Continue in loop
+
+                    }else if(allAppointments.get(i).getAppointmentId() != i){ // If customers matches we continue in the loop
+                        customerIDTextField.setText(String.valueOf(Appointment.getLastAppointmentId() + 1));
+                    }
+                    else{
+                        continue;
+                    }
+                }
+            }catch(IndexOutOfBoundsException e){
+                customerIDTextField.setText(String.valueOf(size + 1));
+            }
+        }
+    }
 
     /**
      * This method passes the logged in user between screens
@@ -106,6 +115,15 @@ public class AddAppointmentScreenController implements Initializable {
      */
     public void passLoggedInUser(String loggedInUser){
         this.loggedInUser = loggedInUser;
+    }
+
+    /**
+     * This method passes the number of appointments between screens
+     * @param numberOfAppointments Number of appointments currently in database
+     */
+    public void passNumberOfAppointments(int numberOfAppointments){
+        this.numberOfAppointments = numberOfAppointments;
+        getNextIdNumber(numberOfAppointments);
     }
 
     /**

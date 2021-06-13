@@ -1,9 +1,9 @@
 package Controllers;
 
+import DBAccess.DBAppointments;
 import DBAccess.DBCustomers;
 import Models.Appointment;
 import Models.Customer;
-import Controllers.ShowAlerts;
 
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -20,6 +20,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import java.io.IOException;
 import java.net.URL;
+import java.time.LocalDateTime;
 import java.util.ResourceBundle;
 
 public class MainScreenController implements Initializable {
@@ -37,11 +38,24 @@ public class MainScreenController implements Initializable {
     @FXML public TableColumn<Customer, String> zipCodeColumn;
     @FXML public TableColumn<Customer, String> phoneNumberColumn;
     @FXML public TableColumn<Customer, Integer> divisionIDColumn;
+    @FXML public TableColumn<Appointment, Integer> appointmentIdColumn;
+    @FXML public TableColumn<Appointment, Integer> userIdAppointmentColumn;
+    @FXML public TableColumn<Appointment, Integer> appointmentCustomerIdColumn;
+    @FXML public TableColumn<Appointment, String> titleColumn;
+    @FXML public TableColumn<Appointment, String> descriptionColumn;
+    @FXML public TableColumn<Appointment, String> locationColumn;
+    @FXML public TableColumn<Appointment, String> contactIdColumn;
+    @FXML public TableColumn<Appointment, String> typeColumn;
+    @FXML public TableColumn<Appointment, LocalDateTime> startTimeColumn;
+    @FXML public TableColumn<Appointment, LocalDateTime> endTimeColumn;
+    @FXML public TableColumn<Appointment, LocalDateTime> dateColumn;
     @FXML public TableView<Appointment> appointmentTableView;
     @FXML public TableView<Customer> customerTableView;
 
-    // List of customers currently in database
+
+    // List of customers/appointments currently in database
     ObservableList<Customer> customers = DBCustomers.getMainScreenCustomerInfo();
+    ObservableList<Appointment> appointments = DBAppointments.getAllAppointments();
 
     public String loggedInUser;  // Currently logged in user
 
@@ -51,11 +65,13 @@ public class MainScreenController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb){
+        // Populate our lists
         customers = DBCustomers.getMainScreenCustomerInfo();
+        appointments = DBAppointments.getAllAppointments();
 
-        // Initialize customer table
+        // Initialize customer and appointment tables
         customerTableView.setItems(customers);
-
+        appointmentTableView.setItems(appointments);
         // Initialize customer column names -> string must match the model's spelling/capitalization
         customerIDColumn.setCellValueFactory(new PropertyValueFactory<Customer, Integer>("customerId"));
         customerNameColumn.setCellValueFactory(new PropertyValueFactory<Customer, String>("customerName"));
@@ -64,6 +80,18 @@ public class MainScreenController implements Initializable {
         phoneNumberColumn.setCellValueFactory(new PropertyValueFactory<Customer, String>("phoneNumber"));
         divisionIDColumn.setCellValueFactory(new PropertyValueFactory<Customer, Integer>("divisionId"));
 
+        // Initialize appointment column names -> string must match the model's spelling/capitalization
+        appointmentIdColumn.setCellValueFactory(new PropertyValueFactory<Appointment, Integer>("appointmentId"));
+        userIdAppointmentColumn.setCellValueFactory(new PropertyValueFactory<Appointment, Integer>("userId"));
+        appointmentCustomerIdColumn.setCellValueFactory(new PropertyValueFactory<Appointment, Integer>("customerId"));
+        contactIdColumn.setCellValueFactory(new PropertyValueFactory<Appointment, String>("contactId"));
+        titleColumn.setCellValueFactory(new PropertyValueFactory<Appointment, String>("title"));
+        descriptionColumn.setCellValueFactory(new PropertyValueFactory<Appointment, String>("description"));
+        locationColumn.setCellValueFactory(new PropertyValueFactory<Appointment, String>("location"));
+        typeColumn.setCellValueFactory(new PropertyValueFactory<Appointment, String>("type"));
+        startTimeColumn.setCellValueFactory(new PropertyValueFactory<Appointment, LocalDateTime>("startDateTime"));
+        endTimeColumn.setCellValueFactory(new PropertyValueFactory<Appointment, LocalDateTime>("endDateTime"));
+        dateColumn.setCellValueFactory(new PropertyValueFactory<Appointment, LocalDateTime>("date"));
     }
 
     /**
@@ -138,6 +166,7 @@ public class MainScreenController implements Initializable {
         // Instantiate controller and call functions to pass info between screens
         AddAppointmentScreenController controller = loader.getController();
         controller.passLoggedInUser(loggedInUser);
+        controller.passNumberOfAppointments(appointmentTableView.getItems().size());
 
         // Set scene
         Scene mainScreenScene = new Scene(mainScreenParent);

@@ -203,7 +203,6 @@ public class AddCustomerScreenController implements Initializable {
             }catch(IndexOutOfBoundsException e){
                 customerIDTextField.setText(String.valueOf(size + 1));
             }
-
         }
     }
 
