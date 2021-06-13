@@ -1,5 +1,9 @@
 package Controllers;
 
+import Models.Contact;
+import DBAccess.DBContacts;
+
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -39,10 +43,13 @@ public class AddAppointmentScreenController implements Initializable {
     @FXML public ComboBox endDayComboBox;
     @FXML public ComboBox endYearComboBox;
 
-    private String mainScreenUrl = "\\Views\\main_screen.fxml";
+    public String loggedInUser;
+    public ObservableList<Contact> allContacts = DBContacts.getAllContacts();
+
+
     @Override
     public void initialize(URL url, ResourceBundle rb){
-
+        populateContactList();
     }
 
     public void saveButtonAction(ActionEvent actionEvent) {
@@ -92,4 +99,21 @@ public class AddAppointmentScreenController implements Initializable {
 //            }
 //        }
 //    }
+
+    /**
+     * This method passes the logged in user between screens
+     * @param loggedInUser
+     */
+    public void passLoggedInUser(String loggedInUser){
+        this.loggedInUser = loggedInUser;
+    }
+
+    /**
+     * This method populates the contact information in the add appointment screen
+     */
+    public void populateContactList(){
+        for(Contact contact: allContacts){
+            contactComboBox.getItems().add(contact);
+        }
+    }
 }

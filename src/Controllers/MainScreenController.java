@@ -132,8 +132,14 @@ public class MainScreenController implements Initializable {
         // Load next screen
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/Views/add_appointment_screen.fxml"));
 
-        // Set parent and scene
+        // Set parent
         Parent mainScreenParent = loader.load();
+
+        // Instantiate controller and call functions to pass info between screens
+        AddAppointmentScreenController controller = loader.getController();
+        controller.passLoggedInUser(loggedInUser);
+
+        // Set scene
         Scene mainScreenScene = new Scene(mainScreenParent);
 
         // This line gets the Stage information

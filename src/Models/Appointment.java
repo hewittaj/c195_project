@@ -9,12 +9,13 @@ import java.time.*;
 
 
 public class Appointment {
-    private int appointmentId;
-    private String title;
-    private String description;
-    private String location;
-    private String contact;
-    private String type;
+    public int appointmentId;
+    public String title;
+    public String description;
+    public String location;
+    public String contact;
+    public String type;
+    public String loggedInUser;
     LocalDateTime startDateTime;
     LocalDateTime endDateTime;
 
