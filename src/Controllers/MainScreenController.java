@@ -91,7 +91,6 @@ public class MainScreenController implements Initializable {
         typeColumn.setCellValueFactory(new PropertyValueFactory<Appointment, String>("type"));
         startTimeColumn.setCellValueFactory(new PropertyValueFactory<Appointment, LocalDateTime>("startDateTime"));
         endTimeColumn.setCellValueFactory(new PropertyValueFactory<Appointment, LocalDateTime>("endDateTime"));
-        dateColumn.setCellValueFactory(new PropertyValueFactory<Appointment, LocalDateTime>("date"));
     }
 
     /**

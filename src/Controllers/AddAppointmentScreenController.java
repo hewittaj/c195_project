@@ -14,13 +14,12 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class AddAppointmentScreenController implements Initializable {
@@ -55,10 +54,22 @@ public class AddAppointmentScreenController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb){
         populateContactList();
+        populateHourMinuteComboBox();
     }
 
     public void saveButtonAction(ActionEvent actionEvent) {
+        // Set up an alert for confirmation
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Confirm New Appointment");
+        alert.setHeaderText("Are you sure you want to add this appointment?");
+        alert.setContentText("Click 'OK' to confirm.");
+        Optional<ButtonType> decision = alert.showAndWait();
 
+        Appointment newAppointment = null;
+        // If user accepts prompt
+        if(decision.get() == ButtonType.OK){
+
+        }
     }
 
     public void backButtonAction(ActionEvent actionEvent) throws IOException {
@@ -97,14 +108,14 @@ public class AddAppointmentScreenController implements Initializable {
                         continue; // Continue in loop
 
                     }else if(allAppointments.get(i).getAppointmentId() != i){ // If customers matches we continue in the loop
-                        customerIDTextField.setText(String.valueOf(Appointment.getLastAppointmentId() + 1));
+                        appointmentIdTextField.setText(String.valueOf(Appointment.getLastAppointmentId() + 1));
                     }
                     else{
                         continue;
                     }
                 }
             }catch(IndexOutOfBoundsException e){
-                customerIDTextField.setText(String.valueOf(size + 1));
+                appointmentIdTextField.setText(String.valueOf(size + 1));
             }
         }
     }
@@ -133,5 +144,33 @@ public class AddAppointmentScreenController implements Initializable {
         for(Contact contact: allContacts){
             contactComboBox.getItems().add(contact);
         }
+    }
+
+    public void populateHourMinuteComboBox(){
+        for(int i = 1; i < 13; i++){
+            startHourComboBox.getItems().add(i);
+            endHourComboBox.getItems().add(i);
+        }
+
+        for(int i = 1; i < 61; i++){
+            if(i % 5 == 0){
+                if(i < 10){
+                    startMinuteComboBox.getItems().add(String.format("0%s", i));
+                    endMinuteComboBox.getItems().add(String.format("0%s", i));
+                }
+                else{
+                    startMinuteComboBox.getItems().add(String.valueOf(i));
+                    endMinuteComboBox.getItems().add(String.valueOf(i));
+                }
+            }
+
+        }
+
+        // Populate AM/PM combo boxes for start and end time
+        startAMPMComboBox.getItems().add("AM");
+        startAMPMComboBox.getItems().add("PM");
+
+        endAMPMComboBox.getItems().add("AM");
+        endAMPMComboBox.getItems().add("PM");
     }
 }
