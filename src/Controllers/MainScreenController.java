@@ -20,6 +20,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import java.io.IOException;
 import java.net.URL;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ResourceBundle;
 
@@ -39,7 +40,6 @@ public class MainScreenController implements Initializable {
     @FXML public TableColumn<Customer, String> phoneNumberColumn;
     @FXML public TableColumn<Customer, Integer> divisionIDColumn;
     @FXML public TableColumn<Appointment, Integer> appointmentIdColumn;
-    @FXML public TableColumn<Appointment, Integer> userIdAppointmentColumn;
     @FXML public TableColumn<Appointment, Integer> appointmentCustomerIdColumn;
     @FXML public TableColumn<Appointment, String> titleColumn;
     @FXML public TableColumn<Appointment, String> descriptionColumn;
@@ -48,9 +48,9 @@ public class MainScreenController implements Initializable {
     @FXML public TableColumn<Appointment, String> typeColumn;
     @FXML public TableColumn<Appointment, LocalDateTime> startTimeColumn;
     @FXML public TableColumn<Appointment, LocalDateTime> endTimeColumn;
-    @FXML public TableColumn<Appointment, LocalDateTime> dateColumn;
     @FXML public TableView<Appointment> appointmentTableView;
     @FXML public TableView<Customer> customerTableView;
+
 
 
     // List of customers/appointments currently in database
@@ -82,7 +82,6 @@ public class MainScreenController implements Initializable {
 
         // Initialize appointment column names -> string must match the model's spelling/capitalization
         appointmentIdColumn.setCellValueFactory(new PropertyValueFactory<Appointment, Integer>("appointmentId"));
-        userIdAppointmentColumn.setCellValueFactory(new PropertyValueFactory<Appointment, Integer>("userId"));
         appointmentCustomerIdColumn.setCellValueFactory(new PropertyValueFactory<Appointment, Integer>("customerId"));
         contactIdColumn.setCellValueFactory(new PropertyValueFactory<Appointment, String>("contactId"));
         titleColumn.setCellValueFactory(new PropertyValueFactory<Appointment, String>("title"));

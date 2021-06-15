@@ -63,17 +63,12 @@
                   <Insets bottom="15.0" />
                </VBox.margin>
             </Label>
-            <Label text="Start Date">
+            <Label text="Date">
                <VBox.margin>
                   <Insets bottom="15.0" />
                </VBox.margin>
             </Label>
             <Label text="Start Time">
-               <VBox.margin>
-                  <Insets bottom="15.0" />
-               </VBox.margin>
-            </Label>
-            <Label text="End Date">
                <VBox.margin>
                   <Insets bottom="15.0" />
                </VBox.margin>
@@ -86,7 +81,7 @@
          </children>
       </VBox>
       <TextField fx:id="appointmentIdTextField" disable="true" layoutX="134.0" layoutY="121.0" />
-      <TextField layoutX="134.0" layoutY="158.0" />
+      <TextField fx:id="userIdTextField" layoutX="134.0" layoutY="158.0" />
       <TextField fx:id="customerIDTextField" layoutX="134.0" layoutY="189.0" />
       <TextField fx:id="titleTextField" layoutX="134.0" layoutY="220.0" />
       <TextField fx:id="descriptionTextField" layoutX="134.0" layoutY="251.0" />
@@ -96,15 +91,12 @@
       <ComboBox fx:id="startHourComboBox" layoutX="134.0" layoutY="410.0" prefHeight="25.0" prefWidth="100.0" promptText="Hour" />
       <ComboBox fx:id="startMinuteComboBox" layoutX="234.0" layoutY="410.0" prefHeight="25.0" prefWidth="100.0" promptText="Minute" />
       <ComboBox fx:id="startAMPMComboBox" layoutX="334.0" layoutY="410.0" prefHeight="25.0" prefWidth="100.0" promptText="AM/PM" />
-      <ComboBox fx:id="endHourComboBox" layoutX="134.0" layoutY="477.0" prefHeight="25.0" prefWidth="100.0" promptText="Hour" />
-      <ComboBox fx:id="endMinuteComboBox" layoutX="234.0" layoutY="477.0" prefHeight="25.0" prefWidth="100.0" promptText="Minute" />
-      <ComboBox fx:id="endAMPMComboBox" layoutX="334.0" layoutY="477.0" prefHeight="25.0" prefWidth="100.0" promptText="AM/PM" />
-      <ComboBox fx:id="startMonthComboBox" layoutX="134.0" layoutY="380.0" prefHeight="25.0" prefWidth="100.0" promptText="Month" />
+      <ComboBox fx:id="endHourComboBox" layoutX="134.0" layoutY="442.0" prefHeight="25.0" prefWidth="100.0" promptText="Hour" />
+      <ComboBox fx:id="endMinuteComboBox" layoutX="234.0" layoutY="442.0" prefHeight="25.0" prefWidth="100.0" promptText="Minute" />
+      <ComboBox fx:id="endAMPMComboBox" layoutX="334.0" layoutY="442.0" prefHeight="25.0" prefWidth="100.0" promptText="AM/PM" />
+      <ComboBox fx:id="startMonthComboBox" layoutX="134.0" layoutY="380.0" onAction="#monthBoxSelected" prefHeight="25.0" prefWidth="100.0" promptText="Month" />
       <ComboBox fx:id="startDayComboBox" layoutX="234.0" layoutY="380.0" prefHeight="25.0" prefWidth="100.0" promptText="Day" />
       <ComboBox fx:id="startYearComboBox" layoutX="334.0" layoutY="380.0" prefHeight="25.0" prefWidth="86.0" promptText="Year" />
-      <ComboBox fx:id="endMonthComboBox" layoutX="134.0" layoutY="445.0" prefHeight="25.0" prefWidth="100.0" promptText="Month" />
-      <ComboBox fx:id="endDayComboBox" layoutX="234.0" layoutY="445.0" prefHeight="25.0" prefWidth="100.0" promptText="Day" />
-      <ComboBox fx:id="endYearComboBox" layoutX="334.0" layoutY="445.0" prefHeight="25.0" prefWidth="86.0" promptText="Year" />
       <Button fx:id="saveButton" layoutX="591.0" layoutY="561.0" mnemonicParsing="false" onAction="#saveButtonAction" text="Save" />
       <Button fx:id="backButton" layoutX="655.0" layoutY="561.0" mnemonicParsing="false" onAction="#backButtonAction" text="Back" />
    </children>

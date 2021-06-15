@@ -15,6 +15,10 @@ import java.time.LocalDateTime;
 
 public class DBAppointments {
 
+    /**
+     * This method gets all appointments currently in the database
+     * @return Returns an observable list of appointments
+     */
     public static ObservableList<Appointment> getAllAppointments(){
         ObservableList<Appointment> appointments = FXCollections.observableArrayList();
         try{

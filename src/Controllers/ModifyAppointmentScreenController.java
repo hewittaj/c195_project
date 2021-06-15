@@ -14,6 +14,8 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.ResourceBundle;
 
 public class ModifyAppointmentScreenController implements Initializable {
@@ -37,9 +39,6 @@ public class ModifyAppointmentScreenController implements Initializable {
     @FXML public ComboBox startMonthComboBox;
     @FXML public ComboBox startDayComboBox;
     @FXML public ComboBox startYearComboBox;
-    @FXML public ComboBox endMonthComboBox;
-    @FXML public ComboBox endDayComboBox;
-    @FXML public ComboBox endYearComboBox;
 
     @Override
     public void initialize(URL url, ResourceBundle rb){
@@ -47,6 +46,7 @@ public class ModifyAppointmentScreenController implements Initializable {
     }
 
     public void saveButtonAction(ActionEvent actionEvent) {
+        Timestamp lastUpdatedTime = Timestamp.valueOf(LocalDateTime.now());
     }
 
     public void backButtonAction(ActionEvent actionEvent) throws IOException {
@@ -61,5 +61,8 @@ public class ModifyAppointmentScreenController implements Initializable {
         Stage window = (Stage)((Node)actionEvent.getSource()).getScene().getWindow();
         window.setScene(mainScreenScene);
         window.show();
+    }
+
+    public void monthBoxSelected(ActionEvent actionEvent) {
     }
 }
