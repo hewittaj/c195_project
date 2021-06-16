@@ -25,6 +25,20 @@ public class Appointment {
     LocalDateTime startDateTime;
     LocalDateTime endDateTime;
 
+    //TODO java doc
+    /**
+     * Constructor for an appointment
+     * @param appointmentId
+     * @param userId
+     * @param customerId
+     * @param contactId
+     * @param title
+     * @param description
+     * @param location
+     * @param type
+     * @param startDateTime
+     * @param endDateTime
+     */
     public Appointment(int appointmentId, int userId, int customerId, int contactId, String title, String description, String location, String type
     , LocalDateTime startDateTime, LocalDateTime endDateTime) {
         this.appointmentId = appointmentId;
@@ -37,6 +51,35 @@ public class Appointment {
         this.type = type;
         this.startDateTime = startDateTime;
         this.endDateTime = endDateTime;
+    }
+
+    /**
+     * Constructor that includes logged in user for database addition/updates
+     * @param appointmentId
+     * @param userId
+     * @param customerId
+     * @param contactId
+     * @param title
+     * @param description
+     * @param location
+     * @param type
+     * @param startDateTime
+     * @param endDateTime
+     * @param loggedInUser
+     */
+    public Appointment(int appointmentId, int userId, int customerId, int contactId, String title, String description, String location, String type
+            , LocalDateTime startDateTime, LocalDateTime endDateTime, String loggedInUser) {
+        this.appointmentId = appointmentId;
+        this.userId = userId;
+        this.customerId = customerId;
+        this.contactId = contactId;
+        this.title = title;
+        this.description = description;
+        this.location = location;
+        this.type = type;
+        this.startDateTime = startDateTime;
+        this.endDateTime = endDateTime;
+        this.loggedInUser = loggedInUser;
     }
 
     public int getAppointmentId() {
@@ -74,6 +117,8 @@ public class Appointment {
     public String getType() {
         return type;
     }
+
+    public String getLoggedInUser(){ return loggedInUser;}
 
     public LocalDateTime getStartDateTime() {
         return startDateTime;

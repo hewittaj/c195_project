@@ -6,14 +6,43 @@ import com.mysql.cj.protocol.Resultset;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
-import java.sql.Date;
+import java.sql.*;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.time.LocalDateTime;
 
 public class DBAppointments {
+
+    /**
+     * This method adds a new appointment to the database
+     * @param newAppointment Parameter passed that represents the new appointment
+     */
+    public static void addAppointment(Appointment newAppointment){
+        try{
+            String sql = "insert into appointments (appointment_id, title, description, location,\n" +
+                    " type, start, end, created_by, last_updated_by, customer_id, user_id, contact_id)\n" +
+                    " values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            PreparedStatement ps = DBConnection.getConnection().prepareStatement(sql);
+            ps.setInt(1,newAppointment.getAppointmentId());
+            ps.setString(2, newAppointment.getTitle());
+            ps.setString(3, newAppointment.getDescription());
+            ps.setString(4, newAppointment.getLocation());
+            ps.setString(5, newAppointment.getType());
+            ps.setTimestamp(6, Timestamp.valueOf(newAppointment.getStartDateTime()));
+            ps.setTimestamp(7, Timestamp.valueOf(newAppointment.getEndDateTime()));
+            ps.setString(8, newAppointment.getLoggedInUser());
+            ps.setString(9, newAppointment.getLoggedInUser());
+            ps.setInt(10, newAppointment.getCustomerId());
+            ps.setInt(11, newAppointment.getUserId());
+            ps.setInt(12, newAppointment.getContactId());
+
+            ps.execute();
+        }
+        catch(SQLException e){
+            e.printStackTrace();
+        }
+
+
+    }
 
     /**
      * This method gets all appointments currently in the database
