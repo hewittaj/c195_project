@@ -81,6 +81,29 @@ public class ErrorChecker {
             return errorNumber;
         }
 
+        // If a combo box for the dates isn't selected
+        for (ComboBox dateBox: dateBoxes){
+            if(dateBox.getSelectionModel().getSelectedItem() == null){
+                errorNumber = 5;
+                return errorNumber;
+            }
+        }
+
+        // If the start and end time box don't have a box selected
+        for(ComboBox startTimeBox: startTimeBoxes){
+            if(startTimeBox.getSelectionModel().getSelectedItem() == null){
+                errorNumber = 6;
+                return errorNumber;
+            }
+        }
+
+        for(ComboBox endTimeBox: endTimeBoxes){
+            if(endTimeBox.getSelectionModel().getSelectedItem() == null){
+                errorNumber = 6;
+                return errorNumber;
+            }
+        }
+
         // If no error is detected return -1
         errorNumber = -1;
         return errorNumber;
