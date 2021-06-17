@@ -51,7 +51,7 @@ public class ModifyAppointmentScreenController implements Initializable {
 
     public void backButtonAction(ActionEvent actionEvent) throws IOException {
         // Load next screen
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/Views/add_appointment_screen.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/Views/main_screen.fxml"));
 
         // Set parent and scene
         Parent mainScreenParent = loader.load();

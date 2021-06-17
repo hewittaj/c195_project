@@ -15,7 +15,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
-
 import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
@@ -60,24 +59,38 @@ public class AddAppointmentScreenController implements Initializable {
     public LocalDateTime combinedEndDateTime;
     public DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 
+    // Array list of controls on screen for error checking
+    ArrayList<TextField> idTextFieldsOnly = new ArrayList<>();
+    ArrayList<TextField> textFields = new ArrayList<>();
+    ArrayList<ComboBox> dateFields = new ArrayList<>();
+    ArrayList<ComboBox> startTimeFields = new ArrayList<>();
+    ArrayList<ComboBox> endTimeFields = new ArrayList<>();
+
+
     @Override
     public void initialize(URL url, ResourceBundle rb){
+        // Populate array list of controls on screen
+        populateControlArrayLists();
+
         // Populate combo boxes
         populateContactList();
         populateHourMinuteComboBox();
         populateDateComboBoxes();
 
-
     }
 
     public void saveButtonAction(ActionEvent actionEvent) throws IOException {
         //TODO Validate text fields and time values are correct with requirements
-//        // Check that there are no empty text fields and display an alert if necessary
-//        boolean emptyTextField = ErrorChecker.validateAddCustomerTextFields(textFields);
-//        if(emptyTextField == true){
-//            ShowAlerts.showAlert(1);
-//            return;
-//        }
+
+        // Check for errors in the add appointment screen
+        int errorNumber = ErrorChecker.validateAppointmentFields(textFields, idTextFieldsOnly, contactComboBox,
+                dateFields, startTimeFields, endTimeFields);
+
+        // If error number is not -1 an error was found, otherwise continue code
+        if(errorNumber != -1){
+            ShowAlerts.showAlert(Integer.valueOf(errorNumber));
+            return;
+        }
 
         // Set up an alert for confirmation
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
@@ -87,6 +100,7 @@ public class AddAppointmentScreenController implements Initializable {
         Optional<ButtonType> decision = alert.showAndWait();
 
         Appointment newAppointment = null;
+
         // If user accepts prompt
         if(decision.get() == ButtonType.OK){
             // Initialize variables
@@ -322,6 +336,32 @@ public class AddAppointmentScreenController implements Initializable {
      */
     public void populateControlArrayLists(){
 
+        // Add text fields to associated array list
+        textFields.add(appointmentIdTextField);
+        textFields.add(customerIDTextField);
+        textFields.add(titleTextField);
+        textFields.add(userIdTextField);
+        textFields.add(descriptionTextField);
+        textFields.add(locationTextField);
+        textFields.add(typeTextField);
+
+        idTextFieldsOnly.add(customerIDTextField);
+        idTextFieldsOnly.add(userIdTextField);
+
+        // Add combo boxes to associated array lists starting with date fields
+        dateFields.add(startMonthComboBox);
+        dateFields.add(startDayComboBox);
+        dateFields.add(startYearComboBox);
+
+        // Starting appointment time fields
+        startTimeFields.add(startHourComboBox);
+        startTimeFields.add(startMinuteComboBox);
+        startTimeFields.add(startAMPMComboBox);
+
+        //Ending appointment time fields
+        endTimeFields.add(endHourComboBox);
+        endTimeFields.add(endMinuteComboBox);
+        endTimeFields.add(endAMPMComboBox);
     }
     /**
      * This method populates the contact information in the add appointment screen

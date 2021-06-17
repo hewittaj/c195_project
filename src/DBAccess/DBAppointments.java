@@ -5,6 +5,7 @@ import Models.Appointment;
 import com.mysql.cj.protocol.Resultset;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.scene.control.Alert;
 
 import java.sql.*;
 
@@ -36,8 +37,16 @@ public class DBAppointments {
             ps.setInt(12, newAppointment.getContactId());
 
             ps.execute();
-        }
-        catch(SQLException e){
+        } catch(SQLIntegrityConstraintViolationException sql){
+            // Set up an alert for no value selected
+            Alert sqlAlert = new Alert(Alert.AlertType.CONFIRMATION);
+            sqlAlert.setTitle("Integrity violation");
+            sqlAlert.setHeaderText("SQL foreign key restraint most likely caused\n" +
+                    "by an incorrect Customer or User ID.\n" +
+                    "Taking you back to the home screen. Please try again.");
+            sqlAlert.setContentText("Click 'OK' to confirm.");
+            sqlAlert.showAndWait();
+        } catch(SQLException e){
             e.printStackTrace();
         }
 

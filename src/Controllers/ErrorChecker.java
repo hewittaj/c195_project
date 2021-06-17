@@ -3,13 +3,9 @@ package Controllers;
 import DBAccess.DBUser;
 import Models.User;
 
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
-import org.w3c.dom.Text;
-
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class ErrorChecker {
@@ -47,7 +43,7 @@ public class ErrorChecker {
     }
 
     /**
-     * This method checks all fields on the add customer for any errors
+     * This method checks all fields on the add customer for any errors, will return -1 if no errors detected
      * @param textFields Array list containing all text fields present on the screen
      * @param contactInfo Combo box that is passed that contains contact information present on the screen
      * @param dateBoxes Array list of the date boxes that contains date information on the screen
@@ -55,14 +51,38 @@ public class ErrorChecker {
      * @param endTimeBoxes Array list of the end time boxes that contains ending time information on the screen
      * @return Boolean returned whether or not an error is detected. True means a detected error was found, false means no error detected
      */
-    public static boolean validateAddCustomerFields(ArrayList<TextField> textFields, ComboBox contactInfo,
-                                                    ArrayList<ComboBox> dateBoxes, ArrayList<ComboBox> startTimeBoxes,
-                                                    ArrayList<ComboBox> endTimeBoxes){
-        boolean errorDetected = false;
-        for(TextField textField: textFields){
+    public static int validateAppointmentFields(ArrayList<TextField> textFields,ArrayList<TextField> idTextFieldsOnly,
+                                                ComboBox contactInfo,
+                                                ArrayList<ComboBox> dateBoxes, ArrayList<ComboBox> startTimeBoxes,
+                                                ArrayList<ComboBox> endTimeBoxes){
+        // Initialize variables
+        int errorNumber = 0;
 
+        // If there is an empty text field
+        for(TextField empty: textFields){
+            if(empty.getText().isEmpty()){
+                errorNumber = 2;
+                return errorNumber;
+            }
         }
 
-        return errorDetected;
+        // If there is alphabetic letter in the id number fields
+        for (TextField idTextField: idTextFieldsOnly){
+            if(idTextField.getText().matches("^[a-zA-Z]*$")){
+                System.out.println("made it");
+                errorNumber = 3;
+                return errorNumber;
+            }
+        }
+
+        // If no contact is selected
+        if(contactInfo.getSelectionModel().getSelectedItem() == null){
+            errorNumber = 4;
+            return errorNumber;
+        }
+
+        // If no error is detected return -1
+        errorNumber = -1;
+        return errorNumber;
     }
 }
