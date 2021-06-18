@@ -180,11 +180,18 @@ public class MainScreenController implements Initializable {
      * @throws IOException
      */
     public void modifyAppointmentAction(ActionEvent actionEvent) throws IOException {
+        Appointment selectedAppointment = appointmentTableView.getSelectionModel().getSelectedItem();
         // Load next screen
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/Views/modify_appointment_screen.fxml"));
 
-        // Set parent and scene
+        // Set parent
         Parent mainScreenParent = loader.load();
+
+        // Instantiate controller and call functions to pass info between screens
+        ModifyAppointmentScreenController controller = loader.getController();
+        controller.passLoggedInUser(loggedInUser);
+        controller.passAppointment(selectedAppointment);
+        // Set scene
         Scene mainScreenScene = new Scene(mainScreenParent);
 
         // This line gets the Stage information

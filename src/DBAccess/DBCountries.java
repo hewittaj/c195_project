@@ -29,6 +29,11 @@ public class DBCountries {
         return countryId;
     }
 
+    /**
+     * This method returns the specific country based on the country id
+     * @param idNumber id number that is passed to obtain the country information based on that id
+     * @return Returned country object of specified id number
+     */
     public static Country getSpecificCountry(int idNumber){
         Country specificCountry = null;
         try{
@@ -53,6 +58,7 @@ public class DBCountries {
         }
         return specificCountry;
     }
+
     /**
      * This method gets all of the countries in the database
      * @return Returns an observable list of all countries

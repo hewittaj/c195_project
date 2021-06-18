@@ -80,7 +80,7 @@
             </Label>
          </children>
       </VBox>
-      <TextField fx:id="appointmentIDTextField" layoutX="134.0" layoutY="121.0" />
+      <TextField fx:id="appointmentIDTextField" disable="true" editable="false" layoutX="134.0" layoutY="121.0" />
       <TextField fx:id="userIDTextField" layoutX="134.0" layoutY="158.0" />
       <TextField fx:id="customerIDTextField" layoutX="134.0" layoutY="189.0" />
       <TextField fx:id="titleTextField" layoutX="134.0" layoutY="220.0" />

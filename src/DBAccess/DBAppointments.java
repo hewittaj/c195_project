@@ -91,4 +91,48 @@ public class DBAppointments {
         }
         return appointments;
     }
+
+    public static void updateAppointment(Appointment modifiedAppointment) {
+       try{
+           // Initialize sql and prepared statement
+            String sql = "update appointments\n" +
+                    "set appointment_id = ?, title = ?, description = ?, location = ?, type = ?, \n" +
+                    "start = ?, end = ?, last_update = ?, last_updated_by = ?, customer_id = ?," +
+                    " user_id = ?,\n" +
+                    "contact_id = ?\n" +
+                    "where appointment_id = ?";
+
+            PreparedStatement ps = DBConnection.getConnection().prepareStatement(sql);
+
+            // Set values in query
+            ps.setInt(1, modifiedAppointment.getAppointmentId());
+            ps.setString(2, modifiedAppointment.getTitle());
+            ps.setString(3, modifiedAppointment.getDescription());
+            ps.setString(4, modifiedAppointment.getLocation());
+            ps.setString(5, modifiedAppointment.getType());
+            ps.setTimestamp(6, Timestamp.valueOf(modifiedAppointment.getStartDateTime()));
+            ps.setTimestamp(7, Timestamp.valueOf(modifiedAppointment.getEndDateTime()));
+            ps.setTimestamp(8, Timestamp.valueOf(LocalDateTime.now()));
+            ps.setString(9, modifiedAppointment.getLoggedInUser());
+            ps.setInt(10, modifiedAppointment.getCustomerId());
+            ps.setInt(11, modifiedAppointment.getUserId());
+            ps.setInt(12, modifiedAppointment.getContactId());
+            ps.setInt(13, modifiedAppointment.getAppointmentId());
+
+            ps.execute();
+        }
+       catch(SQLIntegrityConstraintViolationException sql){
+           // Set up an alert for no value selected
+           Alert sqlAlert = new Alert(Alert.AlertType.CONFIRMATION);
+           sqlAlert.setTitle("Integrity violation");
+           sqlAlert.setHeaderText("SQL foreign key restraint most likely caused\n" +
+                   "by an incorrect Customer or User ID.\n" +
+                   "Taking you back to the home screen. Please try again.");
+           sqlAlert.setContentText("Click 'OK' to confirm.");
+           sqlAlert.showAndWait();
+       }
+       catch(SQLException e){
+           e.printStackTrace();
+       }
+    }
 }

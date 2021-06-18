@@ -69,7 +69,6 @@ public class ErrorChecker {
         // If there is alphabetic letter in the id number fields
         for (TextField idTextField: idTextFieldsOnly){
             if(idTextField.getText().matches("^[a-zA-Z]*$")){
-                System.out.println("made it");
                 errorNumber = 3;
                 return errorNumber;
             }

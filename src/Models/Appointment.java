@@ -118,7 +118,7 @@ public class Appointment {
         return type;
     }
 
-    public String getLoggedInUser(){ return loggedInUser;}
+    public String getLoggedInUser() { return loggedInUser; }
 
     public LocalDateTime getStartDateTime() {
         return startDateTime;
@@ -126,6 +126,28 @@ public class Appointment {
 
     public LocalDateTime getEndDateTime() {
         return endDateTime;
+    }
+
+    /**
+     * This method returns just the appointment's date without any time
+     * @return Returns the date of the appointment
+     */
+    public LocalDate getDate(){ return startDateTime.toLocalDate(); }
+
+    /**
+     * This method returns just the appointment's starting appointment time
+     * @return Returns the starting time of the appointment
+     */
+    public LocalTime getStartingTime(){
+        return startDateTime.toLocalTime();
+    }
+
+    /**
+     * This method returns just the appointment's ending appointment time
+     * @return Returns the ending time of the appointment
+     */
+    public LocalTime getEndingTime(){
+        return endDateTime.toLocalTime();
     }
 
     /**

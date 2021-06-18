@@ -122,7 +122,7 @@ public class AddAppointmentScreenController implements Initializable {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/Views/main_screen.fxml"));
 
             // Set parent and scene
-            Parent mainScreenParent = (Parent)loader.load();
+            Parent mainScreenParent = loader.load();
 
             // Instantiate controller and call functions to pass info between screens
             MainScreenController controller = loader.getController();
@@ -205,9 +205,9 @@ public class AddAppointmentScreenController implements Initializable {
         /*
         Convert start time
          */
+        int convertedStartTimeToPm = 0;
         // If time is AM we need to add 12 to get military time
         if(startAMPMComboBox.getSelectionModel().getSelectedItem().equals("AM")){
-            int convertedStartTimeToPm = 0;
             // Converted time
             String selectedHour = startHourComboBox.getSelectionModel().getSelectedItem().toString();
             if(String.valueOf(selectedHour).equals("12")){
@@ -216,16 +216,17 @@ public class AddAppointmentScreenController implements Initializable {
                         .getSelectedItem();
             }
             else{
-                convertedStartTimeToPm = 12 + Integer.parseInt(startHourComboBox.getSelectionModel()
-                        .getSelectedItem().toString());
                 // Combined start time
-                startingTime = convertedStartTimeToPm +  ":" + startMinuteComboBox.getSelectionModel()
-                        .getSelectedItem();
+                startingTime = startHourComboBox.getSelectionModel().getSelectedItem() +
+                        ":" + startMinuteComboBox.getSelectionModel().getSelectedItem();
             }
         }
+
         // Else is PM
         else{
-            startingTime = startHourComboBox.getSelectionModel().getSelectedItem() + ":"
+            convertedStartTimeToPm = 12 + Integer.parseInt(startHourComboBox.getSelectionModel()
+                    .getSelectedItem().toString());
+            startingTime = convertedStartTimeToPm + ":"
                     + startMinuteComboBox.getSelectionModel().getSelectedItem();
         }
 
@@ -242,18 +243,16 @@ public class AddAppointmentScreenController implements Initializable {
                 endingTime = "00:" + endMinuteComboBox.getSelectionModel().getSelectedItem();
             }
             else{
-                // Converted time
-                int convertedEndTimeToPm = 12 + Integer.parseInt(endHourComboBox.getSelectionModel()
-                        .getSelectedItem().toString());
-
                 // Combined end time
-                endingTime = convertedEndTimeToPm +  ":" + endMinuteComboBox.getSelectionModel()
-                        .getSelectedItem();
+                endingTime = endHourComboBox.getSelectionModel().getSelectedItem()
+                        +  ":" + endMinuteComboBox.getSelectionModel().getSelectedItem();
             }
         }
         // Else is PM
         else{
-            endingTime = endHourComboBox.getSelectionModel().getSelectedItem() + ":"
+            int convertedEndTimeToPm = 12 + Integer.parseInt(endHourComboBox.getSelectionModel()
+                    .getSelectedItem().toString());
+            endingTime = convertedEndTimeToPm + ":"
                     + endMinuteComboBox.getSelectionModel().getSelectedItem();
         }
         end = LocalTime.parse(endingTime);
@@ -363,6 +362,7 @@ public class AddAppointmentScreenController implements Initializable {
         endTimeFields.add(endMinuteComboBox);
         endTimeFields.add(endAMPMComboBox);
     }
+
     /**
      * This method populates the contact information in the add appointment screen
      */

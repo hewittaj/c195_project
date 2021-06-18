@@ -68,4 +68,31 @@ public class DBContacts {
         return allContacts;
     }
 
+    public static Contact getSpecificContact(int contactId){
+        // Initialize the contact that we will return
+        Contact specificContact = null;
+
+        try{
+            // Initialize variables and querie
+            String sql = "select * from contacts where contact_id = ?";
+            PreparedStatement ps = DBConnection.getConnection().prepareStatement(sql);
+            ps.setInt(1, contactId);
+
+            // Execute query
+            ResultSet rs = ps.executeQuery();
+
+            while(rs.next()){
+                int queriedContactId = rs.getInt("contact_id");
+                String contactName = rs.getString("contact_name");
+                String email = rs.getString("email");
+                specificContact = new Contact(queriedContactId, contactName, email);
+            }
+
+        }
+        catch(SQLException e){
+            e.printStackTrace();
+        }
+        return specificContact;
+    }
+
 }
