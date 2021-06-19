@@ -182,26 +182,25 @@ public class AddCustomerScreenController implements Initializable {
      */
     public void getNextIdNumber(int numberOfCustomers){
         int size = numberOfCustomers; // Set the size
+        int i = 1;  // Iterator
+
+        // If no customers in database
         if(size == 0){
             customerIDTextField.setText("1");
-        }else{
-            try{
-                for(int i = 0; i <=size; i++){ // Loop through the list
-                    if(i == 0){ // Skip 0 as we don't want an ID of zero
-                        continue;
+        }
+        else{
+            for(Customer customer: customers){
+                if(customer.getCustomerId() == i){
+                    if(i == size){
+                        customerIDTextField.setText(String.valueOf(i + 1));
                     }
-                    if(customers.get(i).getCustomerId() == i){ // If customers returned is null
-                        continue; // Continue in loop
-
-                    }else if(customers.get(i).getCustomerId() != i){ // If customers matches we continue in the loop
-                            customerIDTextField.setText(String.valueOf(Customer.getLastCustomerId() + 1));
-                    }
-                    else{
-                        continue;
-                    }
+                    i += 1;
+                    continue;
                 }
-            }catch(IndexOutOfBoundsException e){
-                customerIDTextField.setText(String.valueOf(size + 1));
+                else{
+                    customerIDTextField.setText(String.valueOf(i));
+                    break;
+                }
             }
         }
     }

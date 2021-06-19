@@ -159,31 +159,30 @@ public class AddAppointmentScreenController implements Initializable {
     }
 
     /**
-     * // TO DO FIX FOR APPOINTMENTS
+     * // TODO FIX FOR APPOINTMENTS
      * Generates the next Id Number for an appointment we want to add
      */
     public void getNextIdNumber(int numberOfAppointments){
         int size = numberOfAppointments; // Set the size
+        int i = 1; // Iterator
+
+        // If no appointments in database
         if(size == 0){
             appointmentIdTextField.setText("1");
-        }else{
-            try{
-                for(int i = 0; i <=size; i++){ // Loop through the list
-                    if(i == 0){ // Skip 0 as we don't want an ID of zero
-                        continue;
+        }
+        else{
+            for(Appointment appointment: allAppointments){
+                if(appointment.getAppointmentId() == i){
+                    if(i == size){
+                        appointmentIdTextField.setText(String.valueOf(i + 1));
                     }
-                    if(allAppointments.get(i).getAppointmentId() == i){ // If customers returned is null
-                        continue; // Continue in loop
-
-                    }else if(allAppointments.get(i).getAppointmentId() != i){ // If customers matches we continue in the loop
-                        appointmentIdTextField.setText(String.valueOf(Appointment.getLastAppointmentId() + 1));
-                    }
-                    else{
-                        continue;
-                    }
+                    i += 1;
+                    continue;
                 }
-            }catch(IndexOutOfBoundsException e){
-                appointmentIdTextField.setText(String.valueOf(size + 1));
+                else{
+                    appointmentIdTextField.setText(String.valueOf(i));
+                    break;
+                }
             }
         }
     }
