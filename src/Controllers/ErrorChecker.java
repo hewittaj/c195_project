@@ -1,6 +1,7 @@
 package Controllers;
 
 import DBAccess.DBUser;
+import Models.Customer;
 import Models.User;
 
 import javafx.collections.ObservableList;
@@ -106,5 +107,22 @@ public class ErrorChecker {
         // If no error is detected return -1
         errorNumber = -1;
         return errorNumber;
+    }
+
+    /**
+     * This method detects if a customer is selected to be deleted. If it is a null customer it will return
+     * an error number
+     * @param customer Customer object that is passed to detect if a customer was selected on main screen
+     * @return Returns an integer to be given to the show alerts class if no customer is selected
+     */
+    public static int customerIsSelected(Customer customer){
+        int errorNumber = -1; // -1 means no error was found (i.e. valid customer selection)
+
+        // If customer is not selected return number 7 for our show alert screen
+        if(customer == null){
+            return 7;
+        }
+        // Otherwise no error was detected.
+        return -1;
     }
 }

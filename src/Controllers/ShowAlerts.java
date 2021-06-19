@@ -84,5 +84,15 @@ public class ShowAlerts {
             alert.setContentText("Click 'OK' to confirm.");
             alert.showAndWait();
         }
+
+        // No customer was selected to be deleted
+        if(number == 7){
+            // Set up an alert for no customer selected
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Invalid selection!");
+            alert.setHeaderText("No customer was selected!");
+            alert.setContentText("Click 'OK' to confirm.");
+            alert.showAndWait();
+        }
     }
 }

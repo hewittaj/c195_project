@@ -13,15 +13,14 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class MainScreenController implements Initializable {
@@ -210,6 +209,44 @@ public class MainScreenController implements Initializable {
      * @param actionEvent
      */
     public void deleteCustomerAction(ActionEvent actionEvent) {
+        // Initialize our selected customer and detect if nothing was selected
+        Customer selectedCustomer = customerTableView.getSelectionModel().getSelectedItem();
+        int errorNumber = ErrorChecker.customerIsSelected(selectedCustomer);
+
+        if(errorNumber == 7){
+            ShowAlerts.showAlert(errorNumber);
+            return;
+        }
+
+        // Initialize how many appointments the customer has
+        int numOfAppointments = DBAppointments.getNumberOfAppointments(selectedCustomer.getCustomerId());
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        if(numOfAppointments == 0){
+            // Set up an alert for not all time combo boxes selected
+            alert.setTitle("Confirm Deletion!");
+            alert.setHeaderText("Are you sure you want to delete this customer?");
+            alert.setContentText("Click 'OK' to confirm.");
+            Optional<ButtonType> decision =  alert.showAndWait();
+
+            // If user wants to continue to delete customer then do it
+            if(decision.get() == ButtonType.OK){
+                DBCustomers.deleteCustomer(selectedCustomer);
+                customers = DBCustomers.getMainScreenCustomerInfo();
+                customerTableView.setItems(customers);
+            }
+            else{
+                return;
+            }
+        }
+        else{
+            // Customer still has an appointment associated with them, throw an error screen
+            alert.setTitle("Cannot Delete!");
+            alert.setHeaderText("Customer still has appointments associated to them!\n" +
+                    "Please delete appointments first before deleting customer.");
+            alert.setContentText("Click 'OK' to confirm.");
+            alert.showAndWait();
+            return;
+        }
     }
 
     /**

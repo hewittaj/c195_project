@@ -10,6 +10,8 @@ import java.io.IOException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 public class DBCustomers {
 
@@ -44,6 +46,19 @@ public class DBCustomers {
             // Execute the query
             ps.execute();
 
+        }
+        catch(SQLException e){
+            e.printStackTrace();
+        }
+    }
+
+    public static void deleteCustomer(Customer selectedCustomer){
+        String sql = "DELETE FROM customers WHERE customer_id = ?";
+        try {
+            PreparedStatement ps = DBConnection.getConnection().prepareStatement(sql);
+            ps.setInt(1, selectedCustomer.getCustomerId());
+
+            ps.execute();
         }
         catch(SQLException e){
             e.printStackTrace();
@@ -90,8 +105,8 @@ public class DBCustomers {
 
         try{
             String sql = "UPDATE customers\n" +
-                    "SET customer_name = ?, address = ?, postal_code = ?, phone = ?, created_by = ?,\n" +
-                    "last_updated_by = ?, division_id = ?\n" +
+                    "SET customer_name = ?, address = ?, postal_code = ?, phone = ?, \n" +
+                    "last_updated_by = ?, division_id = ?, last_update = ?\n" +
                     "WHERE customer_id = ?";
             PreparedStatement ps = DBConnection.getConnection().prepareStatement(sql);
 
@@ -101,9 +116,10 @@ public class DBCustomers {
             ps.setString(3, updatedCustomer.getZipCode());
             ps.setString(4, updatedCustomer.getPhoneNumber());
             ps.setString(5, updatedCustomer.getLoggedInUser());
-            ps.setString(6, updatedCustomer.getLoggedInUser());
-            ps.setInt(7, updatedCustomer.getDivisionId());
+            ps.setInt(6, updatedCustomer.getDivisionId());
+            ps.setTimestamp(7, Timestamp.valueOf(LocalDateTime.now()));
             ps.setInt(8, updatedCustomer.getCustomerId());
+
 
             // Execute the query
             ps.execute();

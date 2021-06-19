@@ -2,7 +2,6 @@ package DBAccess;
 
 import Database.DBConnection;
 import Models.Appointment;
-import com.mysql.cj.protocol.Resultset;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.Alert;
@@ -92,6 +91,33 @@ public class DBAppointments {
         return appointments;
     }
 
+    /**
+     * This method gets the number of appointments that a customer has
+     * @param customerId Customer id passed to detect number of appointments they have
+     * @return Return number of appointments found
+     */
+    public static int getNumberOfAppointments(int customerId){
+        int numberOfAppointments = 0;
+        try {
+            String sql = "Select * from appointments where customer_id = ?";
+            PreparedStatement ps = DBConnection.getConnection().prepareStatement(sql);
+
+            ps.setInt(1, customerId);
+            ResultSet rs = ps.executeQuery();
+            while(rs.next()){
+                numberOfAppointments++;
+            }
+        }
+        catch(SQLException e){
+            e.printStackTrace();
+        }
+        return numberOfAppointments;
+    }
+
+    /**
+     * This method updates a selected appointment
+     * @param modifiedAppointment Appointment that is selected is passed in order to be modified
+     */
     public static void updateAppointment(Appointment modifiedAppointment) {
        try{
            // Initialize sql and prepared statement
