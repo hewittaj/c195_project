@@ -1,6 +1,7 @@
 package Controllers;
 
 import DBAccess.DBUser;
+import Models.Appointment;
 import Models.Customer;
 import Models.User;
 
@@ -118,11 +119,29 @@ public class ErrorChecker {
     public static int customerIsSelected(Customer customer){
         int errorNumber = -1; // -1 means no error was found (i.e. valid customer selection)
 
-        // If customer is not selected return number 7 for our show alert screen
+        // If customer is not selected, return number 7 for our show alert screen
         if(customer == null){
             return 7;
         }
         // Otherwise no error was detected.
+        return -1;
+    }
+
+    /**
+     * This method detects if an appointment is selected to be deleted. If it is a null appointment it will return
+     * an error number
+     * @param appointment Appointment object that is passed to detect if an appointment was selected on the main screen
+     * @return Returns an integer to be given to the show alert class if no appointment is selected
+     */
+    public static int appointmentIsSelected(Appointment appointment){
+        int errorNumber = -1;
+
+        // If customer is not selected, return number 8 for our show alert screen
+        if(appointment == null){
+            return 8;
+        }
+
+        // Otherwise no error was detected
         return -1;
     }
 }

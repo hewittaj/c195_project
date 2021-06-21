@@ -159,8 +159,8 @@ public class AddAppointmentScreenController implements Initializable {
     }
 
     /**
-     * // TODO FIX FOR APPOINTMENTS
-     * Generates the next Id Number for an appointment we want to add
+     * This method generates next id number for the new appointment
+     * @param numberOfAppointments Parameter passed that tells us how many appointments there currently are in the db
      */
     public void getNextIdNumber(int numberOfAppointments){
         int size = numberOfAppointments; // Set the size

@@ -48,8 +48,23 @@ public class DBAppointments {
         } catch(SQLException e){
             e.printStackTrace();
         }
+    }
 
+    /**
+     * This method deletes the selected appointment from the database
+     * @param appointment Parameter passed that is the appointment object the user wants to delete
+     */
+    public static void deleteAppointment(Appointment appointment){
+        try {
+            String sql = "DELETE FROM appointments WHERE appointment_id = ?";
+            PreparedStatement ps = DBConnection.getConnection().prepareStatement(sql);
+            ps.setInt(1, appointment.getAppointmentId());
 
+            ps.execute();
+        }
+        catch(SQLException e){
+            e.printStackTrace();
+        }
     }
 
     /**

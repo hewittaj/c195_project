@@ -178,7 +178,8 @@ public class AddCustomerScreenController implements Initializable {
     }
 
     /**
-     * Generates the next Id Number for a customer we want to add
+     * This method generates next id number for the new customer
+     * @param numberOfCustomers Parameter passed that tells us how many customers there currently are in the db
      */
     public void getNextIdNumber(int numberOfCustomers){
         int size = numberOfCustomers; // Set the size

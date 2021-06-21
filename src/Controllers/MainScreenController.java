@@ -222,7 +222,8 @@ public class MainScreenController implements Initializable {
         int numOfAppointments = DBAppointments.getNumberOfAppointments(selectedCustomer.getCustomerId());
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         if(numOfAppointments == 0){
-            // Set up an alert for not all time combo boxes selected
+
+            // Set up an alert to confirm deletion of customer
             alert.setTitle("Confirm Deletion!");
             alert.setHeaderText("Are you sure you want to delete this customer?");
             alert.setContentText("Click 'OK' to confirm.");
@@ -233,6 +234,13 @@ public class MainScreenController implements Initializable {
                 DBCustomers.deleteCustomer(selectedCustomer);
                 customers = DBCustomers.getMainScreenCustomerInfo();
                 customerTableView.setItems(customers);
+
+                // Let user know customer has been deleted
+                Alert customerDeleted = new Alert(Alert.AlertType.INFORMATION);
+                customerDeleted.setTitle("Customer Deleted!");
+                customerDeleted.setHeaderText("Customer has been deleted!");
+                customerDeleted.setContentText("Click OK to continue.");
+                customerDeleted.showAndWait();
             }
             else{
                 return;
@@ -253,5 +261,36 @@ public class MainScreenController implements Initializable {
      * @param actionEvent
      */
     public void deleteAppointmentAction(ActionEvent actionEvent) {
+        Appointment selectedAppointment = appointmentTableView.getSelectionModel().getSelectedItem();
+        int errorNumber = ErrorChecker.appointmentIsSelected(selectedAppointment);
+
+        if(errorNumber == 8){
+            ShowAlerts.showAlert(errorNumber);
+            return;
+        }
+
+        // Set up an alert to confirm deletion of appointment
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Confirm Deletion!");
+        alert.setHeaderText("Are you sure you want to delete this appointment?");
+        alert.setContentText("Click 'OK' to confirm.");
+        Optional<ButtonType> decision =  alert.showAndWait();
+
+        // If user wants to continue to delete customer then do it
+        if(decision.get() == ButtonType.OK){
+            DBAppointments.deleteAppointment(selectedAppointment);
+            appointments = DBAppointments.getAllAppointments();
+            appointmentTableView.setItems(appointments);
+
+            // Let user know appointment has been deleted
+            Alert customerDeleted = new Alert(Alert.AlertType.INFORMATION);
+            customerDeleted.setTitle("Appointment Deleted!");
+            customerDeleted.setHeaderText("Appointment has been deleted!");
+            customerDeleted.setContentText("Click OK to continue.");
+            customerDeleted.showAndWait();
+        }
+        else{
+            return;
+        }
     }
 }
