@@ -103,6 +103,9 @@ public class Customer {
         return maxId;
     }
 
+    public void setId(int id){
+        this.customerId = id;
+    }
     @Override
     public String toString() {
         return customerName;

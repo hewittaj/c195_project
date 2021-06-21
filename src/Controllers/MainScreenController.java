@@ -15,7 +15,11 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.stage.Stage;
+import javafx.util.converter.IntegerStringConverter;
+import javafx.util.converter.NumberStringConverter;
+
 import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
@@ -74,10 +78,15 @@ public class MainScreenController implements Initializable {
         // Initialize customer column names -> string must match the model's spelling/capitalization
         customerIDColumn.setCellValueFactory(new PropertyValueFactory<Customer, Integer>("customerId"));
         customerNameColumn.setCellValueFactory(new PropertyValueFactory<Customer, String>("customerName"));
+        customerNameColumn.setCellFactory(TextFieldTableCell.forTableColumn());
         customerAddressColumn.setCellValueFactory(new PropertyValueFactory<Customer, String>("customerAddress"));
+        customerAddressColumn.setCellFactory(TextFieldTableCell.forTableColumn());
         zipCodeColumn.setCellValueFactory(new PropertyValueFactory<Customer, String>("zipCode"));
+        zipCodeColumn.setCellFactory(TextFieldTableCell.forTableColumn());
         phoneNumberColumn.setCellValueFactory(new PropertyValueFactory<Customer, String>("phoneNumber"));
+        phoneNumberColumn.setCellFactory(TextFieldTableCell.forTableColumn());
         divisionIDColumn.setCellValueFactory(new PropertyValueFactory<Customer, Integer>("divisionId"));
+        divisionIDColumn.setCellFactory(TextFieldTableCell.<Customer, Integer>forTableColumn(new IntegerStringConverter()));
 
         // Initialize appointment column names -> string must match the model's spelling/capitalization
         appointmentIdColumn.setCellValueFactory(new PropertyValueFactory<Appointment, Integer>("appointmentId"));
@@ -203,6 +212,7 @@ public class MainScreenController implements Initializable {
      * @param actionEvent
      */
     public void reportButtonAction(ActionEvent actionEvent) {
+        customerIDColumn.setOnEditStart(customerIDColumn.getOnEditCommit());
     }
 
     /**
@@ -293,4 +303,25 @@ public class MainScreenController implements Initializable {
             return;
         }
     }
+
+
+    public void customerNameEditCommit(TableColumn.CellEditEvent<Customer, String> customerStringCellEditEvent) {
+        customerTableView.edit(customerTableView.getSelectionModel().getFocusedIndex(), customerIDColumn);
+        System.out.println("Made it too");
+
+    }
+
+    public void customerAddressEditCommit(TableColumn.CellEditEvent<Customer, String> customerStringCellEditEvent) {
+    }
+
+    public void zipCodeEditCommit(TableColumn.CellEditEvent<Customer, String> customerStringCellEditEvent) {
+    }
+
+    public void phoneNumberEditCommit(TableColumn.CellEditEvent<Customer, String> customerStringCellEditEvent) {
+    }
+
+    public void divisionIdEditCommit(TableColumn.CellEditEvent<Customer, Integer> customerIntegerCellEditEvent) {
+    }
+
+
 }
