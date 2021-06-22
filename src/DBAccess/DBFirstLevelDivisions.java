@@ -63,4 +63,31 @@ public class DBFirstLevelDivisions {
         }
         return divisions;
     }
+
+    /**
+     * This method validates whether the division id that the user has updated to in the customer table view is valid
+     * @param divisionId Division id that we want to check
+     * @return Return a boolean value whether or not the division id is valid. True if valid, false if not.
+     */
+    public static boolean validateDivisionId(int divisionId){
+        try{
+            String division = "";
+            String sql = "select division from first_level_divisions where division_id = ?";
+            PreparedStatement ps = DBConnection.getConnection().prepareStatement(sql);
+            ps.setInt(1, divisionId);
+
+            // Need a result set to detect if a result is found or not
+            ResultSet rs = ps.executeQuery();
+            while(rs.next()){
+                division = rs.getString("division");
+            }
+
+            // If no error is caught it will return true
+            return true;
+        }
+        catch(SQLException e){
+            // Error is caught, will return false
+            return false;
+        }
+    }
 }

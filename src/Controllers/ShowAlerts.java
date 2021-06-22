@@ -105,12 +105,62 @@ public class ShowAlerts {
             alert.showAndWait();
         }
 
-        // Customer name edit event is null or empty strings
+        // Customer name text box edit event is blank
         if(number == 9){
             // Set up an alert for improper customer name
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-            alert.setTitle("Invalid name!");
+            alert.setTitle("Invalid input!");
             alert.setHeaderText("Customer name must be entered!");
+            alert.setContentText("Click 'OK' to confirm.");
+            alert.showAndWait();
+        }
+
+        // Customer address text box edit event is blank
+        if(number == 10){
+            // Set up an alert for improper address
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Invalid input!");
+            alert.setHeaderText("Customer address must be entered!");
+            alert.setContentText("Click 'OK' to confirm.");
+            alert.showAndWait();
+        }
+
+        // Customer zip code text box edit event is blank
+        if (number == 11){
+            // Set up an alert for improper customer zip code
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Invalid input!");
+            alert.setHeaderText("Customer zip code must be entered!");
+            alert.setContentText("Click 'OK' to confirm.");
+            alert.showAndWait();
+        }
+
+        // Customer phone number text box edit event is blank
+        if(number == 12){
+            // Set up an alert for improper customer phone number
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Invalid input!");
+            alert.setHeaderText("Customer phone number must be entered!");
+            alert.setContentText("Click 'OK' to confirm.");
+            alert.showAndWait();
+        }
+
+        // Division id text box edit event is blank
+        if(number == 13){
+            // Set up an alert for improper customer division id
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Invalid input!");
+            alert.setHeaderText("Customer division ID must be entered!");
+            alert.setContentText("Click 'OK' to confirm.");
+            alert.showAndWait();
+        }
+
+        // Division id is not valid/in database
+        if(number == 14){
+            // Set up an alert for improper customer division id
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Invalid ID!");
+            alert.setHeaderText("Customer division ID must be in database!");
             alert.setContentText("Click 'OK' to confirm.");
             alert.showAndWait();
         }

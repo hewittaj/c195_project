@@ -268,7 +268,9 @@ public class MainScreenController implements Initializable {
     }
 
     /**
-     * @param actionEvent
+     * This method detects if the delete appointment button has been pressed and will validate if it can be done.
+     * If it can be done, then it will delete, otherwise an error will be thrown
+     * @param actionEvent Event that is caught to detect delete button press
      */
     public void deleteAppointmentAction(ActionEvent actionEvent) {
         Appointment selectedAppointment = appointmentTableView.getSelectionModel().getSelectedItem();
@@ -304,38 +306,149 @@ public class MainScreenController implements Initializable {
         }
     }
 
-
+    /**
+     * This method detects if a customer name record is being edited on the table view
+     * @param customerStringCellEditEvent Event that is caught to detect the cell being edited
+     */
     public void customerNameEditCommit(TableColumn.CellEditEvent<Customer, String> customerStringCellEditEvent) {
         String newCustomerName = customerStringCellEditEvent.getNewValue();
         int errorNumber = ErrorChecker.customerNameTextBoxEditEvent(newCustomerName);
 
         if(errorNumber != -1){
             ShowAlerts.showAlert(errorNumber);
+
+            // Refresh table view
+            customerTableView.setItems(customers);
             return;
         }
+        else {
+            // Get index of customer
+            int index = customerStringCellEditEvent.getTablePosition().getRow();
 
-        // Get index of customer
-        int index = customerStringCellEditEvent.getTablePosition().getRow();
+            // Update database
+            DBCustomers.editCustomerNameEvent(newCustomerName, customers.get(index));
 
-        // Update database
-        DBCustomers.editCustomerNameEvent(newCustomerName, customers.get(index));
-
-        // Refresh table view
-        customers = DBCustomers.getMainScreenCustomerInfo();
-        customerTableView.setItems(customers);
+            // Refresh table view
+            customers = DBCustomers.getMainScreenCustomerInfo();
+            customerTableView.setItems(customers);
+        }
     }
 
+    /**
+     * This method detects if a customer address record is being edited on the table view
+     * @param customerStringCellEditEvent Event that is caught to detect the cell being edited
+     */
     public void customerAddressEditCommit(TableColumn.CellEditEvent<Customer, String> customerStringCellEditEvent) {
+        String newCustomerAddress = customerStringCellEditEvent.getNewValue();
+        int errorNumber = ErrorChecker.customerAddressTextBoxEditEvent(newCustomerAddress);
+
+        if(errorNumber != 1){
+            ShowAlerts.showAlert(errorNumber);
+        }
+        else{
+            // Get index of customer
+            int index = customerStringCellEditEvent.getTablePosition().getRow();
+
+            // Update database
+            DBCustomers.editCustomerAddressEvent(newCustomerAddress, customers.get(index));
+
+            // Refresh table view
+            customers = DBCustomers.getMainScreenCustomerInfo();
+            customerTableView.setItems(customers);
+        }
     }
 
+    /**
+     * This method detects if a customer zip code record is being edited on the table view
+     * @param customerStringCellEditEvent Event that is caught to detect cell being edited
+     */
     public void zipCodeEditCommit(TableColumn.CellEditEvent<Customer, String> customerStringCellEditEvent) {
+        String newZipCode = customerStringCellEditEvent.getNewValue();
+        int errorNumber = ErrorChecker.zipCodeTextBoxEditEvent(newZipCode);
+
+        if(errorNumber != -1){
+            ShowAlerts.showAlert(errorNumber);
+
+            // Refresh table view
+
+            customerTableView.setItems(customers);
+            return;
+        }
+        else{
+            // Get index of customer
+            int index = customerStringCellEditEvent.getTablePosition().getRow();
+
+            // Update database
+            DBCustomers.editZipCodeEvent(newZipCode, customers.get(index));
+
+            // Refresh table view
+            customers = DBCustomers.getMainScreenCustomerInfo();
+            customerTableView.setItems(customers);
+        }
     }
 
+    /**
+     * This method detects if a customer phone record is being edited on the table view
+     * @param customerStringCellEditEvent Event that is caught to detect cell being edited
+     */
     public void phoneNumberEditCommit(TableColumn.CellEditEvent<Customer, String> customerStringCellEditEvent) {
+        String newPhoneNumber = customerStringCellEditEvent.getNewValue();
+        int errorNumber = ErrorChecker.phoneNumberTextBoxEditEvent(newPhoneNumber);
+
+        if(errorNumber != -1){
+            ShowAlerts.showAlert(errorNumber);
+
+            // Refresh table view
+            customerTableView.setItems(customers);
+            return;
+        }
+        else{
+            // Get index of customer
+            int index = customerStringCellEditEvent.getTablePosition().getRow();
+
+            // Update database
+            DBCustomers.editPhoneNumberEvent(newPhoneNumber, customers.get(index));
+
+            // Refresh table view
+            customers = DBCustomers.getMainScreenCustomerInfo();
+            customerTableView.setItems(customers);
+        }
     }
 
+    /**
+     * This method detects if a customer division id record is being edited on the table view
+     * @param customerIntegerCellEditEvent Evenet that is caught to detect cell being edited
+     */
     public void divisionIdEditCommit(TableColumn.CellEditEvent<Customer, Integer> customerIntegerCellEditEvent) {
+        int newDivisionId = 0;
+        // Try catch is to detect if the text box is empty
+        try{
+            newDivisionId = customerIntegerCellEditEvent.getNewValue();
+        }
+        catch(NullPointerException e){
+            ShowAlerts.showAlert(13);
+            return;
+        }
+        // Retrieve error number
+        int errorNumber = ErrorChecker.divisionIdTextBoxEvent(newDivisionId);
+
+        if(errorNumber != -1){
+            ShowAlerts.showAlert(errorNumber);
+
+            // Refresh table view
+            customerTableView.setItems(customers);
+            return;
+        }
+        else{
+            // Get index of customer
+            int index = customerIntegerCellEditEvent.getTablePosition().getRow();
+
+            // Update database
+            DBCustomers.editDivisionIdEvent(newDivisionId, customers.get(index));
+
+            // Refresh table view
+            customers = DBCustomers.getMainScreenCustomerInfo();
+            customerTableView.setItems(customers);
+        }
     }
-
-
 }

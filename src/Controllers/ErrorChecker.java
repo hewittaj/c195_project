@@ -1,5 +1,6 @@
 package Controllers;
 
+import DBAccess.DBFirstLevelDivisions;
 import DBAccess.DBUser;
 import Models.Appointment;
 import Models.Customer;
@@ -117,7 +118,6 @@ public class ErrorChecker {
      * @return Returns an integer to be given to the show alerts class if no customer is selected
      */
     public static int customerIsSelected(Customer customer){
-        int errorNumber = -1; // -1 means no error was found (i.e. valid customer selection)
 
         // If customer is not selected, return number 7 for our show alert screen
         if(customer == null){
@@ -134,7 +134,6 @@ public class ErrorChecker {
      * @return Returns an integer to be given to the show alert class if no appointment is selected
      */
     public static int appointmentIsSelected(Appointment appointment){
-        int errorNumber = -1;
 
         // If customer is not selected, return number 8 for our show alert screen
         if(appointment == null){
@@ -145,15 +144,60 @@ public class ErrorChecker {
         return -1;
     }
 
+    /**
+     * This method detects if an customer name text field in the main screen is empty/null
+     * @param newName New name the customer has been given
+     * @return Returns an error number that dictates if an error is shown or not
+     */
     public static int customerNameTextBoxEditEvent(String newName){
-        int errorNumber = -1;
 
         // If the new customer name is empty or null then return an error number
-        if(newName == "" || newName == null){
+        if(newName.isEmpty()){
             return 9;
         }
 
         // Otherwise no error detected
+        return -1;
+    }
+
+    public static int customerAddressTextBoxEditEvent(String newAddress){
+
+        // If the new address text box is empty
+        if(newAddress.isEmpty()){
+            return 10;
+        }
+
+        return -1;
+    }
+
+    public static int zipCodeTextBoxEditEvent(String newZipCode){
+
+        // If the new zip code text box is empty
+        if(newZipCode.isEmpty()){
+            return 11;
+        }
+
+        return -1;
+    }
+
+    public static int phoneNumberTextBoxEditEvent(String newPhoneNumber){
+
+        // If the new phone number text box is empty
+        if(newPhoneNumber.isEmpty()){
+            return 12;
+        }
+
+        return -1;
+    }
+
+    public static int divisionIdTextBoxEvent(int newDivisionId){
+
+        // If the division id text box does not contain a valid division Id
+        // TODO need to check to make sure division ID is valid from the db
+        if(DBFirstLevelDivisions.validateDivisionId(newDivisionId) == false){
+            return 14;
+        }
+
         return -1;
     }
 }

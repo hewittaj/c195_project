@@ -130,7 +130,7 @@ public class DBCustomers {
     }
 
     /**
-     * This method updates the database with the new Customer name typed in from the user
+     * This method updates the database with the new customer name typed in from the user
      * @param newCustomerName New customer name that has been passed to be updated
      */
     public static void editCustomerNameEvent(String newCustomerName, Customer customerInfo){
@@ -138,6 +138,78 @@ public class DBCustomers {
             String sql = "update customers set customer_name = ? where customer_id = ?";
             PreparedStatement ps = DBConnection.getConnection().prepareStatement(sql);
             ps.setString(1, newCustomerName);
+            ps.setInt(2, customerInfo.getCustomerId());
+
+            ps.execute();
+        }
+        catch(SQLException e){
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * This method updates the database with the new customer address typed in from the user
+     * @param newAddress New customer address that has been passed to be updated
+     */
+    public static void editCustomerAddressEvent(String newAddress, Customer customerInfo){
+        try{
+            String sql = "update customers set address = ? where customer_id = ?";
+            PreparedStatement ps = DBConnection.getConnection().prepareStatement(sql);
+            ps.setString(1, newAddress);
+            ps.setInt(2, customerInfo.getCustomerId());
+
+            ps.execute();
+        }
+        catch(SQLException e){
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * This method updates the database with the new customer zip code typed in from the user
+     * @param newZipCode New customer zip code that has been passed to be updated
+     */
+    public static void editZipCodeEvent(String newZipCode, Customer customerInfo){
+        try{
+            String sql = "update customers set postal_code = ? where customer_id = ?";
+            PreparedStatement ps = DBConnection.getConnection().prepareStatement(sql);
+            ps.setString(1, newZipCode);
+            ps.setInt(2, customerInfo.getCustomerId());
+
+            ps.execute();
+        }
+        catch(SQLException e){
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * This method updates the database with the new customer phone number typed in from the user
+     * @param newPhoneNumber New customer phone number that has been passed to be updated
+     */
+    public static void editPhoneNumberEvent(String newPhoneNumber, Customer customerInfo){
+        try{
+            String sql = "update customers set phone = ? where customer_id = ?";
+            PreparedStatement ps = DBConnection.getConnection().prepareStatement(sql);
+            ps.setString(1, newPhoneNumber);
+            ps.setInt(2, customerInfo.getCustomerId());
+
+            ps.execute();
+        }
+        catch(SQLException e){
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * This method updates the database with the new customer division id typed in from the user
+     * @param newDivisionId New customer division id that has been passed to be updated
+     */
+    public static void editDivisionIdEvent(int newDivisionId, Customer customerInfo){
+        try{
+            String sql = "update customers set division_id = ? where customer_id = ?";
+            PreparedStatement ps = DBConnection.getConnection().prepareStatement(sql);
+            ps.setInt(1, newDivisionId);
             ps.setInt(2, customerInfo.getCustomerId());
 
             ps.execute();
