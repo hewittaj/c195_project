@@ -128,4 +128,22 @@ public class DBCustomers {
             e.printStackTrace();
         }
     }
+
+    /**
+     * This method updates the database with the new Customer name typed in from the user
+     * @param newCustomerName New customer name that has been passed to be updated
+     */
+    public static void editCustomerNameEvent(String newCustomerName, Customer customerInfo){
+        try{
+            String sql = "update customers set customer_name = ? where customer_id = ?";
+            PreparedStatement ps = DBConnection.getConnection().prepareStatement(sql);
+            ps.setString(1, newCustomerName);
+            ps.setInt(2, customerInfo.getCustomerId());
+
+            ps.execute();
+        }
+        catch(SQLException e){
+            e.printStackTrace();
+        }
+    }
 }

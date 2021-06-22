@@ -104,5 +104,15 @@ public class ShowAlerts {
             alert.setContentText("Click 'OK' to confirm.");
             alert.showAndWait();
         }
+
+        // Customer name edit event is null or empty strings
+        if(number == 9){
+            // Set up an alert for improper customer name
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Invalid name!");
+            alert.setHeaderText("Customer name must be entered!");
+            alert.setContentText("Click 'OK' to confirm.");
+            alert.showAndWait();
+        }
     }
 }

@@ -306,9 +306,23 @@ public class MainScreenController implements Initializable {
 
 
     public void customerNameEditCommit(TableColumn.CellEditEvent<Customer, String> customerStringCellEditEvent) {
-        customerTableView.edit(customerTableView.getSelectionModel().getFocusedIndex(), customerIDColumn);
-        System.out.println("Made it too");
+        String newCustomerName = customerStringCellEditEvent.getNewValue();
+        int errorNumber = ErrorChecker.customerNameTextBoxEditEvent(newCustomerName);
 
+        if(errorNumber != -1){
+            ShowAlerts.showAlert(errorNumber);
+            return;
+        }
+
+        // Get index of customer
+        int index = customerStringCellEditEvent.getTablePosition().getRow();
+
+        // Update database
+        DBCustomers.editCustomerNameEvent(newCustomerName, customers.get(index));
+
+        // Refresh table view
+        customers = DBCustomers.getMainScreenCustomerInfo();
+        customerTableView.setItems(customers);
     }
 
     public void customerAddressEditCommit(TableColumn.CellEditEvent<Customer, String> customerStringCellEditEvent) {

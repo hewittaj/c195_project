@@ -144,4 +144,16 @@ public class ErrorChecker {
         // Otherwise no error was detected
         return -1;
     }
+
+    public static int customerNameTextBoxEditEvent(String newName){
+        int errorNumber = -1;
+
+        // If the new customer name is empty or null then return an error number
+        if(newName == "" || newName == null){
+            return 9;
+        }
+
+        // Otherwise no error detected
+        return -1;
+    }
 }
