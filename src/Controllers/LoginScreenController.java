@@ -13,6 +13,7 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.net.URL;
 import java.time.ZoneId;
+import java.util.Locale;
 import java.util.ResourceBundle;
 
 import Controllers.ErrorChecker;
@@ -31,7 +32,12 @@ public class LoginScreenController implements Initializable{
     @Override
     public void initialize(URL url, ResourceBundle rb){
         // Test for french by using Locale.setDefault(new Locale("fr")); rather than rebooting
+        // TODO Delete the following
+        Locale.setDefault(new Locale("fr"));
+        if(Locale.getDefault() == Locale.FRENCH){
+            System.out.println("FRENCH");
 
+        }
         // Set zoneID
         userLocationLabel.setText(ZoneId.systemDefault().toString());
     }
@@ -73,6 +79,5 @@ public class LoginScreenController implements Initializable{
             invalidLogin.showAndWait();
             return;
         }
-
     }
 }

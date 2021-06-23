@@ -24,6 +24,8 @@ import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -297,7 +299,9 @@ public class MainScreenController implements Initializable {
             // Let user know appointment has been deleted
             Alert customerDeleted = new Alert(Alert.AlertType.INFORMATION);
             customerDeleted.setTitle("Appointment Deleted!");
-            customerDeleted.setHeaderText("Appointment has been deleted!");
+            customerDeleted.setHeaderText("Appointment ID: " + selectedAppointment.getAppointmentId()
+                     + " has been deleted!\n" +
+                    "Type: " + selectedAppointment.getType());
             customerDeleted.setContentText("Click OK to continue.");
             customerDeleted.showAndWait();
         }
@@ -342,7 +346,7 @@ public class MainScreenController implements Initializable {
         String newCustomerAddress = customerStringCellEditEvent.getNewValue();
         int errorNumber = ErrorChecker.customerAddressTextBoxEditEvent(newCustomerAddress);
 
-        if(errorNumber != 1){
+        if(errorNumber != -1){
             ShowAlerts.showAlert(errorNumber);
         }
         else{
