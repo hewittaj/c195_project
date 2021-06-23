@@ -23,6 +23,10 @@ public class LoginScreenController implements Initializable{
     @FXML public Label userLocationLabel;
     @FXML public Button loginButton;
     @FXML public PasswordField passwordField;
+    @FXML public Label userIdLabel; // Label that is before user id text field
+    @FXML public Label passwordLabel; // Label that is before password text field
+    @FXML public Label loginScreenTitleLabel; // Label that identifies the login screen title
+    @FXML public Label locationLabel;  // Label that is before the location identifier label
 
     // public TableColumn idCol; TO DO Delete
     // public TableColumn nameCol;
@@ -32,11 +36,20 @@ public class LoginScreenController implements Initializable{
     @Override
     public void initialize(URL url, ResourceBundle rb){
         // Test for french by using Locale.setDefault(new Locale("fr")); rather than rebooting
-        // TODO Delete the following
-        Locale.setDefault(new Locale("fr"));
-        if(Locale.getDefault() == Locale.FRENCH){
-            System.out.println("FRENCH");
-
+        // TODO Delete the following "locale.setdefault(new...)
+        Locale.setDefault(new Locale("fr", "FR"));
+        System.out.println(Locale.getDefault());
+        if(Locale.getDefault().equals(Locale.FRANCE)){
+            // Initialize fields to french language
+            userIdLabel.setText("Identifiant d'utilisateur");
+            userIdTextField.setPromptText("Identifiant d'utilisateur");
+            loginButton.setText("connexion");
+            passwordLabel.setText("Le mot de passe\n");
+            passwordField.setPromptText("Le mot de passe\n");
+            loginScreenTitleLabel.setText("Planificateur de rendez-vous WGU\n");
+            locationLabel.setText("Emplacement");
+            userIdLabel.setLayoutX(80);
+            passwordLabel.setLayoutX(80);
         }
         // Set zoneID
         userLocationLabel.setText(ZoneId.systemDefault().toString());
