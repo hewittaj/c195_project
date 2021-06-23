@@ -2,8 +2,6 @@ package DBAccess;
 
 import Database.DBConnection;
 import Models.Division;
-import Models.User;
-
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -14,33 +12,33 @@ import java.sql.SQLException;
 public class DBFirstLevelDivisions {
 
 
-    public static Division specifiedDivision(int passedDivisionId){
+    public static Division specifiedDivision(int passedDivisionId) {
         Division division = null;
-        try{
+        try {
             String sql = "select division_id, division, country_id from first_level_divisions where division_id = ?";
             PreparedStatement ps = DBConnection.getConnection().prepareStatement(sql);
             ps.setInt(1, passedDivisionId);
 
             ResultSet rs = ps.executeQuery();
-            while(rs.next()){
+            while (rs.next()) {
                 int divisionId = rs.getInt("Division_ID");
                 String divisionName = rs.getString("Division");
                 int countryId = rs.getInt("Country_ID");
                 division = new Division(divisionId, divisionName, countryId);
             }
-        }
-        catch(SQLException e){
+        } catch (SQLException e) {
             e.printStackTrace();
         }
         return division;
     }
+
     /**
      * This method returns all the first level division info
      */
-    public static ObservableList<Division> getFirstLevelDivisionInfo(int countryId){
+    public static ObservableList<Division> getFirstLevelDivisionInfo(int countryId) {
         ObservableList<Division> divisions = FXCollections.observableArrayList();
 
-        try{
+        try {
             String sql = "select fd.division, fd.division_id, c.country, c.country_id from first_level_divisions as fd\n" +
                     "inner join countries as c on fd.country_id = c.country_id\n" +
                     "where fd.COUNTRY_ID = ?";
@@ -48,7 +46,7 @@ public class DBFirstLevelDivisions {
             ps.setInt(1, countryId);
 
             ResultSet rs = ps.executeQuery();
-            while(rs.next()){
+            while (rs.next()) {
                 int divisionId = rs.getInt("Division_ID");
                 String divisionName = rs.getString("Division");
 
@@ -57,8 +55,7 @@ public class DBFirstLevelDivisions {
                 // Add new user to our observable list
                 divisions.add(division);
             }
-        }
-        catch(SQLException e){
+        } catch (SQLException e) {
             e.printStackTrace();
         }
         return divisions;
@@ -66,11 +63,12 @@ public class DBFirstLevelDivisions {
 
     /**
      * This method validates whether the division id that the user has updated to in the customer table view is valid
+     *
      * @param divisionId Division id that we want to check
      * @return Return a boolean value whether or not the division id is valid. True if valid, false if not.
      */
-    public static boolean validateDivisionId(int divisionId){
-        try{
+    public static boolean validateDivisionId(int divisionId) {
+        try {
             String division = "";
             String sql = "select division from first_level_divisions where division_id = ?";
             PreparedStatement ps = DBConnection.getConnection().prepareStatement(sql);
@@ -78,14 +76,13 @@ public class DBFirstLevelDivisions {
 
             // Need a result set to detect if a result is found or not
             ResultSet rs = ps.executeQuery();
-            while(rs.next()){
+            while (rs.next()) {
                 division = rs.getString("division");
             }
 
             // If no error is caught it will return true
             return true;
-        }
-        catch(SQLException e){
+        } catch (SQLException e) {
             // Error is caught, will return false
             return false;
         }

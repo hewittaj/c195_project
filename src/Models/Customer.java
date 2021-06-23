@@ -4,17 +4,18 @@ import DBAccess.DBCustomers;
 
 public class Customer {
     private int customerId;
-    private int divisionId;
-    private String customerName;
-    private String customerAddress;
-    private String zipCode;
-    private String phoneNumber;
+    private final int divisionId;
+    private final String customerName;
+    private final String customerAddress;
+    private final String zipCode;
+    private final String phoneNumber;
     private String countryName;
     private String divisionName;
     private String loggedInUser;
 
     /**
      * Constructor used for adding a Customer
+     *
      * @param customerId
      * @param customerName
      * @param customerAddress
@@ -37,6 +38,7 @@ public class Customer {
 
     /**
      * Constructor used for getting all customer information for main screen
+     *
      * @param customerId
      * @param customerName
      * @param customerAddress
@@ -53,11 +55,26 @@ public class Customer {
         this.divisionId = divisionId;
     }
 
+    /**
+     * Gets the last customer Id number for adding a customer functionality
+     *
+     * @return The customer ID for the last customer in the list
+     */
+    public static int getLastCustomerId() {
+        int maxId = 0;
+        for (Customer customer : DBCustomers.getMainScreenCustomerInfo()) {
+            if (customer.getCustomerId() > maxId) {
+                maxId = customer.getCustomerId();
+            }
+        }
+        return maxId;
+    }
+
     public int getCustomerId() {
         return customerId;
     }
 
-    public int getDivisionId(){
+    public int getDivisionId() {
         return divisionId;
     }
 
@@ -77,35 +94,22 @@ public class Customer {
         return divisionName;
     }
 
-    public String getLoggedInUser(){
+    public String getLoggedInUser() {
         return loggedInUser;
     }
 
-    public String getCustomerName(){
+    public String getCustomerName() {
         return customerName;
     }
 
-    public String getCustomerAddress(){
+    public String getCustomerAddress() {
         return customerAddress;
     }
 
-    /**
-     * Gets the last customer Id number for adding a customer functionality
-     * @return The customer ID for the last customer in the list
-     */
-    public static int getLastCustomerId(){
-        int maxId = 0;
-        for(Customer customer: DBCustomers.getMainScreenCustomerInfo()){
-            if(customer.getCustomerId() > maxId){
-                maxId = customer.getCustomerId();
-            }
-        }
-        return maxId;
-    }
-
-    public void setId(int id){
+    public void setId(int id) {
         this.customerId = id;
     }
+
     @Override
     public String toString() {
         return customerName;

@@ -1,8 +1,8 @@
 package Models;
 
 public class User {
-    private int userId;
-    private String userName;
+    private final int userId;
+    private final String userName;
     private String password;
 
     public User(int userId, String userName) {
@@ -10,7 +10,7 @@ public class User {
         this.userName = userName;
     }
 
-    public User(int userId, String userName, String password){
+    public User(int userId, String userName, String password) {
         this.userId = userId;
         this.userName = userName;
         this.password = password;

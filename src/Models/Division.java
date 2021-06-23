@@ -1,23 +1,25 @@
 package Models;
 
 public class Division {
-    private int divisionId;
-    private String divisionName;
-    private int countryId;
+    private final int divisionId;
+    private final String divisionName;
+    private final int countryId;
 
-    public Division(int divisionId, String divisionName, int countryId){
+    public Division(int divisionId, String divisionName, int countryId) {
         this.divisionId = divisionId;
         this.divisionName = divisionName;
         this.countryId = countryId;
     }
-    public int getDivisionId(){
+
+    public int getDivisionId() {
         return divisionId;
     }
-    public int getCountryId(){
+
+    public int getCountryId() {
         return countryId;
     }
 
-    public String getDivisionName(){
+    public String getDivisionName() {
         return divisionName;
     }
 

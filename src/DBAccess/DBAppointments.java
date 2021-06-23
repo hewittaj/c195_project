@@ -7,22 +7,22 @@ import javafx.collections.ObservableList;
 import javafx.scene.control.Alert;
 
 import java.sql.*;
-
 import java.time.LocalDateTime;
 
 public class DBAppointments {
 
     /**
      * This method adds a new appointment to the database
+     *
      * @param newAppointment Parameter passed that represents the new appointment
      */
-    public static void addAppointment(Appointment newAppointment){
-        try{
+    public static void addAppointment(Appointment newAppointment) {
+        try {
             String sql = "insert into appointments (appointment_id, title, description, location,\n" +
                     " type, start, end, created_by, last_updated_by, customer_id, user_id, contact_id)\n" +
                     " values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
             PreparedStatement ps = DBConnection.getConnection().prepareStatement(sql);
-            ps.setInt(1,newAppointment.getAppointmentId());
+            ps.setInt(1, newAppointment.getAppointmentId());
             ps.setString(2, newAppointment.getTitle());
             ps.setString(3, newAppointment.getDescription());
             ps.setString(4, newAppointment.getLocation());
@@ -36,7 +36,7 @@ public class DBAppointments {
             ps.setInt(12, newAppointment.getContactId());
 
             ps.execute();
-        } catch(SQLIntegrityConstraintViolationException sql){
+        } catch (SQLIntegrityConstraintViolationException sql) {
             // Set up an alert for no value selected
             Alert sqlAlert = new Alert(Alert.AlertType.CONFIRMATION);
             sqlAlert.setTitle("Integrity violation");
@@ -45,35 +45,36 @@ public class DBAppointments {
                     "Taking you back to the home screen. Please try again.");
             sqlAlert.setContentText("Click 'OK' to confirm.");
             sqlAlert.showAndWait();
-        } catch(SQLException e){
+        } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
     /**
      * This method deletes the selected appointment from the database
+     *
      * @param appointment Parameter passed that is the appointment object the user wants to delete
      */
-    public static void deleteAppointment(Appointment appointment){
+    public static void deleteAppointment(Appointment appointment) {
         try {
             String sql = "DELETE FROM appointments WHERE appointment_id = ?";
             PreparedStatement ps = DBConnection.getConnection().prepareStatement(sql);
             ps.setInt(1, appointment.getAppointmentId());
 
             ps.execute();
-        }
-        catch(SQLException e){
+        } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
     /**
      * This method gets all appointments currently in the database
+     *
      * @return Returns an observable list of appointments
      */
-    public static ObservableList<Appointment> getAllAppointments(){
+    public static ObservableList<Appointment> getAllAppointments() {
         ObservableList<Appointment> appointments = FXCollections.observableArrayList();
-        try{
+        try {
             // Prepare sql command and prepared statement
             String sql = "select * from appointments";
             PreparedStatement ps = DBConnection.getConnection().prepareStatement(sql);
@@ -81,7 +82,7 @@ public class DBAppointments {
             // Set up result set for query
             ResultSet rs = ps.executeQuery();
 
-            while(rs.next()){
+            while (rs.next()) {
                 int appointmentId = rs.getInt("Appointment_ID");
                 int userId = rs.getInt("User_ID");
                 int customerId = rs.getInt("Customer_ID");
@@ -90,7 +91,7 @@ public class DBAppointments {
                 String description = rs.getString("Description");
                 String location = rs.getString("Location");
                 String type = rs.getString("Type");
-                LocalDateTime startTime =  rs.getTimestamp("Start").toLocalDateTime();
+                LocalDateTime startTime = rs.getTimestamp("Start").toLocalDateTime();
                 LocalDateTime endTime = rs.getTimestamp("End").toLocalDateTime();
 
                 // Create appointment instance and add to our observable list
@@ -99,8 +100,7 @@ public class DBAppointments {
 
                 appointments.add(appointment);
             }
-        }
-        catch(SQLException e){
+        } catch (SQLException e) {
             e.printStackTrace();
         }
         return appointments;
@@ -108,10 +108,11 @@ public class DBAppointments {
 
     /**
      * This method gets the number of appointments that a customer has
+     *
      * @param customerId Customer id passed to detect number of appointments they have
      * @return Return number of appointments found
      */
-    public static int getNumberOfAppointments(int customerId){
+    public static int getNumberOfAppointments(int customerId) {
         int numberOfAppointments = 0;
         try {
             String sql = "Select * from appointments where customer_id = ?";
@@ -119,11 +120,10 @@ public class DBAppointments {
 
             ps.setInt(1, customerId);
             ResultSet rs = ps.executeQuery();
-            while(rs.next()){
+            while (rs.next()) {
                 numberOfAppointments++;
             }
-        }
-        catch(SQLException e){
+        } catch (SQLException e) {
             e.printStackTrace();
         }
         return numberOfAppointments;
@@ -131,11 +131,12 @@ public class DBAppointments {
 
     /**
      * This method updates a selected appointment
+     *
      * @param modifiedAppointment Appointment that is selected is passed in order to be modified
      */
     public static void updateAppointment(Appointment modifiedAppointment) {
-       try{
-           // Initialize sql and prepared statement
+        try {
+            // Initialize sql and prepared statement
             String sql = "update appointments\n" +
                     "set appointment_id = ?, title = ?, description = ?, location = ?, type = ?, \n" +
                     "start = ?, end = ?, last_update = ?, last_updated_by = ?, customer_id = ?," +
@@ -161,19 +162,17 @@ public class DBAppointments {
             ps.setInt(13, modifiedAppointment.getAppointmentId());
 
             ps.execute();
+        } catch (SQLIntegrityConstraintViolationException sql) {
+            // Set up an alert for no value selected
+            Alert sqlAlert = new Alert(Alert.AlertType.CONFIRMATION);
+            sqlAlert.setTitle("Integrity violation");
+            sqlAlert.setHeaderText("SQL foreign key restraint most likely caused\n" +
+                    "by an incorrect Customer or User ID.\n" +
+                    "Taking you back to the home screen. Please try again.");
+            sqlAlert.setContentText("Click 'OK' to confirm.");
+            sqlAlert.showAndWait();
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
-       catch(SQLIntegrityConstraintViolationException sql){
-           // Set up an alert for no value selected
-           Alert sqlAlert = new Alert(Alert.AlertType.CONFIRMATION);
-           sqlAlert.setTitle("Integrity violation");
-           sqlAlert.setHeaderText("SQL foreign key restraint most likely caused\n" +
-                   "by an incorrect Customer or User ID.\n" +
-                   "Taking you back to the home screen. Please try again.");
-           sqlAlert.setContentText("Click 'OK' to confirm.");
-           sqlAlert.showAndWait();
-       }
-       catch(SQLException e){
-           e.printStackTrace();
-       }
     }
 }

@@ -24,30 +24,38 @@ import java.util.ResourceBundle;
 
 public class ModifyCustomerScreenController implements Initializable {
 
-    @FXML public TextField customerIDTextField;
-    @FXML public TextField customerNameTextField;
-    @FXML public TextField zipTextField;
-    @FXML public TextField addressTextField;
-    @FXML public TextField phoneTextField;
-    @FXML public Button confirmCustomerButton;
-    @FXML public ComboBox countryComboBox;
-    @FXML public ComboBox divisionComboBox;
-    @FXML public Button backButton;
-
     public static Customer customer; // Customer info of customer to modify
-    private ObservableList<Country> countries = DBCountries.getAllCountries();
-    private ObservableList<Division> divisions;
+    @FXML
+    public TextField customerIDTextField;
+    @FXML
+    public TextField customerNameTextField;
+    @FXML
+    public TextField zipTextField;
+    @FXML
+    public TextField addressTextField;
+    @FXML
+    public TextField phoneTextField;
+    @FXML
+    public Button confirmCustomerButton;
+    @FXML
+    public ComboBox countryComboBox;
+    @FXML
+    public ComboBox divisionComboBox;
+    @FXML
+    public Button backButton;
     public String loggedInUser;
+    private final ObservableList<Country> countries = DBCountries.getAllCountries();
+    private ObservableList<Division> divisions;
 
     @Override
-    public void initialize(URL url, ResourceBundle rb){
-
+    public void initialize(URL url, ResourceBundle rb) {
 
 
     }
 
     /**
      * This method confirms the user modification and updates the database
+     *
      * @param actionEvent Event that is caught to detect button press
      * @throws IOException Exception that is caught in case of IOException
      */
@@ -63,7 +71,7 @@ public class ModifyCustomerScreenController implements Initializable {
         Customer updatedCustomer = null;
 
         // If user accepts the prompt
-        if(decision.get() == ButtonType.OK){
+        if (decision.get() == ButtonType.OK) {
             int customerId = Integer.parseInt(customerIDTextField.getText());
             String customerName = customerNameTextField.getText();
             String zipCode = zipTextField.getText();
@@ -74,8 +82,8 @@ public class ModifyCustomerScreenController implements Initializable {
             int customerDivisionId = 0;
 
             // Get customer division id so we can add proper info to database
-            for (Division division: divisions){
-                if (division.getDivisionName().equals(customerDivision)){
+            for (Division division : divisions) {
+                if (division.getDivisionName().equals(customerDivision)) {
                     customerDivisionId = division.getDivisionId();
                     break;
                 }
@@ -89,7 +97,7 @@ public class ModifyCustomerScreenController implements Initializable {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/Views/main_screen.fxml"));
 
             // Set parent and scene
-            Parent mainScreenParent = (Parent)loader.load();
+            Parent mainScreenParent = loader.load();
 
             // Instantiate controller and call functions to pass info between screens
             MainScreenController controller = loader.getController();
@@ -97,11 +105,10 @@ public class ModifyCustomerScreenController implements Initializable {
             Scene mainScreenScene = new Scene(mainScreenParent);
 
             // This line gets the Stage information
-            Stage window = (Stage)((Node)actionEvent.getSource()).getScene().getWindow();
+            Stage window = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
             window.setScene(mainScreenScene);
             window.show();
-        }
-        else{
+        } else {
             return;
         }
 
@@ -115,12 +122,12 @@ public class ModifyCustomerScreenController implements Initializable {
         alert.setHeaderText("Are you sure you want to go back?");
         alert.setContentText("Click 'OK' to confirm.");
         Optional<ButtonType> decision = alert.showAndWait();
-        if(decision.get() == ButtonType.OK){
+        if (decision.get() == ButtonType.OK) {
             // Load main screen
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/Views/main_screen.fxml"));
 
             // Set parent and scene
-            Parent mainScreenParent = (Parent)loader.load();
+            Parent mainScreenParent = loader.load();
 
             // Instantiate controller and call functions to pass info between screens
             MainScreenController controller = loader.getController();
@@ -128,11 +135,10 @@ public class ModifyCustomerScreenController implements Initializable {
             Scene mainScreenScene = new Scene(mainScreenParent);
 
             // This line gets the Stage information
-            Stage window = (Stage)((Node)actionEvent.getSource()).getScene().getWindow();
+            Stage window = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
             window.setScene(mainScreenScene);
             window.show();
-        }
-        else{
+        } else {
             return;
         }
 
@@ -141,8 +147,8 @@ public class ModifyCustomerScreenController implements Initializable {
     /**
      * This method fills the Country Combo box for the add customer controller
      */
-    public void fillCountryComboBox(){
-        for(Country country: countries){
+    public void fillCountryComboBox() {
+        for (Country country : countries) {
             countryComboBox.getItems().add(country);
         }
     }
@@ -150,29 +156,29 @@ public class ModifyCustomerScreenController implements Initializable {
     /**
      * This method fills the division combo box based off what country is selected
      */
-    public void fillDivisionComboBox(){
+    public void fillDivisionComboBox() {
         divisionComboBox.getItems().clear();
         Country selectedCountry = (Country) countryComboBox.getSelectionModel().getSelectedItem();
         int countryId = selectedCountry.getId();
         divisions = DBFirstLevelDivisions.getFirstLevelDivisionInfo(countryId);
-        for(Division division: divisions){
+        for (Division division : divisions) {
             divisionComboBox.getItems().add(division.toString());
         }
 
     }
 
-    public void passCustomer(Customer customer){
+    public void passCustomer(Customer customer) {
         // Initialize important variables for retrieving data
-        this.customer = customer;
-        Country preAssociatedCountry = DBCountries.getSpecificCountry(this.customer.getDivisionId());
-        int divisionId = this.customer.getDivisionId();
+        ModifyCustomerScreenController.customer = customer;
+        Country preAssociatedCountry = DBCountries.getSpecificCountry(ModifyCustomerScreenController.customer.getDivisionId());
+        int divisionId = ModifyCustomerScreenController.customer.getDivisionId();
 
         // Initialize text fields to currently selected customer values
-        customerIDTextField.setText(String.valueOf(this.customer.getCustomerId()));
-        customerNameTextField.setText(this.customer.getCustomerName());
-        addressTextField.setText(this.customer.getCustomerAddress());
-        zipTextField.setText(this.customer.getZipCode());
-        phoneTextField.setText(this.customer.getPhoneNumber());
+        customerIDTextField.setText(String.valueOf(ModifyCustomerScreenController.customer.getCustomerId()));
+        customerNameTextField.setText(ModifyCustomerScreenController.customer.getCustomerName());
+        addressTextField.setText(ModifyCustomerScreenController.customer.getCustomerAddress());
+        zipTextField.setText(ModifyCustomerScreenController.customer.getZipCode());
+        phoneTextField.setText(ModifyCustomerScreenController.customer.getPhoneNumber());
 
         // Fill country combo box and set predefined value
         fillCountryComboBox();
@@ -185,14 +191,16 @@ public class ModifyCustomerScreenController implements Initializable {
 
     /**
      * This method passes the logged in user between screens
+     *
      * @param loggedInUser
      */
-    public void passLoggedInUser(String loggedInUser){
+    public void passLoggedInUser(String loggedInUser) {
         this.loggedInUser = loggedInUser;
     }
 
     /**
      * This method detects the country combo box was selected.
+     *
      * @param actionEvent Event that is caught to detect selection of combo box
      */
     public void countryComboBoxSelected(ActionEvent actionEvent) {

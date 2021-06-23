@@ -4,7 +4,6 @@ import DBAccess.DBAppointments;
 import DBAccess.DBCustomers;
 import Models.Appointment;
 import Models.Customer;
-
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -18,58 +17,74 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.stage.Stage;
 import javafx.util.converter.IntegerStringConverter;
-import javafx.util.converter.NumberStringConverter;
 
 import java.io.IOException;
 import java.net.URL;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class MainScreenController implements Initializable {
 
-    @FXML public Button addCustomerButton;
-    @FXML public Button modifyCustomerButton;
-    @FXML public Button deleteCustomerButton;
-    @FXML public Button addAppointmentButton;
-    @FXML public Button modifyAppointmentButton;
-    @FXML public Button deleteAppointmentButton;
-    @FXML public Button reportButton;
-    @FXML public TableColumn<Customer, Integer> customerIDColumn;
-    @FXML public TableColumn<Customer, String> customerNameColumn;
-    @FXML public TableColumn<Customer, String> customerAddressColumn;
-    @FXML public TableColumn<Customer, String> zipCodeColumn;
-    @FXML public TableColumn<Customer, String> phoneNumberColumn;
-    @FXML public TableColumn<Customer, Integer> divisionIDColumn;
-    @FXML public TableColumn<Appointment, Integer> appointmentIdColumn;
-    @FXML public TableColumn<Appointment, Integer> appointmentCustomerIdColumn;
-    @FXML public TableColumn<Appointment, String> titleColumn;
-    @FXML public TableColumn<Appointment, String> descriptionColumn;
-    @FXML public TableColumn<Appointment, String> locationColumn;
-    @FXML public TableColumn<Appointment, String> contactIdColumn;
-    @FXML public TableColumn<Appointment, String> typeColumn;
-    @FXML public TableColumn<Appointment, LocalDateTime> startTimeColumn;
-    @FXML public TableColumn<Appointment, LocalDateTime> endTimeColumn;
-    @FXML public TableView<Appointment> appointmentTableView;
-    @FXML public TableView<Customer> customerTableView;
-
-
-
+    @FXML
+    public Button addCustomerButton;
+    @FXML
+    public Button modifyCustomerButton;
+    @FXML
+    public Button deleteCustomerButton;
+    @FXML
+    public Button addAppointmentButton;
+    @FXML
+    public Button modifyAppointmentButton;
+    @FXML
+    public Button deleteAppointmentButton;
+    @FXML
+    public Button reportButton;
+    @FXML
+    public TableColumn<Customer, Integer> customerIDColumn;
+    @FXML
+    public TableColumn<Customer, String> customerNameColumn;
+    @FXML
+    public TableColumn<Customer, String> customerAddressColumn;
+    @FXML
+    public TableColumn<Customer, String> zipCodeColumn;
+    @FXML
+    public TableColumn<Customer, String> phoneNumberColumn;
+    @FXML
+    public TableColumn<Customer, Integer> divisionIDColumn;
+    @FXML
+    public TableColumn<Appointment, Integer> appointmentIdColumn;
+    @FXML
+    public TableColumn<Appointment, Integer> appointmentCustomerIdColumn;
+    @FXML
+    public TableColumn<Appointment, String> titleColumn;
+    @FXML
+    public TableColumn<Appointment, String> descriptionColumn;
+    @FXML
+    public TableColumn<Appointment, String> locationColumn;
+    @FXML
+    public TableColumn<Appointment, String> contactIdColumn;
+    @FXML
+    public TableColumn<Appointment, String> typeColumn;
+    @FXML
+    public TableColumn<Appointment, LocalDateTime> startTimeColumn;
+    @FXML
+    public TableColumn<Appointment, LocalDateTime> endTimeColumn;
+    @FXML
+    public TableView<Appointment> appointmentTableView;
+    @FXML
+    public TableView<Customer> customerTableView;
+    public String loggedInUser;  // Currently logged in user
     // List of customers/appointments currently in database
     ObservableList<Customer> customers = DBCustomers.getMainScreenCustomerInfo();
     ObservableList<Appointment> appointments = DBAppointments.getAllAppointments();
 
-    public String loggedInUser;  // Currently logged in user
-
-    public void passLoggedInUser(String loggedInUser){
+    public void passLoggedInUser(String loggedInUser) {
         this.loggedInUser = loggedInUser;
     }
 
     @Override
-    public void initialize(URL url, ResourceBundle rb){
+    public void initialize(URL url, ResourceBundle rb) {
         // Populate our lists
         customers = DBCustomers.getMainScreenCustomerInfo();
         appointments = DBAppointments.getAllAppointments();
@@ -88,7 +103,7 @@ public class MainScreenController implements Initializable {
         phoneNumberColumn.setCellValueFactory(new PropertyValueFactory<Customer, String>("phoneNumber"));
         phoneNumberColumn.setCellFactory(TextFieldTableCell.forTableColumn());
         divisionIDColumn.setCellValueFactory(new PropertyValueFactory<Customer, Integer>("divisionId"));
-        divisionIDColumn.setCellFactory(TextFieldTableCell.<Customer, Integer>forTableColumn(new IntegerStringConverter()));
+        divisionIDColumn.setCellFactory(TextFieldTableCell.forTableColumn(new IntegerStringConverter()));
 
         // Initialize appointment column names -> string must match the model's spelling/capitalization
         appointmentIdColumn.setCellValueFactory(new PropertyValueFactory<Appointment, Integer>("appointmentId"));
@@ -104,6 +119,7 @@ public class MainScreenController implements Initializable {
 
     /**
      * The addCustomerAction detects whether or not the add customer button was pushed and loads the next screen
+     *
      * @param actionEvent Event caught for the add customer button being pushed
      * @throws IOException Exception that is caught in case of any IO errors
      */
@@ -123,7 +139,7 @@ public class MainScreenController implements Initializable {
         Scene mainScreenScene = new Scene(mainScreenParent);
 
         // This line gets the Stage information
-        Stage window = (Stage)((Node)actionEvent.getSource()).getScene().getWindow();
+        Stage window = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
         window.setScene(mainScreenScene);
         window.show();
     }
@@ -133,7 +149,7 @@ public class MainScreenController implements Initializable {
      * @throws IOException
      */
     public void modifyCustomerAction(ActionEvent actionEvent) throws IOException {
-        try{
+        try {
             Customer selectedCustomer = customerTableView.getSelectionModel().getSelectedItem();
             // Load next screen
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/Views/modify_customer_screen.fxml"));
@@ -150,11 +166,10 @@ public class MainScreenController implements Initializable {
             Scene mainScreenScene = new Scene(mainScreenParent);
 
             // This line gets the Stage information
-            Stage window = (Stage)((Node)actionEvent.getSource()).getScene().getWindow();
+            Stage window = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
             window.setScene(mainScreenScene);
             window.show();
-        }
-        catch(NullPointerException e){
+        } catch (NullPointerException e) {
             ShowAlerts.showAlert(0);
         }
 
@@ -180,7 +195,7 @@ public class MainScreenController implements Initializable {
         Scene mainScreenScene = new Scene(mainScreenParent);
 
         // This line gets the Stage information
-        Stage window = (Stage)((Node)actionEvent.getSource()).getScene().getWindow();
+        Stage window = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
         window.setScene(mainScreenScene);
         window.show();
     }
@@ -205,7 +220,7 @@ public class MainScreenController implements Initializable {
         Scene mainScreenScene = new Scene(mainScreenParent);
 
         // This line gets the Stage information
-        Stage window = (Stage)((Node)actionEvent.getSource()).getScene().getWindow();
+        Stage window = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
         window.setScene(mainScreenScene);
         window.show();
     }
@@ -225,7 +240,7 @@ public class MainScreenController implements Initializable {
         Customer selectedCustomer = customerTableView.getSelectionModel().getSelectedItem();
         int errorNumber = ErrorChecker.customerIsSelected(selectedCustomer);
 
-        if(errorNumber == 7){
+        if (errorNumber == 7) {
             ShowAlerts.showAlert(errorNumber);
             return;
         }
@@ -233,16 +248,16 @@ public class MainScreenController implements Initializable {
         // Initialize how many appointments the customer has
         int numOfAppointments = DBAppointments.getNumberOfAppointments(selectedCustomer.getCustomerId());
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        if(numOfAppointments == 0){
+        if (numOfAppointments == 0) {
 
             // Set up an alert to confirm deletion of customer
             alert.setTitle("Confirm Deletion!");
             alert.setHeaderText("Are you sure you want to delete this customer?");
             alert.setContentText("Click 'OK' to confirm.");
-            Optional<ButtonType> decision =  alert.showAndWait();
+            Optional<ButtonType> decision = alert.showAndWait();
 
             // If user wants to continue to delete customer then do it
-            if(decision.get() == ButtonType.OK){
+            if (decision.get() == ButtonType.OK) {
                 DBCustomers.deleteCustomer(selectedCustomer);
                 customers = DBCustomers.getMainScreenCustomerInfo();
                 customerTableView.setItems(customers);
@@ -253,12 +268,10 @@ public class MainScreenController implements Initializable {
                 customerDeleted.setHeaderText("Customer has been deleted!");
                 customerDeleted.setContentText("Click OK to continue.");
                 customerDeleted.showAndWait();
-            }
-            else{
+            } else {
                 return;
             }
-        }
-        else{
+        } else {
             // Customer still has an appointment associated with them, throw an error screen
             alert.setTitle("Cannot Delete!");
             alert.setHeaderText("Customer still has appointments associated to them!\n" +
@@ -272,13 +285,14 @@ public class MainScreenController implements Initializable {
     /**
      * This method detects if the delete appointment button has been pressed and will validate if it can be done.
      * If it can be done, then it will delete, otherwise an error will be thrown
+     *
      * @param actionEvent Event that is caught to detect delete button press
      */
     public void deleteAppointmentAction(ActionEvent actionEvent) {
         Appointment selectedAppointment = appointmentTableView.getSelectionModel().getSelectedItem();
         int errorNumber = ErrorChecker.appointmentIsSelected(selectedAppointment);
 
-        if(errorNumber == 8){
+        if (errorNumber == 8) {
             ShowAlerts.showAlert(errorNumber);
             return;
         }
@@ -288,10 +302,10 @@ public class MainScreenController implements Initializable {
         alert.setTitle("Confirm Deletion!");
         alert.setHeaderText("Are you sure you want to delete this appointment?");
         alert.setContentText("Click 'OK' to confirm.");
-        Optional<ButtonType> decision =  alert.showAndWait();
+        Optional<ButtonType> decision = alert.showAndWait();
 
         // If user wants to continue to delete customer then do it
-        if(decision.get() == ButtonType.OK){
+        if (decision.get() == ButtonType.OK) {
             DBAppointments.deleteAppointment(selectedAppointment);
             appointments = DBAppointments.getAllAppointments();
             appointmentTableView.setItems(appointments);
@@ -300,32 +314,31 @@ public class MainScreenController implements Initializable {
             Alert customerDeleted = new Alert(Alert.AlertType.INFORMATION);
             customerDeleted.setTitle("Appointment Deleted!");
             customerDeleted.setHeaderText("Appointment ID: " + selectedAppointment.getAppointmentId()
-                     + " has been deleted!\n" +
+                    + " has been deleted!\n" +
                     "Type: " + selectedAppointment.getType());
             customerDeleted.setContentText("Click OK to continue.");
             customerDeleted.showAndWait();
-        }
-        else{
+        } else {
             return;
         }
     }
 
     /**
      * This method detects if a customer name record is being edited on the table view
+     *
      * @param customerStringCellEditEvent Event that is caught to detect the cell being edited
      */
     public void customerNameEditCommit(TableColumn.CellEditEvent<Customer, String> customerStringCellEditEvent) {
         String newCustomerName = customerStringCellEditEvent.getNewValue();
         int errorNumber = ErrorChecker.customerNameTextBoxEditEvent(newCustomerName);
 
-        if(errorNumber != -1){
+        if (errorNumber != -1) {
             ShowAlerts.showAlert(errorNumber);
 
             // Refresh table view
             customerTableView.setItems(customers);
             return;
-        }
-        else {
+        } else {
             // Get index of customer
             int index = customerStringCellEditEvent.getTablePosition().getRow();
 
@@ -340,16 +353,16 @@ public class MainScreenController implements Initializable {
 
     /**
      * This method detects if a customer address record is being edited on the table view
+     *
      * @param customerStringCellEditEvent Event that is caught to detect the cell being edited
      */
     public void customerAddressEditCommit(TableColumn.CellEditEvent<Customer, String> customerStringCellEditEvent) {
         String newCustomerAddress = customerStringCellEditEvent.getNewValue();
         int errorNumber = ErrorChecker.customerAddressTextBoxEditEvent(newCustomerAddress);
 
-        if(errorNumber != -1){
+        if (errorNumber != -1) {
             ShowAlerts.showAlert(errorNumber);
-        }
-        else{
+        } else {
             // Get index of customer
             int index = customerStringCellEditEvent.getTablePosition().getRow();
 
@@ -364,21 +377,21 @@ public class MainScreenController implements Initializable {
 
     /**
      * This method detects if a customer zip code record is being edited on the table view
+     *
      * @param customerStringCellEditEvent Event that is caught to detect cell being edited
      */
     public void zipCodeEditCommit(TableColumn.CellEditEvent<Customer, String> customerStringCellEditEvent) {
         String newZipCode = customerStringCellEditEvent.getNewValue();
         int errorNumber = ErrorChecker.zipCodeTextBoxEditEvent(newZipCode);
 
-        if(errorNumber != -1){
+        if (errorNumber != -1) {
             ShowAlerts.showAlert(errorNumber);
 
             // Refresh table view
 
             customerTableView.setItems(customers);
             return;
-        }
-        else{
+        } else {
             // Get index of customer
             int index = customerStringCellEditEvent.getTablePosition().getRow();
 
@@ -393,20 +406,20 @@ public class MainScreenController implements Initializable {
 
     /**
      * This method detects if a customer phone record is being edited on the table view
+     *
      * @param customerStringCellEditEvent Event that is caught to detect cell being edited
      */
     public void phoneNumberEditCommit(TableColumn.CellEditEvent<Customer, String> customerStringCellEditEvent) {
         String newPhoneNumber = customerStringCellEditEvent.getNewValue();
         int errorNumber = ErrorChecker.phoneNumberTextBoxEditEvent(newPhoneNumber);
 
-        if(errorNumber != -1){
+        if (errorNumber != -1) {
             ShowAlerts.showAlert(errorNumber);
 
             // Refresh table view
             customerTableView.setItems(customers);
             return;
-        }
-        else{
+        } else {
             // Get index of customer
             int index = customerStringCellEditEvent.getTablePosition().getRow();
 
@@ -421,29 +434,28 @@ public class MainScreenController implements Initializable {
 
     /**
      * This method detects if a customer division id record is being edited on the table view
+     *
      * @param customerIntegerCellEditEvent Evenet that is caught to detect cell being edited
      */
     public void divisionIdEditCommit(TableColumn.CellEditEvent<Customer, Integer> customerIntegerCellEditEvent) {
         int newDivisionId = 0;
         // Try catch is to detect if the text box is empty
-        try{
+        try {
             newDivisionId = customerIntegerCellEditEvent.getNewValue();
-        }
-        catch(NullPointerException e){
+        } catch (NullPointerException e) {
             ShowAlerts.showAlert(13);
             return;
         }
         // Retrieve error number
         int errorNumber = ErrorChecker.divisionIdTextBoxEvent(newDivisionId);
 
-        if(errorNumber != -1){
+        if (errorNumber != -1) {
             ShowAlerts.showAlert(errorNumber);
 
             // Refresh table view
             customerTableView.setItems(customers);
             return;
-        }
-        else{
+        } else {
             // Get index of customer
             int index = customerIntegerCellEditEvent.getTablePosition().getRow();
 

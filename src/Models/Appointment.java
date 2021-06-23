@@ -4,11 +4,12 @@ package Models;
  * Injecting w/ prepared statement: p.setTimestamp(index, ts)
  * Extracting w/ result set: Timestamp ts = rs.getTimestamp("columName")
  */
-import DBAccess.DBAppointments;
-import DBAccess.DBCustomers;
 
-import java.sql.Timestamp;
-import java.time.*;
+import DBAccess.DBAppointments;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 
 public class Appointment {
@@ -26,8 +27,10 @@ public class Appointment {
     LocalDateTime endDateTime;
 
     //TODO java doc
+
     /**
      * Constructor for an appointment
+     *
      * @param appointmentId
      * @param userId
      * @param customerId
@@ -40,7 +43,7 @@ public class Appointment {
      * @param endDateTime
      */
     public Appointment(int appointmentId, int userId, int customerId, int contactId, String title, String description, String location, String type
-    , LocalDateTime startDateTime, LocalDateTime endDateTime) {
+            , LocalDateTime startDateTime, LocalDateTime endDateTime) {
         this.appointmentId = appointmentId;
         this.userId = userId;
         this.customerId = customerId;
@@ -55,6 +58,7 @@ public class Appointment {
 
     /**
      * Constructor that includes logged in user for database addition/updates
+     *
      * @param appointmentId
      * @param userId
      * @param customerId
@@ -80,6 +84,21 @@ public class Appointment {
         this.startDateTime = startDateTime;
         this.endDateTime = endDateTime;
         this.loggedInUser = loggedInUser;
+    }
+
+    /**
+     * Gets the last appointment Id number for adding a appointment functionality
+     *
+     * @return The appointment ID for the last appointment in the list
+     */
+    public static int getLastAppointmentId() {
+        int maxId = 0;
+        for (Appointment appointment : DBAppointments.getAllAppointments()) {
+            if (appointment.getAppointmentId() > maxId) {
+                maxId = appointment.getAppointmentId();
+            }
+        }
+        return maxId;
     }
 
     public int getAppointmentId() {
@@ -118,7 +137,9 @@ public class Appointment {
         return type;
     }
 
-    public String getLoggedInUser() { return loggedInUser; }
+    public String getLoggedInUser() {
+        return loggedInUser;
+    }
 
     public LocalDateTime getStartDateTime() {
         return startDateTime;
@@ -130,37 +151,28 @@ public class Appointment {
 
     /**
      * This method returns just the appointment's date without any time
+     *
      * @return Returns the date of the appointment
      */
-    public LocalDate getDate(){ return startDateTime.toLocalDate(); }
+    public LocalDate getDate() {
+        return startDateTime.toLocalDate();
+    }
 
     /**
      * This method returns just the appointment's starting appointment time
+     *
      * @return Returns the starting time of the appointment
      */
-    public LocalTime getStartingTime(){
+    public LocalTime getStartingTime() {
         return startDateTime.toLocalTime();
     }
 
     /**
      * This method returns just the appointment's ending appointment time
+     *
      * @return Returns the ending time of the appointment
      */
-    public LocalTime getEndingTime(){
+    public LocalTime getEndingTime() {
         return endDateTime.toLocalTime();
-    }
-
-    /**
-     * Gets the last appointment Id number for adding a appointment functionality
-     * @return The appointment ID for the last appointment in the list
-     */
-    public static int getLastAppointmentId(){
-        int maxId = 0;
-        for(Appointment appointment: DBAppointments.getAllAppointments()){
-            if(appointment.getAppointmentId() > maxId){
-                maxId = appointment.getAppointmentId();
-            }
-        }
-        return maxId;
     }
 }

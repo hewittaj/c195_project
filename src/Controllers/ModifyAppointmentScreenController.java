@@ -4,7 +4,6 @@ import DBAccess.DBAppointments;
 import DBAccess.DBContacts;
 import Models.Appointment;
 import Models.Contact;
-
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -15,6 +14,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
+
 import java.io.IOException;
 import java.net.URL;
 import java.sql.Timestamp;
@@ -28,26 +28,45 @@ import java.util.ResourceBundle;
 
 public class ModifyAppointmentScreenController implements Initializable {
 
-    @FXML public Button saveButton;
-    @FXML public Button backButton;
-    @FXML public TextField appointmentIDTextField;
-    @FXML public TextField userIDTextField;
-    @FXML public TextField customerIDTextField;
-    @FXML public TextField titleTextField;
-    @FXML public TextField descriptionTextField;
-    @FXML public TextField locationTextField;
-    @FXML public TextField typeTextField;
-    @FXML public ComboBox contactComboBox;
-    @FXML public ComboBox startHourComboBox;
-    @FXML public ComboBox startMinuteComboBox;
-    @FXML public ComboBox startAMPMComboBox;
-    @FXML public ComboBox endHourComboBox;
-    @FXML public ComboBox endMinuteComboBox;
-    @FXML public ComboBox endAMPMComboBox;
-    @FXML public ComboBox startMonthComboBox;
-    @FXML public ComboBox startDayComboBox;
-    @FXML public ComboBox startYearComboBox;
-
+    public static Appointment newAppointment;
+    @FXML
+    public Button saveButton;
+    @FXML
+    public Button backButton;
+    @FXML
+    public TextField appointmentIDTextField;
+    @FXML
+    public TextField userIDTextField;
+    @FXML
+    public TextField customerIDTextField;
+    @FXML
+    public TextField titleTextField;
+    @FXML
+    public TextField descriptionTextField;
+    @FXML
+    public TextField locationTextField;
+    @FXML
+    public TextField typeTextField;
+    @FXML
+    public ComboBox contactComboBox;
+    @FXML
+    public ComboBox startHourComboBox;
+    @FXML
+    public ComboBox startMinuteComboBox;
+    @FXML
+    public ComboBox startAMPMComboBox;
+    @FXML
+    public ComboBox endHourComboBox;
+    @FXML
+    public ComboBox endMinuteComboBox;
+    @FXML
+    public ComboBox endAMPMComboBox;
+    @FXML
+    public ComboBox startMonthComboBox;
+    @FXML
+    public ComboBox startDayComboBox;
+    @FXML
+    public ComboBox startYearComboBox;
     public LocalTime startTime;
     public LocalTime endTime;
     public LocalDate dateInfo;
@@ -55,11 +74,7 @@ public class ModifyAppointmentScreenController implements Initializable {
     public LocalDateTime combinedEndDateTime;
     public DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
     public ObservableList<Contact> allContacts = DBContacts.getAllContacts();
-
     public String loggedInUser;
-
-    public static Appointment newAppointment;
-
     // Initialize array lists for error checking
     ArrayList<TextField> idTextFieldsOnly = new ArrayList<>();
     ArrayList<TextField> textFields = new ArrayList<>();
@@ -68,7 +83,7 @@ public class ModifyAppointmentScreenController implements Initializable {
     ArrayList<ComboBox> endTimeFields = new ArrayList<>();
 
     @Override
-    public void initialize(URL url, ResourceBundle rb){
+    public void initialize(URL url, ResourceBundle rb) {
         // Populate array list of all controls on screen for error checking
         populateControlArrayLists();
 
@@ -87,7 +102,7 @@ public class ModifyAppointmentScreenController implements Initializable {
                 dateFields, startTimeFields, endTimeFields);
 
         // If error number is not -1 an error was found, otherwise continue code
-        if(errorNumber != -1){
+        if (errorNumber != -1) {
             ShowAlerts.showAlert(Integer.valueOf(errorNumber));
             return;
         }
@@ -102,7 +117,7 @@ public class ModifyAppointmentScreenController implements Initializable {
         Appointment modifiedAppointment = null;
 
         // If user accepts prompt
-        if(decision.get() == ButtonType.OK){
+        if (decision.get() == ButtonType.OK) {
             // Initialize variables
             int appointmentId = Integer.parseInt(appointmentIDTextField.getText());
             int userId = Integer.parseInt(userIDTextField.getText());
@@ -130,7 +145,7 @@ public class ModifyAppointmentScreenController implements Initializable {
             Scene mainScreenScene = new Scene(mainScreenParent);
 
             // This line gets the Stage information
-            Stage window = (Stage)((Node)actionEvent.getSource()).getScene().getWindow();
+            Stage window = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
             window.setScene(mainScreenScene);
             window.show();
         }
@@ -145,20 +160,22 @@ public class ModifyAppointmentScreenController implements Initializable {
         Scene mainScreenScene = new Scene(mainScreenParent);
 
         // This line gets the Stage information
-        Stage window = (Stage)((Node)actionEvent.getSource()).getScene().getWindow();
+        Stage window = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
         window.setScene(mainScreenScene);
         window.show();
     }
 
     //TODO check to make sure an appointment is selected and passed
     //TODO change method to fit for appointment, not customer
+
     /**
      * This method passes the selected appointment
+     *
      * @param appointment
      */
-    public void passAppointment(Appointment appointment){
+    public void passAppointment(Appointment appointment) {
         // Initialize important variables for retrieving data
-        this.newAppointment = appointment;
+        newAppointment = appointment;
 
         // Initialize text fields to currently selected customer values
         appointmentIDTextField.setText(String.valueOf(newAppointment.getAppointmentId()));
@@ -177,20 +194,18 @@ public class ModifyAppointmentScreenController implements Initializable {
         int appointmentMonth = appointment.getDate().getMonthValue(); // Integer value of the month
         String appointmentMonthString = "";                           // String to store the appointment month
 
-        if(appointmentMonth < 10){
+        if (appointmentMonth < 10) {
             appointmentMonthString = String.format("0%s", appointmentMonth);
-        }
-        else{
+        } else {
             appointmentMonthString = String.valueOf(appointmentMonth);
         }
 
         // Format day
         int appointmentDay = appointment.getDate().getDayOfMonth();
         String appointmentDayString = "";
-        if(appointmentDay < 10){
+        if (appointmentDay < 10) {
             appointmentDayString = String.format("0%s", appointmentDay);
-        }
-        else{
+        } else {
             appointmentDayString = String.valueOf(appointmentDay);
         }
 
@@ -204,55 +219,47 @@ public class ModifyAppointmentScreenController implements Initializable {
 
         // Set starting time info
         int startingHour = appointment.getStartingTime().getHour();
-        if(startingHour < 10){
+        if (startingHour < 10) {
             startHourComboBox.setValue(String.format("0%s", startingHour));
-        }
-        else if(startingHour > 12){
+        } else if (startingHour > 12) {
             startHourComboBox.setValue(String.valueOf(startingHour - 12));
-        }
-        else{
+        } else {
             startHourComboBox.setValue(String.valueOf(startingHour));
         }
 
         int startingMinute = appointment.getStartingTime().getMinute();
-        if(startingMinute < 10){
+        if (startingMinute < 10) {
             startMinuteComboBox.setValue(String.format("0%s", startingMinute));
-        }
-        else{
+        } else {
             startMinuteComboBox.setValue(String.valueOf(startingMinute));
         }
 
-        if(appointment.getStartingTime().isBefore(LocalTime.NOON)){
+        if (appointment.getStartingTime().isBefore(LocalTime.NOON)) {
             startAMPMComboBox.setValue("AM");
-        }
-        else{
+        } else {
             startAMPMComboBox.setValue("PM");
         }
 
         // Set ending time info
         int endingHour = appointment.getEndingTime().getHour();
-        if(endingHour < 12){
+        if (endingHour < 12) {
             endHourComboBox.setValue(String.format("0%s", endingHour));
-        }
-        else if(endingHour > 12){
+        } else if (endingHour > 12) {
             endHourComboBox.setValue(String.valueOf(endingHour - 12));
-        }
-        else{
+        } else {
             endHourComboBox.setValue(String.valueOf(endingHour));
         }
 
         int endingMinute = appointment.getEndingTime().getMinute();
-        if(endingMinute < 10){
+        if (endingMinute < 10) {
             endMinuteComboBox.setValue(String.format("0%s", endingMinute));
-        }
-        else{
+        } else {
             endMinuteComboBox.setValue(String.valueOf(endingMinute));
         }
 
-        if(appointment.getEndingTime().isBefore(LocalTime.NOON)){
+        if (appointment.getEndingTime().isBefore(LocalTime.NOON)) {
             endAMPMComboBox.setValue("AM");
-        }
-        else{
+        } else {
             endAMPMComboBox.setValue("PM");
         }
 
@@ -260,9 +267,10 @@ public class ModifyAppointmentScreenController implements Initializable {
 
     /**
      * This method passes the logged in user between screens
+     *
      * @param loggedInUser Parameter that is passed from screen to screen with the currently logged in user
      */
-    public void passLoggedInUser(String loggedInUser){
+    public void passLoggedInUser(String loggedInUser) {
         this.loggedInUser = loggedInUser;
     }
 
@@ -270,7 +278,7 @@ public class ModifyAppointmentScreenController implements Initializable {
      * This method populates the array lists containing all of the text boxes, combo boxes, etc.
      * Used in order to do error checks
      */
-    public void populateControlArrayLists(){
+    public void populateControlArrayLists() {
 
         // Add text fields to associated array list
         textFields.add(appointmentIDTextField);
@@ -303,8 +311,8 @@ public class ModifyAppointmentScreenController implements Initializable {
     /**
      * This method populates the contact information in the add appointment screen
      */
-    public void populateContactList(){
-        for(Contact contact: allContacts){
+    public void populateContactList() {
+        for (Contact contact : allContacts) {
             contactComboBox.getItems().add(contact);
         }
     }
@@ -312,7 +320,7 @@ public class ModifyAppointmentScreenController implements Initializable {
     /**
      * This method formats the time string to pass into the database
      */
-    public void formatDateAndTimeStrings(){
+    public void formatDateAndTimeStrings() {
         // Initialize values
         String startingTime = "";
         String endingTime = "";
@@ -328,15 +336,14 @@ public class ModifyAppointmentScreenController implements Initializable {
          */
         int convertedStartTimeToPm = 0;
         // If time is AM we need to add 12 to get military time
-        if(startAMPMComboBox.getSelectionModel().getSelectedItem().equals("AM")){
+        if (startAMPMComboBox.getSelectionModel().getSelectedItem().equals("AM")) {
             // Converted time
             String selectedHour = startHourComboBox.getSelectionModel().getSelectedItem().toString();
-            if(String.valueOf(selectedHour).equals("12")){
+            if (String.valueOf(selectedHour).equals("12")) {
                 // Combined start time
                 startingTime = "00:" + startMinuteComboBox.getSelectionModel()
                         .getSelectedItem();
-            }
-            else{
+            } else {
                 // Combined start time
                 startingTime = startHourComboBox.getSelectionModel().getSelectedItem() +
                         ":" + startMinuteComboBox.getSelectionModel().getSelectedItem();
@@ -344,7 +351,7 @@ public class ModifyAppointmentScreenController implements Initializable {
         }
 
         // Else is PM
-        else{
+        else {
             convertedStartTimeToPm = 12 + Integer.parseInt(startHourComboBox.getSelectionModel()
                     .getSelectedItem().toString());
             startingTime = convertedStartTimeToPm + ":"
@@ -358,19 +365,18 @@ public class ModifyAppointmentScreenController implements Initializable {
         Convert end time
          */
         // If time is AM we need to add 12 to get military time
-        if(endAMPMComboBox.getSelectionModel().getSelectedItem().equals("AM")){
+        if (endAMPMComboBox.getSelectionModel().getSelectedItem().equals("AM")) {
             String selectedEndHour = endHourComboBox.getSelectionModel().getSelectedItem().toString();
-            if(String.valueOf(selectedEndHour).equals("12")){
+            if (String.valueOf(selectedEndHour).equals("12")) {
                 endingTime = "00:" + endMinuteComboBox.getSelectionModel().getSelectedItem();
-            }
-            else{
+            } else {
                 // Combined end time
                 endingTime = endHourComboBox.getSelectionModel().getSelectedItem()
-                        +  ":" + endMinuteComboBox.getSelectionModel().getSelectedItem();
+                        + ":" + endMinuteComboBox.getSelectionModel().getSelectedItem();
             }
         }
         // Else is PM
-        else{
+        else {
             int convertedEndTimeToPm = 12 + Integer.parseInt(endHourComboBox.getSelectionModel()
                     .getSelectedItem().toString());
             endingTime = convertedEndTimeToPm + ":"
@@ -381,7 +387,7 @@ public class ModifyAppointmentScreenController implements Initializable {
         /*
         Convert date yyyy-MM-dd
          */
-        thisDateInfo =  startYearComboBox.getSelectionModel().getSelectedItem().toString() + "-" +
+        thisDateInfo = startYearComboBox.getSelectionModel().getSelectedItem().toString() + "-" +
                 startMonthComboBox.getSelectionModel().getSelectedItem().toString() + "-" +
                 startDayComboBox.getSelectionModel().getSelectedItem().toString();
 
@@ -398,37 +404,34 @@ public class ModifyAppointmentScreenController implements Initializable {
 
     /**
      * This method detects if the month box was selected and repopulates the days based on selected month
+     *
      * @param actionEvent Event detected in case of a mouse click
      */
     public void monthBoxSelected(ActionEvent actionEvent) {
         String selectedMonth = ""; // 04, 06, 09, 11 30 days, 02 has 28
-        if(startMonthComboBox.getSelectionModel().getSelectedItem().toString().matches("04|06|09|11")){
+        if (startMonthComboBox.getSelectionModel().getSelectedItem().toString().matches("04|06|09|11")) {
             // Clear days pre-populated by populateDateTimeBoxes
             startDayComboBox.getItems().clear();
 
-            for(int i = 1; i < 31; i++){
-                if(i < 10){
+            for (int i = 1; i < 31; i++) {
+                if (i < 10) {
                     startDayComboBox.getItems().add(String.format("0%s", i));
-                }
-                else{
+                } else {
                     startDayComboBox.getItems().add(String.valueOf(i));
                 }
             }
-        }
-        else if(startMonthComboBox.getSelectionModel().getSelectedItem().toString().matches("02")){
+        } else if (startMonthComboBox.getSelectionModel().getSelectedItem().toString().matches("02")) {
             // Clear days pre-populated by populateDateTimeBoxes
             startDayComboBox.getItems().clear();
 
-            for(int i = 1; i < 29; i++){
-                if(i < 10){
+            for (int i = 1; i < 29; i++) {
+                if (i < 10) {
                     startDayComboBox.getItems().add(String.format("0%s", i));
-                }
-                else{
+                } else {
                     startDayComboBox.getItems().add(String.valueOf(i));
                 }
             }
-        }
-        else{
+        } else {
             return;
         }
     }
@@ -436,29 +439,27 @@ public class ModifyAppointmentScreenController implements Initializable {
     /**
      * This method populates the information for the date combo boxes
      */
-    public void populateDateComboBoxes(){
+    public void populateDateComboBoxes() {
         // Populate month boxes
-        for(int i = 1; i < 13; i++){
-            if(i < 10){
+        for (int i = 1; i < 13; i++) {
+            if (i < 10) {
                 startMonthComboBox.getItems().add(String.format("0%s", i));
-            }
-            else{
+            } else {
                 startMonthComboBox.getItems().add(String.valueOf(i));
             }
         }
 
         // Populate day boxes generically to 31 of them
-        for(int i = 1; i < 32; i++){
-            if(i < 10){
+        for (int i = 1; i < 32; i++) {
+            if (i < 10) {
                 startDayComboBox.getItems().add(String.format("0%s", i));
-            }
-            else{
+            } else {
                 startDayComboBox.getItems().add(String.valueOf(i));
             }
         }
 
         // Populate a few years
-        for(int i = 2021; i < 2030; i++){
+        for (int i = 2021; i < 2030; i++) {
             startYearComboBox.getItems().add(String.valueOf(i));
         }
     }
@@ -466,13 +467,12 @@ public class ModifyAppointmentScreenController implements Initializable {
     /**
      * This method populates the hours/minutes/am or pm combo boxes
      */
-    public void populateHourMinuteComboBox(){
-        for(int i = 1; i < 13; i++){
-            if(i < 10){
+    public void populateHourMinuteComboBox() {
+        for (int i = 1; i < 13; i++) {
+            if (i < 10) {
                 startHourComboBox.getItems().add(String.format("0%s", i));
                 endHourComboBox.getItems().add(String.format("0%s", i));
-            }
-            else{
+            } else {
                 startHourComboBox.getItems().add(i);
                 endHourComboBox.getItems().add(i);
             }
@@ -481,13 +481,12 @@ public class ModifyAppointmentScreenController implements Initializable {
         startMinuteComboBox.getItems().add("00");
         endMinuteComboBox.getItems().add("00");
 
-        for(int i = 1; i < 56; i++){
-            if(i % 5 == 0){
-                if(i < 10){
+        for (int i = 1; i < 56; i++) {
+            if (i % 5 == 0) {
+                if (i < 10) {
                     startMinuteComboBox.getItems().add(String.format("0%s", i));
                     endMinuteComboBox.getItems().add(String.format("0%s", i));
-                }
-                else{
+                } else {
                     startMinuteComboBox.getItems().add(String.valueOf(i));
                     endMinuteComboBox.getItems().add(String.valueOf(i));
                 }

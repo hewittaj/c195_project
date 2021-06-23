@@ -1,6 +1,7 @@
 package Database;
 
 import Password.Password;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -21,34 +22,31 @@ public class DBConnection {
     private static final String username = "U07jtV";  // Username
     private static Connection conn = null;
 
-    public static Connection startConnection(){
-        try{
+    public static Connection startConnection() {
+        try {
             Class.forName(MYSQLJDBCDriver);
             conn = DriverManager.getConnection(jdbcUrl, username, Password.getPassword());
 
             System.out.println("Connection successful");
-        }
-        catch (SQLException e){
+        } catch (SQLException e) {
             // System.out.print(e.getMessage());
             e.printStackTrace();
-        }
-        catch (ClassNotFoundException e){ // Use PrintStackTrace for outputting exceptions
+        } catch (ClassNotFoundException e) { // Use PrintStackTrace for outputting exceptions
             // System.out.print(e.getMessage());
             e.printStackTrace();
         }
         return conn;
     }
 
-    public static Connection getConnection(){
+    public static Connection getConnection() {
         return conn;
     }
 
-    public static void closeConnection(){
-        try{
+    public static void closeConnection() {
+        try {
             conn.close();
             System.out.println("Connection closed successfully.");
-        }
-        catch(Exception e){ // Do Nothing
+        } catch (Exception e) { // Do Nothing
 
         }
     }

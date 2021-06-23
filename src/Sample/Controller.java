@@ -17,13 +17,13 @@ public class Controller implements Initializable {
     public TableView dataTable;
 
     @Override
-    public void initialize(URL url, ResourceBundle rb){
+    public void initialize(URL url, ResourceBundle rb) {
 
     }
 
-    public void showMe(ActionEvent event){
+    public void showMe(ActionEvent event) {
         ObservableList<Country> clist = DBCountries.getAllCountries();
-        for(Country c: clist){
+        for (Country c : clist) {
             System.out.println("Country ID: " + c.getId() + " Name: " + c.getName());
         }
     }

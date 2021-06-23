@@ -7,25 +7,26 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+import java.time.ZoneId;
+
 public class Main extends Application {
 
+    public static void main(String[] args) {
+        // Start connection
+        DBConnection.startConnection();
+
+        launch(args);
+
+        // Close connection
+        DBConnection.closeConnection();
+    }
+
     @Override
-    public void start(Stage mainStage) throws Exception{
+    public void start(Stage mainStage) throws Exception {
 
         Parent root = FXMLLoader.load(getClass().getResource("/Views/login_screen.fxml"));
         mainStage.setTitle("WGU Scheduling Application");
         mainStage.setScene(new Scene(root));
         mainStage.show();
-    }
-
-
-    public static void main(String[] args) {
-        // Start connection
-        DBConnection.startConnection();
-        //DBCountries.checkDateConversion();
-        launch(args);
-
-        // Close connection
-        DBConnection.closeConnection();
     }
 }

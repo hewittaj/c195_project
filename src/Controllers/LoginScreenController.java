@@ -1,32 +1,38 @@
 package Controllers;
 
-import Main.Main;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.event.ActionEvent;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
+
 import java.io.IOException;
 import java.net.URL;
 import java.time.ZoneId;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
-import Controllers.ErrorChecker;
-
-public class LoginScreenController implements Initializable{
-    @FXML public TextField userIdTextField;
-    @FXML public Label userLocationLabel;
-    @FXML public Button loginButton;
-    @FXML public PasswordField passwordField;
-    @FXML public Label userIdLabel; // Label that is before user id text field
-    @FXML public Label passwordLabel; // Label that is before password text field
-    @FXML public Label loginScreenTitleLabel; // Label that identifies the login screen title
-    @FXML public Label locationLabel;  // Label that is before the location identifier label
+public class LoginScreenController implements Initializable {
+    @FXML
+    public TextField userIdTextField;
+    @FXML
+    public Label userLocationLabel;
+    @FXML
+    public Button loginButton;
+    @FXML
+    public PasswordField passwordField;
+    @FXML
+    public Label userIdLabel; // Label that is before user id text field
+    @FXML
+    public Label passwordLabel; // Label that is before password text field
+    @FXML
+    public Label loginScreenTitleLabel; // Label that identifies the login screen title
+    @FXML
+    public Label locationLabel;  // Label that is before the location identifier label
 
     // public TableColumn idCol; TO DO Delete
     // public TableColumn nameCol;
@@ -34,11 +40,11 @@ public class LoginScreenController implements Initializable{
 
 
     @Override
-    public void initialize(URL url, ResourceBundle rb){
+    public void initialize(URL url, ResourceBundle rb) {
         // Test for french by using Locale.setDefault(new Locale("fr")); rather than rebooting
         //Locale.setDefault(new Locale("fr", "FR"));
 
-        if(Locale.getDefault().equals(Locale.FRANCE)){
+        if (Locale.getDefault().equals(Locale.FRANCE)) {
             // Initialize fields to french language
             userIdLabel.setText("Identifiant d'utilisateur");
             userIdTextField.setPromptText("Identifiant d'utilisateur");
@@ -67,7 +73,7 @@ public class LoginScreenController implements Initializable{
         boolean validLogin = ErrorChecker.validateLogin(username, password);
 
         // If a valid login we load the main screen
-        if(validLogin == true){
+        if (validLogin == true) {
             // Load next screen and set controller
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/Views/main_screen.fxml"));
 
@@ -82,21 +88,20 @@ public class LoginScreenController implements Initializable{
             Scene mainScreenScene = new Scene(mainScreenParent);
 
             // This line gets the Stage information
-            Stage window = (Stage)((Node)actionEvent.getSource()).getScene().getWindow();
+            Stage window = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
             window.setScene(mainScreenScene);
             window.show();
         }
         // Else we alert the user it was an invalid login and return to the same login screen
-        else{
-            if(Locale.getDefault().equals(Locale.FRANCE)){
+        else {
+            if (Locale.getDefault().equals(Locale.FRANCE)) {
                 Alert invalidLogin = new Alert(Alert.AlertType.ERROR);
                 invalidLogin.setTitle("Erreur!");
                 invalidLogin.setHeaderText("Nom d'utilisateur / mot de passe invalide!");
                 invalidLogin.setContentText("Informations d'identification incorrectes!");
                 invalidLogin.showAndWait();
                 return;
-            }
-            else{
+            } else {
                 Alert invalidLogin = new Alert(Alert.AlertType.ERROR);
                 invalidLogin.setTitle("ERROR!");
                 invalidLogin.setHeaderText("Invalid Username/Password!");
