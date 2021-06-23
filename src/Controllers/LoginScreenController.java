@@ -36,9 +36,8 @@ public class LoginScreenController implements Initializable{
     @Override
     public void initialize(URL url, ResourceBundle rb){
         // Test for french by using Locale.setDefault(new Locale("fr")); rather than rebooting
-        // TODO Delete the following "locale.setdefault(new...)
-        Locale.setDefault(new Locale("fr", "FR"));
-        System.out.println(Locale.getDefault());
+        //Locale.setDefault(new Locale("fr", "FR"));
+
         if(Locale.getDefault().equals(Locale.FRANCE)){
             // Initialize fields to french language
             userIdLabel.setText("Identifiant d'utilisateur");
@@ -56,6 +55,10 @@ public class LoginScreenController implements Initializable{
     }
 
     public void loginButtonAction(ActionEvent actionEvent) throws IOException {
+        /*
+        Use google translate in java
+        https://stackoverflow.com/questions/8147284/how-to-use-google-translate-api-in-my-java-application
+         */
         // Get the text from the login text fields
         String username = userIdTextField.getText();
         String password = passwordField.getText();
@@ -85,12 +88,22 @@ public class LoginScreenController implements Initializable{
         }
         // Else we alert the user it was an invalid login and return to the same login screen
         else{
-            Alert invalidLogin = new Alert(Alert.AlertType.ERROR);
-            invalidLogin.setTitle("ERROR!");
-            invalidLogin.setHeaderText("Invalid Username/Password!");
-            invalidLogin.setContentText("Incorrect credentials!");
-            invalidLogin.showAndWait();
-            return;
+            if(Locale.getDefault().equals(Locale.FRANCE)){
+                Alert invalidLogin = new Alert(Alert.AlertType.ERROR);
+                invalidLogin.setTitle("Erreur!");
+                invalidLogin.setHeaderText("Nom d'utilisateur / mot de passe invalide!");
+                invalidLogin.setContentText("Informations d'identification incorrectes!");
+                invalidLogin.showAndWait();
+                return;
+            }
+            else{
+                Alert invalidLogin = new Alert(Alert.AlertType.ERROR);
+                invalidLogin.setTitle("ERROR!");
+                invalidLogin.setHeaderText("Invalid Username/Password!");
+                invalidLogin.setContentText("Incorrect credentials!");
+                invalidLogin.showAndWait();
+                return;
+            }
         }
     }
 }
