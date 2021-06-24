@@ -496,21 +496,20 @@ public class AddAppointmentScreenController implements Initializable {
         targetZonedEndDateTime = convertedZonedEndDateTime.toLocalDateTime();
 
         boolean errorDetected;
+        // If start date time is after the end date time throw an error
         if(targetZonedStartDateTime.isAfter(targetZonedEndDateTime)){
             // Show error
             ShowAlerts.showAlert(15);
             errorDetected = true;
             return errorDetected;
         }
+
+        // If the end date time is before the start date time throw an error
         else if(targetZonedEndDateTime.isBefore(targetZonedStartDateTime)){
             // Show error
             ShowAlerts.showAlert(16);
             errorDetected = true;
             return errorDetected;
-        }
-        else{
-            // is fine
-            errorDetected = false;
         }
 
         // Local times of the converted zoned date times to check business hours
@@ -518,18 +517,42 @@ public class AddAppointmentScreenController implements Initializable {
         LocalTime zonedEndTimeOnly = targetZonedEndDateTime.toLocalTime();
 
         // TODO Check that appointment meets EST meeting time needs and show alert
+        // If selected time is before 9 am EST
         if(zonedStartTimeOnly.isBefore(startBizHours)){
-            System.out.println("Before 9 am est");
             ShowAlerts.showAlert(17);
             errorDetected = true;
             return errorDetected;
         }
-
+        // If selected time is after 10pm EST
         if(zonedEndTimeOnly.isAfter(endBizHours)){
-            System.out.println("After 10 pm EST");
             ShowAlerts.showAlert(18);
             errorDetected = true;
             return errorDetected;
+        }
+
+        // If start or end date and time is before the current date throw an error
+        if(originEndDateTime.isBefore(LocalDateTime.now()) || originStartDateTime.isBefore(LocalDateTime.now())){
+            ShowAlerts.showAlert(19);
+            errorDetected = true;
+            return errorDetected;
+        }
+
+        // Ensure customer appointment doesn't overlap
+        // Initialize observable list of this customers appointments
+        ObservableList<Appointment> customersAppointments =
+                DBAppointments.getAllAppointmentsForSpecificCustomer(Integer.valueOf(customerIDTextField.getText()));
+
+        for (Appointment appointment: customersAppointments) {
+            LocalDateTime start = appointment.getStartDateTime();
+            LocalDateTime end = appointment.getEndDateTime();
+
+            if ((originStartDateTime.isBefore(end) && originStartDateTime.isAfter(start)) ||
+            originEndDateTime.isBefore(end) && originEndDateTime.isAfter(start)) {
+                // Overlapped appointment, show error
+                ShowAlerts.showAlert(20);
+                errorDetected = true;
+                return errorDetected;
+            }
         }
 
         errorDetected = false;

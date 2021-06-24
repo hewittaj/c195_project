@@ -205,5 +205,25 @@ public class ShowAlerts {
             alert.setContentText("Click 'OK' to confirm.");
             alert.showAndWait();
         }
+
+        // Appointment start or end time must be greater than the current date/time
+        if (number == 19) {
+            // Set up an alert
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Invalid Appointment Times!");
+            alert.setHeaderText("Start/end time appointment time must be greater than the current date or time!");
+            alert.setContentText("Click 'OK' to confirm.");
+            alert.showAndWait();
+        }
+
+        // Overlapped appointment
+        if (number == 20) {
+            // Set up an alert
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Invalid Appointment Times!");
+            alert.setHeaderText("This customer already has an appointment at this time, try another time!");
+            alert.setContentText("Click 'OK' to confirm.");
+            alert.showAndWait();
+        }
     }
 }

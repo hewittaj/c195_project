@@ -107,6 +107,46 @@ public class DBAppointments {
     }
 
     /**
+     * This method gets all appointments currently in the database for a specific customer
+     *
+     * @return Returns an observable list of appointments
+     */
+    public static ObservableList<Appointment> getAllAppointmentsForSpecificCustomer(int id) {
+        ObservableList<Appointment> appointments = FXCollections.observableArrayList();
+        try {
+            // Prepare sql command and prepared statement
+            String sql = "select * from appointments where customer_id = ?";
+            PreparedStatement ps = DBConnection.getConnection().prepareStatement(sql);
+            ps.setInt(1, id);
+
+            // Set up result set for query
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                int appointmentId = rs.getInt("Appointment_ID");
+                int userId = rs.getInt("User_ID");
+                int customerId = rs.getInt("Customer_ID");
+                int contactId = rs.getInt("Contact_ID");
+                String title = rs.getString("Title");
+                String description = rs.getString("Description");
+                String location = rs.getString("Location");
+                String type = rs.getString("Type");
+                LocalDateTime startTime = rs.getTimestamp("Start").toLocalDateTime();
+                LocalDateTime endTime = rs.getTimestamp("End").toLocalDateTime();
+
+                // Create appointment instance and add to our observable list
+                Appointment appointment = new Appointment(appointmentId, userId, customerId, contactId, title,
+                        description, location, type, startTime, endTime);
+
+                appointments.add(appointment);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return appointments;
+    }
+
+    /**
      * This method gets the number of appointments that a customer has
      *
      * @param customerId Customer id passed to detect number of appointments they have
