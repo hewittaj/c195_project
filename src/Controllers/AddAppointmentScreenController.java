@@ -131,6 +131,10 @@ public class AddAppointmentScreenController implements Initializable {
             String location = locationTextField.getText();
             String type = typeTextField.getText();
             formatDateAndTimeStrings();
+            boolean dateTimeValid = validateDateTimeInput();
+            if(dateTimeValid == true){
+                return;
+            }
             newAppointment = new Appointment(appointmentId, userId, customerId, contactId, title, description, location,
                     type, combinedStartDateTime, combinedEndDateTime, loggedInUser);
             DBAppointments.addAppointment(newAppointment);
@@ -154,9 +158,6 @@ public class AddAppointmentScreenController implements Initializable {
     }
 
     public void backButtonAction(ActionEvent actionEvent) throws IOException {
-        //TODO test and delete
-        formatDateAndTimeStrings();
-        validateDateTimeInput();
         // Load main screen
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/Views/main_screen.fxml"));
 
@@ -450,10 +451,12 @@ public class AddAppointmentScreenController implements Initializable {
     }
 
     /**
-     * This method validates the date and time inputs for any errors
+     * This method validates the date and time inputs for any errors, false if error detected, true if no error detected
+     * @return Returns a boolean representing if any errors detected. True = error detected, false = no error detected
      */
-    public void validateDateTimeInput(){
+    public boolean validateDateTimeInput(){
         // Initialize date times for error checking
+
         // Start initializing business hours
         LocalDateTime startBusinessHours = LocalDateTime.of(2021, 6, 21, 9, 00);
         LocalDateTime endBusinessHours = LocalDateTime.of(2021, 6, 21, 22, 00);
@@ -465,8 +468,8 @@ public class AddAppointmentScreenController implements Initializable {
         LocalTime endBizHours = convertedZonedEnd.toLocalTime();
         // End initializing business hours
 
+        // TODO delete print statement
         System.out.println("Start biz: " + startBizHours + " end biz: " + endBizHours);
-
 
         LocalDateTime originStartDateTime = combinedStartDateTime; // Origin start date time from combo boxes
         LocalDateTime targetZonedStartDateTime; // Once fully converted this is the new start zoned date time
@@ -489,30 +492,47 @@ public class AddAppointmentScreenController implements Initializable {
         targetZonedStartDateTime = convertedZonedStartDateTime.toLocalDateTime();
         targetZonedEndDateTime = convertedZonedEndDateTime.toLocalDateTime();
 
-        // Check for errors on start/end time being before one another
+        // TODO Check for errors on start/end time being before one another and show alert
+        boolean errorDetected;
         if(targetZonedStartDateTime.isAfter(targetZonedEndDateTime)){
-            // show error
+            // Show error
+            ShowAlerts.showAlert(15);
+            errorDetected = true;
+            return errorDetected;
         }
         else if(targetZonedEndDateTime.isBefore(targetZonedStartDateTime)){
-            // show error
+            // Show error
+            ShowAlerts.showAlert(16);
+            errorDetected = true;
+            return errorDetected;
         }
         else{
             // is fine
+            errorDetected = false;
         }
 
         // Local times of the converted zoned date times to check business hours
         LocalTime zonedStartTimeOnly = targetZonedStartDateTime.toLocalTime();
         LocalTime zonedEndTimeOnly = targetZonedEndDateTime.toLocalTime();
 
-        // Check that appointment meets EST meeting time needs
+        // TODO Check that appointment meets EST meeting time needs and show alert
         if(zonedStartTimeOnly.isBefore(startBizHours)){
             System.out.println("Before 9 am est");
+            ShowAlerts.showAlert(17);
+            errorDetected = true;
+            return errorDetected;
         }
 
-        if(zonedEndTimeOnly.isBefore(endBizHours)){
+        if(zonedEndTimeOnly.isAfter(endBizHours)){
             System.out.println("After 10 pm EST");
+            ShowAlerts.showAlert(18);
+            errorDetected = true;
+            return errorDetected;
         }
 
+        errorDetected = false;
+        return errorDetected;
+        // TODO delete comment
         /*
         System.out.println("Origin Start: " + originStartDateTime + " Origin End: " + originEndDateTime);
         System.out.println("Zoned Start: " + convertedZonedStartDateTime +
