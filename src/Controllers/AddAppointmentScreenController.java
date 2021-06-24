@@ -131,6 +131,7 @@ public class AddAppointmentScreenController implements Initializable {
             String location = locationTextField.getText();
             String type = typeTextField.getText();
             formatDateAndTimeStrings();
+            // Check that times are properly set against EST
             boolean dateTimeValid = validateDateTimeInput();
             if(dateTimeValid == true){
                 return;
@@ -468,18 +469,19 @@ public class AddAppointmentScreenController implements Initializable {
         LocalTime endBizHours = convertedZonedEnd.toLocalTime();
         // End initializing business hours
 
-        // TODO delete print statement
-        System.out.println("Start biz: " + startBizHours + " end biz: " + endBizHours);
-
+        // Start initializing conversion of start date time to EST
         LocalDateTime originStartDateTime = combinedStartDateTime; // Origin start date time from combo boxes
         LocalDateTime targetZonedStartDateTime; // Once fully converted this is the new start zoned date time
         ZonedDateTime zonedStartDateTime; // Zoned start date time at zone id
         ZonedDateTime convertedZonedStartDateTime; // Converted zoned date time to EST
+        // End initializing conversion of start date time to EST
 
+        // Start initializing conversion of end date time to EST
         LocalDateTime originEndDateTime = combinedEndDateTime;// Origin end date time from combo boxes
         LocalDateTime targetZonedEndDateTime; // Once fully converted this is the new end zoned date time
         ZonedDateTime zonedEndDateTime; // Zoned end date time at zone id
         ZonedDateTime convertedZonedEndDateTime; // Converted zoned date time to EST
+        // End initializing conversion of end date time to EST
 
         // Convert to zoned date time at origin id
         zonedStartDateTime = originStartDateTime.atZone(ZoneId.systemDefault());
@@ -489,10 +491,10 @@ public class AddAppointmentScreenController implements Initializable {
         convertedZonedStartDateTime = zonedStartDateTime.withZoneSameInstant(ZoneId.of("America/New_York"));
         convertedZonedEndDateTime = zonedEndDateTime.withZoneSameInstant(ZoneId.of("America/New_York"));
 
+        // Convert zoned start date time to target time zone as a local date time
         targetZonedStartDateTime = convertedZonedStartDateTime.toLocalDateTime();
         targetZonedEndDateTime = convertedZonedEndDateTime.toLocalDateTime();
 
-        // TODO Check for errors on start/end time being before one another and show alert
         boolean errorDetected;
         if(targetZonedStartDateTime.isAfter(targetZonedEndDateTime)){
             // Show error
