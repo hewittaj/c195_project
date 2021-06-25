@@ -200,7 +200,6 @@ public class ErrorChecker {
     public static int divisionIdTextBoxEvent(int newDivisionId) {
 
         // If the division id text box does not contain a valid division Id
-        // TODO need to check to make sure division ID is valid from the db
         if (DBFirstLevelDivisions.validateDivisionId(newDivisionId) == false) {
             return 14;
         }

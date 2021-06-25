@@ -4,6 +4,7 @@ import DBAccess.DBAppointments;
 import DBAccess.DBCustomers;
 import Models.Appointment;
 import Models.Customer;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -20,8 +21,7 @@ import javafx.util.converter.IntegerStringConverter;
 
 import java.io.IOException;
 import java.net.URL;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
+import java.time.*;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -75,7 +75,15 @@ public class MainScreenController implements Initializable {
     public TableView<Appointment> appointmentTableView;
     @FXML
     public TableView<Customer> customerTableView;
+    @FXML
+    public RadioButton allAppointmentsRadioButton;
+    @FXML
+    public RadioButton monthlyAppointmentsRadioButton;
+    @FXML
+    public RadioButton weeklyAppointmentsRadioButton;
+
     public String loggedInUser;  // Currently logged in user
+
     // List of customers/appointments currently in database
     ObservableList<Customer> customers = DBCustomers.getMainScreenCustomerInfo();
     ObservableList<Appointment> appointments = DBAppointments.getAllAppointments();
@@ -472,5 +480,44 @@ public class MainScreenController implements Initializable {
             customers = DBCustomers.getMainScreenCustomerInfo();
             customerTableView.setItems(customers);
         }
+    }
+
+    public void allAppointmentsAction(ActionEvent actionEvent) {
+        // Deselect other buttons and clear table view
+        monthlyAppointmentsRadioButton.setSelected(false);
+        weeklyAppointmentsRadioButton.setSelected(false);
+        appointmentTableView.setItems(null);
+
+        // Set table view to contain all appointments
+        appointmentTableView.setItems(appointments);
+    }
+
+    public void monthlyAppointmentsAction(ActionEvent actionEvent) {
+        // Deselect other buttons and clear table view
+        allAppointmentsRadioButton.setSelected(false);
+        weeklyAppointmentsRadioButton.setSelected(false);
+        appointmentTableView.setItems(null);
+
+        ObservableList<Appointment> onlyThisMonthsAppointments = FXCollections.observableArrayList();
+        LocalDate maxDate = YearMonth.from(Instant.now().atZone(ZoneId.systemDefault())).atEndOfMonth();
+        LocalDate minDate = YearMonth.from(Instant.now().atZone(ZoneId.systemDefault())).atDay(1);
+
+        for(Appointment appointment: appointments){
+            // If appointment is within the month add it to our observable list
+            if(appointment.getStartDateTime().toLocalDate().isBefore(maxDate) &&
+                    appointment.getStartDateTime().toLocalDate().isAfter(minDate)) {
+                onlyThisMonthsAppointments.add(appointment);
+            }
+        }
+        appointmentTableView.setItems(onlyThisMonthsAppointments);
+    }
+
+    public void weeklyAppointmentsAction(ActionEvent actionEvent) {
+        // Deselect other buttons and clear table view
+        allAppointmentsRadioButton.setSelected(false);
+        monthlyAppointmentsRadioButton.setSelected(false);
+        appointmentTableView.setItems(null);
+
+
     }
 }

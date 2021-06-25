@@ -131,11 +131,13 @@ public class AddAppointmentScreenController implements Initializable {
             String location = locationTextField.getText();
             String type = typeTextField.getText();
             formatDateAndTimeStrings();
+
             // Check that times are properly set against EST
             boolean dateTimeValid = validateDateTimeInput();
             if(dateTimeValid == true){
                 return;
             }
+
             newAppointment = new Appointment(appointmentId, userId, customerId, contactId, title, description, location,
                     type, combinedStartDateTime, combinedEndDateTime, loggedInUser);
             DBAppointments.addAppointment(newAppointment);

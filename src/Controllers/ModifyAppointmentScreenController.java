@@ -169,9 +169,6 @@ public class ModifyAppointmentScreenController implements Initializable {
         window.show();
     }
 
-    //TODO check to make sure an appointment is selected and passed
-    //TODO change method to fit for appointment, not customer
-
     /**
      * This method passes the selected appointment
      *
@@ -566,7 +563,6 @@ public class ModifyAppointmentScreenController implements Initializable {
         LocalTime zonedStartTimeOnly = targetZonedStartDateTime.toLocalTime();
         LocalTime zonedEndTimeOnly = targetZonedEndDateTime.toLocalTime();
 
-        // TODO Check that appointment meets EST meeting time needs and show alert
         // If selected time is before 9 am EST
         if(zonedStartTimeOnly.isBefore(startBizHours)){
             ShowAlerts.showAlert(17);
