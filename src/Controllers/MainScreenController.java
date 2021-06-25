@@ -21,6 +21,7 @@ import javafx.util.converter.IntegerStringConverter;
 import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -116,7 +117,6 @@ public class MainScreenController implements Initializable {
         startTimeColumn.setCellValueFactory(new PropertyValueFactory<Appointment, LocalDateTime>("startDateTime"));
         endTimeColumn.setCellValueFactory(new PropertyValueFactory<Appointment, LocalDateTime>("endDateTime"));
 
-        // Check if there is an appointment within 15 minutes of local users time
     }
 
     /**
@@ -208,6 +208,10 @@ public class MainScreenController implements Initializable {
      */
     public void modifyAppointmentAction(ActionEvent actionEvent) throws IOException {
         Appointment selectedAppointment = appointmentTableView.getSelectionModel().getSelectedItem();
+        if(selectedAppointment == null){
+            ShowAlerts.showAlert(21);
+            return;
+        }
         // Load next screen
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/Views/modify_appointment_screen.fxml"));
 

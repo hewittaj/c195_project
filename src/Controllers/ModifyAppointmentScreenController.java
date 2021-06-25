@@ -357,10 +357,16 @@ public class ModifyAppointmentScreenController implements Initializable {
 
         // Else is PM
         else {
-            convertedStartTimeToPm = 12 + Integer.parseInt(startHourComboBox.getSelectionModel()
-                    .getSelectedItem().toString());
-            startingTime = convertedStartTimeToPm + ":"
-                    + startMinuteComboBox.getSelectionModel().getSelectedItem();
+            String selectedStartHour = startHourComboBox.getSelectionModel().getSelectedItem().toString();
+            if (String.valueOf(selectedStartHour).equals("12")) {
+                startingTime = "12:" + startMinuteComboBox.getSelectionModel().getSelectedItem();
+            }
+            else {
+                convertedStartTimeToPm = 12 + Integer.parseInt(startHourComboBox.getSelectionModel()
+                        .getSelectedItem().toString());
+                startingTime = convertedStartTimeToPm + ":"
+                        + startMinuteComboBox.getSelectionModel().getSelectedItem();
+            }
         }
 
         // Convert start time to local time and format it, then add to array list.
@@ -384,7 +390,7 @@ public class ModifyAppointmentScreenController implements Initializable {
         else {
             String selectedEndHour = endHourComboBox.getSelectionModel().getSelectedItem().toString();
             if (String.valueOf(selectedEndHour).equals("12")) {
-                endingTime = "00:" + endMinuteComboBox.getSelectionModel().getSelectedItem();
+                endingTime = "12:" + endMinuteComboBox.getSelectionModel().getSelectedItem();
             }
             else{
                 int convertedEndTimeToPm = 12 + Integer.parseInt(endHourComboBox.getSelectionModel()

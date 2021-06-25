@@ -225,5 +225,25 @@ public class ShowAlerts {
             alert.setContentText("Click 'OK' to confirm.");
             alert.showAndWait();
         }
+
+        // No appointment selected to be modified
+        if (number == 21) {
+            // Set up an alert
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("No Appointment Selected!");
+            alert.setHeaderText("No appointment was selected to modify. Please select an appointment!");
+            alert.setContentText("Click 'OK' to confirm.");
+            alert.showAndWait();
+        }
+
+        // No appointment within 15 minutes
+        if (number == 22) {
+            // Set up an alert
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("No Upcoming Appointment");
+            alert.setHeaderText("No appointment in the next 15 minutes!");
+            alert.setContentText("Click 'OK' to confirm.");
+            alert.showAndWait();
+        }
     }
 }

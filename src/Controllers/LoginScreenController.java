@@ -1,5 +1,8 @@
 package Controllers;
 
+import DBAccess.DBAppointments;
+import Models.Appointment;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -12,6 +15,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
+import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Locale;
 import java.util.ResourceBundle;
@@ -34,9 +38,7 @@ public class LoginScreenController implements Initializable {
     @FXML
     public Label locationLabel;  // Label that is before the location identifier label
 
-    // public TableColumn idCol; TO DO Delete
-    // public TableColumn nameCol;
-    // public TableView dataTable;
+    public ObservableList<Appointment> appointments = DBAppointments.getAllAppointments();
 
 
     @Override
@@ -74,6 +76,9 @@ public class LoginScreenController implements Initializable {
 
         // If a valid login we load the main screen
         if (validLogin == true) {
+            // Check if there is an appointment within 15 minutes of local users time
+            appointmentInFifteenMinutesAlert();
+
             // Load next screen and set controller
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/Views/main_screen.fxml"));
 
@@ -109,6 +114,32 @@ public class LoginScreenController implements Initializable {
                 invalidLogin.showAndWait();
                 return;
             }
+        }
+    }
+
+    /**
+     * This method displays an alert to the user if there is an appointment within 15 minutes after logging in
+     */
+    public void appointmentInFifteenMinutesAlert() {
+        boolean appointmentSoon = false;
+        for(Appointment appointment: appointments) {
+            LocalDateTime start = appointment.getStartDateTime();
+            // If appointment is within 15 minutes.
+            if(start.isAfter(LocalDateTime.now()) && start.isBefore(LocalDateTime.now().plusMinutes(15))) {
+                // Set up an alert
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                alert.setTitle("Appointment Soon!");
+                alert.setHeaderText("Appointment id: " + appointment.getAppointmentId() +
+                        "\nDate and time: " + start.toString() +
+                        "\nAppointment occurring in 15 minutes or less.");
+                alert.setContentText("Click 'OK' to confirm.");
+                alert.showAndWait();
+                appointmentSoon = true;
+                break;
+            }
+        }
+        if(appointmentSoon != true){
+            ShowAlerts.showAlert(22);
         }
     }
 }

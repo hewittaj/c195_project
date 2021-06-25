@@ -243,10 +243,16 @@ public class AddAppointmentScreenController implements Initializable {
 
         // Else is PM
         else {
-            convertedStartTimeToPm = 12 + Integer.parseInt(startHourComboBox.getSelectionModel()
-                    .getSelectedItem().toString());
-            startingTime = convertedStartTimeToPm + ":"
-                    + startMinuteComboBox.getSelectionModel().getSelectedItem();
+            String selectedStartHour = startHourComboBox.getSelectionModel().getSelectedItem().toString();
+            if (String.valueOf(selectedStartHour).equals("12")) {
+                startingTime = "12:" + startMinuteComboBox.getSelectionModel().getSelectedItem();
+            }
+            else {
+                convertedStartTimeToPm = 12 + Integer.parseInt(startHourComboBox.getSelectionModel()
+                        .getSelectedItem().toString());
+                startingTime = convertedStartTimeToPm + ":"
+                        + startMinuteComboBox.getSelectionModel().getSelectedItem();
+            }
         }
 
         // Convert start time to local time and format it, then add to array list.
@@ -270,7 +276,7 @@ public class AddAppointmentScreenController implements Initializable {
         else {
             String selectedEndHour = endHourComboBox.getSelectionModel().getSelectedItem().toString();
             if (String.valueOf(selectedEndHour).equals("12")) {
-                endingTime = "00:" + endMinuteComboBox.getSelectionModel().getSelectedItem();
+                endingTime = "12:" + endMinuteComboBox.getSelectionModel().getSelectedItem();
             }
             else{
                 int convertedEndTimeToPm = 12 + Integer.parseInt(endHourComboBox.getSelectionModel()
@@ -278,7 +284,6 @@ public class AddAppointmentScreenController implements Initializable {
                 endingTime = convertedEndTimeToPm + ":"
                         + endMinuteComboBox.getSelectionModel().getSelectedItem();
             }
-
         }
         end = LocalTime.parse(endingTime);
 
@@ -316,7 +321,7 @@ public class AddAppointmentScreenController implements Initializable {
                 }
             }
         } else if (startMonthComboBox.getSelectionModel().getSelectedItem().toString().matches("02")) {
-            // Clear days prepopulated by populateDateTimeBoxes
+            // Clear days pre-populated by populateDateTimeBoxes
             startDayComboBox.getItems().clear();
 
             for (int i = 1; i < 29; i++) {
@@ -510,8 +515,7 @@ public class AddAppointmentScreenController implements Initializable {
 
         // TODO Check that appointment meets EST meeting time needs and show alert
         // If selected time is before 9 am EST
-        System.out.println("start time before biz hours: " + zonedStartTimeOnly.isBefore(startBizHours));
-        System.out.println("end time after biz hours: " + zonedEndTimeOnly.isAfter(endBizHours));
+
         if(zonedStartTimeOnly.isBefore(startBizHours)){
             ShowAlerts.showAlert(17);
             errorDetected = true;
