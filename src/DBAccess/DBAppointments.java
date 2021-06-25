@@ -2,6 +2,7 @@ package DBAccess;
 
 import Database.DBConnection;
 import Models.Appointment;
+import Models.MonthAndTypeReport;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.Alert;
@@ -214,5 +215,33 @@ public class DBAppointments {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    /**
+     * This gets a report of all the appointments by type and month
+     * @return Observable list of the report which can then be output to a table view
+     */
+    public static ObservableList<MonthAndTypeReport> getMonthlyAppointmentsByTypeAndMonth() {
+        ObservableList<MonthAndTypeReport> reports = FXCollections.observableArrayList();
+
+        String sql = "SELECT DATE_FORMAT(start, '%M') AS month, COUNT(start) AS count," +
+                " type FROM appointments GROUP BY month, type";
+        try {
+            PreparedStatement ps = DBConnection.getConnection().prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                String month = rs.getString("month");
+                int count = rs.getInt("count");
+                String type = rs.getString("type");
+
+                MonthAndTypeReport report = new MonthAndTypeReport(month, type, count);
+                reports.add(report);
+            }
+        }
+        catch(SQLException e) {
+            e.printStackTrace();
+        }
+        return reports;
     }
 }
