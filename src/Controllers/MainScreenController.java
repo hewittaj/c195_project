@@ -22,6 +22,10 @@ import javafx.util.converter.IntegerStringConverter;
 import java.io.IOException;
 import java.net.URL;
 import java.time.*;
+import java.time.temporal.TemporalAdjuster;
+import java.time.temporal.TemporalAdjusters;
+import java.time.temporal.WeekFields;
+import java.util.Locale;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -101,6 +105,8 @@ public class MainScreenController implements Initializable {
         // Initialize customer and appointment tables
         customerTableView.setItems(customers);
         appointmentTableView.setItems(appointments);
+        allAppointmentsRadioButton.setSelected(true);
+
         // Initialize customer column names -> string must match the model's spelling/capitalization
         customerIDColumn.setCellValueFactory(new PropertyValueFactory<Customer, Integer>("customerId"));
         customerNameColumn.setCellValueFactory(new PropertyValueFactory<Customer, String>("customerName"));
@@ -518,6 +524,24 @@ public class MainScreenController implements Initializable {
         monthlyAppointmentsRadioButton.setSelected(false);
         appointmentTableView.setItems(null);
 
+        ObservableList<Appointment> onlyThisWeeksAppointments = FXCollections.observableArrayList();
 
+        // Get start and end of week
+        DayOfWeek firstDay = WeekFields.of(Locale.getDefault()).getFirstDayOfWeek();
+        LocalDate startOfWeek = LocalDate.now().with(TemporalAdjusters.previousOrSame(firstDay));
+
+        DayOfWeek lastDay = WeekFields.of(Locale.getDefault()).getFirstDayOfWeek().plus(6);
+        LocalDate endOfWeek = LocalDate.now().with(TemporalAdjusters.nextOrSame(lastDay));
+
+        System.out.println("start of week: " + startOfWeek + " end of week: " + endOfWeek);
+        for (Appointment appointment: appointments) {
+            // If appointment is in the current week
+            if (appointment.getStartDateTime().toLocalDate().isAfter(startOfWeek) &&
+            appointment.getStartDateTime().toLocalDate().isBefore(endOfWeek)) {
+                onlyThisWeeksAppointments.add(appointment);
+            }
+        }
+
+        appointmentTableView.setItems(onlyThisWeeksAppointments);
     }
 }
