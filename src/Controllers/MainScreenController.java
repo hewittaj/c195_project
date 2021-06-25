@@ -115,6 +115,8 @@ public class MainScreenController implements Initializable {
         typeColumn.setCellValueFactory(new PropertyValueFactory<Appointment, String>("type"));
         startTimeColumn.setCellValueFactory(new PropertyValueFactory<Appointment, LocalDateTime>("startDateTime"));
         endTimeColumn.setCellValueFactory(new PropertyValueFactory<Appointment, LocalDateTime>("endDateTime"));
+
+        // Check if there is an appointment within 15 minutes of local users time
     }
 
     /**

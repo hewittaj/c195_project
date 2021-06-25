@@ -1,6 +1,6 @@
 package Models;
 
-/**
+/*
  * Injecting w/ prepared statement: p.setTimestamp(index, ts)
  * Extracting w/ result set: Timestamp ts = rs.getTimestamp("columName")
  */
@@ -31,7 +31,6 @@ public class Appointment {
     /**
      * Constructor for an appointment
      *
-     * @param appointmentId
      * @param userId
      * @param customerId
      * @param contactId

@@ -18,9 +18,7 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.Timestamp;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
+import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Optional;
@@ -95,8 +93,6 @@ public class ModifyAppointmentScreenController implements Initializable {
     }
 
     public void saveButtonAction(ActionEvent actionEvent) throws IOException {
-        Timestamp lastUpdatedTime = Timestamp.valueOf(LocalDateTime.now());
-
         // Check for errors in the add appointment screen
         int errorNumber = ErrorChecker.validateAppointmentFields(textFields, idTextFieldsOnly, contactComboBox,
                 dateFields, startTimeFields, endTimeFields);
@@ -129,6 +125,14 @@ public class ModifyAppointmentScreenController implements Initializable {
             String location = locationTextField.getText();
             String type = typeTextField.getText();
             formatDateAndTimeStrings();
+
+            // Check that times are properly set against EST
+            boolean dateTimeValid = validateDateTimeInput();
+            if(dateTimeValid == true){
+                return;
+            }
+
+
             modifiedAppointment = new Appointment(appointmentId, userId, customerId, contactId, title, description, location,
                     type, combinedStartDateTime, combinedEndDateTime, loggedInUser);
             DBAppointments.updateAppointment(modifiedAppointment);
@@ -242,7 +246,7 @@ public class ModifyAppointmentScreenController implements Initializable {
 
         // Set ending time info
         int endingHour = appointment.getEndingTime().getHour();
-        if (endingHour < 12) {
+        if (endingHour < 10) {
             endHourComboBox.setValue(String.format("0%s", endingHour));
         } else if (endingHour > 12) {
             endHourComboBox.setValue(String.valueOf(endingHour - 12));
@@ -271,6 +275,7 @@ public class ModifyAppointmentScreenController implements Initializable {
      * @param loggedInUser Parameter that is passed from screen to screen with the currently logged in user
      */
     public void passLoggedInUser(String loggedInUser) {
+
         this.loggedInUser = loggedInUser;
     }
 
@@ -377,10 +382,16 @@ public class ModifyAppointmentScreenController implements Initializable {
         }
         // Else is PM
         else {
-            int convertedEndTimeToPm = 12 + Integer.parseInt(endHourComboBox.getSelectionModel()
-                    .getSelectedItem().toString());
-            endingTime = convertedEndTimeToPm + ":"
-                    + endMinuteComboBox.getSelectionModel().getSelectedItem();
+            String selectedEndHour = endHourComboBox.getSelectionModel().getSelectedItem().toString();
+            if (String.valueOf(selectedEndHour).equals("12")) {
+                endingTime = "00:" + endMinuteComboBox.getSelectionModel().getSelectedItem();
+            }
+            else{
+                int convertedEndTimeToPm = 12 + Integer.parseInt(endHourComboBox.getSelectionModel()
+                        .getSelectedItem().toString());
+                endingTime = convertedEndTimeToPm + ":"
+                        + endMinuteComboBox.getSelectionModel().getSelectedItem();
+            }
         }
         end = LocalTime.parse(endingTime);
 
@@ -397,9 +408,7 @@ public class ModifyAppointmentScreenController implements Initializable {
         dateInfo = startDate;
         combinedStartDateTime = LocalDateTime.parse(dateInfo + " " + startTime, formatter);
         combinedEndDateTime = LocalDateTime.parse(dateInfo + " " + endTime, formatter);
-//        System.out.println(combinedStartDateTime); TODO DELETE
-//
-//        System.out.println("Date: " + startDate + " Start time: " + start + " End Time: " + end);
+        //TODO delete System.out.println("start: " + combinedStartDateTime + " end: " + combinedEndDateTime);
     }
 
     /**
@@ -499,5 +508,125 @@ public class ModifyAppointmentScreenController implements Initializable {
 
         endAMPMComboBox.getItems().add("AM");
         endAMPMComboBox.getItems().add("PM");
+    }
+
+    /**
+     * This method validates the date and time inputs for any errors, false if error detected, true if no error detected
+     * @return Returns a boolean representing if any errors detected. True = error detected, false = no error detected
+     */
+    public boolean validateDateTimeInput(){
+        // Initialize date times for error checking
+
+        // Start initializing business hours
+        LocalDateTime startBusinessHours = LocalDateTime.of(2021, 6, 21, 9, 00);
+        LocalDateTime endBusinessHours = LocalDateTime.of(2021, 6, 21, 22, 00);
+        ZonedDateTime zonedStart = startBusinessHours.atZone(ZoneId.systemDefault());
+        ZonedDateTime zonedEnd = endBusinessHours.atZone(ZoneId.systemDefault());
+        ZonedDateTime convertedZonedStart = zonedStart.withZoneSameInstant(ZoneId.of("America/New_York"));
+        ZonedDateTime convertedZonedEnd = zonedEnd.withZoneSameInstant(ZoneId.of("America/New_York"));
+        LocalTime startBizHours = convertedZonedStart.toLocalTime();
+        LocalTime endBizHours = convertedZonedEnd.toLocalTime();
+        // End initializing business hours
+
+        // Start initializing conversion of start date time to EST
+        LocalDateTime originStartDateTime = combinedStartDateTime; // Origin start date time from combo boxes
+        LocalDateTime targetZonedStartDateTime; // Once fully converted this is the new start zoned date time
+        ZonedDateTime zonedStartDateTime; // Zoned start date time at zone id
+        ZonedDateTime convertedZonedStartDateTime; // Converted zoned date time to EST
+        // End initializing conversion of start date time to EST
+
+        // Start initializing conversion of end date time to EST
+        LocalDateTime originEndDateTime = combinedEndDateTime;// Origin end date time from combo boxes
+        LocalDateTime targetZonedEndDateTime; // Once fully converted this is the new end zoned date time
+        ZonedDateTime zonedEndDateTime; // Zoned end date time at zone id
+        ZonedDateTime convertedZonedEndDateTime; // Converted zoned date time to EST
+        // End initializing conversion of end date time to EST
+
+        // Convert to zoned date time at origin id
+        zonedStartDateTime = originStartDateTime.atZone(ZoneId.systemDefault());
+        zonedEndDateTime = originEndDateTime.atZone(ZoneId.systemDefault());
+
+        // Convert zoned origin date time to destination date time which is EST
+        convertedZonedStartDateTime = zonedStartDateTime.withZoneSameInstant(ZoneId.of("America/New_York"));
+        convertedZonedEndDateTime = zonedEndDateTime.withZoneSameInstant(ZoneId.of("America/New_York"));
+
+        // Convert zoned start date time to target time zone as a local date time
+        targetZonedStartDateTime = convertedZonedStartDateTime.toLocalDateTime();
+        targetZonedEndDateTime = convertedZonedEndDateTime.toLocalDateTime();
+
+        boolean errorDetected;
+
+        // Local times of the converted zoned date times to check business hours
+        LocalTime zonedStartTimeOnly = targetZonedStartDateTime.toLocalTime();
+        LocalTime zonedEndTimeOnly = targetZonedEndDateTime.toLocalTime();
+
+        // TODO Check that appointment meets EST meeting time needs and show alert
+        // If selected time is before 9 am EST
+        if(zonedStartTimeOnly.isBefore(startBizHours)){
+            ShowAlerts.showAlert(17);
+            errorDetected = true;
+            return errorDetected;
+        }
+
+        if(zonedEndTimeOnly.isAfter(endBizHours) || zonedEndTimeOnly.isBefore(startBizHours)){
+            ShowAlerts.showAlert(18);
+            errorDetected = true;
+            return errorDetected;
+        }
+
+        // If start date time is after the end date time throw an error
+        if(targetZonedStartDateTime.isAfter(targetZonedEndDateTime)){
+            // Show error
+            ShowAlerts.showAlert(15);
+            errorDetected = true;
+            return errorDetected;
+        }
+
+        // If the end date time is before the start date time throw an error
+        else if(targetZonedEndDateTime.isBefore(targetZonedStartDateTime)){
+            // Show error
+            ShowAlerts.showAlert(16);
+            errorDetected = true;
+            return errorDetected;
+        }
+
+
+        // If start or end date and time is before the current date throw an error
+        if(originEndDateTime.isBefore(LocalDateTime.now()) || originStartDateTime.isBefore(LocalDateTime.now())){
+            ShowAlerts.showAlert(19);
+            errorDetected = true;
+            return errorDetected;
+        }
+
+        // Ensure customer appointment doesn't overlap
+        // Initialize observable list of this customers appointments
+        ObservableList<Appointment> customersAppointments =
+                DBAppointments.getAllAppointmentsForSpecificCustomer(Integer.valueOf(customerIDTextField.getText()));
+
+        for (Appointment appointment: customersAppointments) {
+            LocalDateTime start = appointment.getStartDateTime();
+            LocalDateTime end = appointment.getEndDateTime();
+
+            if ((originStartDateTime.isBefore(end) && originStartDateTime.isAfter(start)) ||
+                    originEndDateTime.isBefore(end) && originEndDateTime.isAfter(start)) {
+                // If the appointment matches the one we are modifying skip over it
+                if(appointment.getAppointmentId() == Integer.valueOf(appointmentIDTextField.getText())){
+                    continue;
+                }
+                // Overlapped appointment, show error
+                ShowAlerts.showAlert(20);
+                errorDetected = true;
+                return errorDetected;
+            }
+        }
+
+        errorDetected = false;
+        return errorDetected;
+        // TODO delete comment
+        /*
+        System.out.println("Origin Start: " + originStartDateTime + " Origin End: " + originEndDateTime);
+        System.out.println("Zoned Start: " + convertedZonedStartDateTime +
+                " Zoned End: " + convertedZonedEndDateTime);
+         */
     }
 }
