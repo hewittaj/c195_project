@@ -72,7 +72,7 @@ public class LoginScreenController implements Initializable {
         String password = passwordField.getText();
 
         passUsername(username);
-        System.out.println("passed username: " + username);
+
         // Boolean created to detect if the username/password combo is valid or not
         boolean validLogin = ErrorChecker.validateLogin(username, password);
 

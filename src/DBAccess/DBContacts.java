@@ -1,6 +1,7 @@
 package DBAccess;
 
 import Database.DBConnection;
+import Models.Appointment;
 import Models.Contact;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -92,5 +93,4 @@ public class DBContacts {
         }
         return specificContact;
     }
-
 }

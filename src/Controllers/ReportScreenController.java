@@ -28,7 +28,7 @@ public class ReportScreenController implements Initializable {
     @FXML
     public TableView<MonthAndTypeReport> monthAndTypeOfAppointmentsTableView;
     @FXML
-    public TableView<AppointmentsByContact> appointmentsByContactTableView;
+    public TableView<Appointment> appointmentsByContactTableView;
     @FXML
     public TableView<CustomersWithSameZipCode> customersWithSameZipCodeTableView;
 
@@ -83,11 +83,23 @@ public class ReportScreenController implements Initializable {
 
         // Initialize appointments by contact report column names
         // -> string must match the model's spelling/capitalization
-        contactComboBox.setValue(allContacts.get(0));
+        appointmentIdColumn.setCellValueFactory(new PropertyValueFactory<Appointment, Integer>("appointmentId"));
+        titleColumn.setCellValueFactory(new PropertyValueFactory<Appointment, String>("title"));
+        descriptionColumn.setCellValueFactory(new PropertyValueFactory<Appointment, String>("description"));
+        startDateTimeColumn.setCellValueFactory(new PropertyValueFactory<Appointment, LocalDateTime>("startDateTime"));
+        endDateTimeColumn.setCellValueFactory(new PropertyValueFactory<Appointment, LocalDateTime>("endDateTime"));
+        customerIdColumn.setCellValueFactory(new PropertyValueFactory<Appointment, Integer>("customerId"));
 
     }
 
     public void contactComboBoxSelected(ActionEvent actionEvent) {
+        // Get contact id
+        int contactId = DBContacts.getContactIdFromName(
+                contactComboBox.getSelectionModel().getSelectedItem().toString());
+
+        // Create list of appointments for that contact
+        ObservableList<Appointment> appointmentsByContact = DBAppointments.getSpecificContactsAppointments(contactId);
+        appointmentsByContactTableView.setItems(appointmentsByContact);
     }
 
     /**
