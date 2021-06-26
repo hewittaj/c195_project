@@ -2,6 +2,7 @@ package Controllers;
 
 import DBAccess.DBAppointments;
 import DBAccess.DBContacts;
+import DBAccess.DBCustomers;
 import Models.*;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -68,13 +69,14 @@ public class ReportScreenController implements Initializable {
     public ObservableList<Contact> allContacts = DBContacts.getAllContacts();
     public ObservableList<MonthAndTypeReport> monthAndTypeReports =
             DBAppointments.getMonthlyAppointmentsByTypeAndMonth();
+    public ObservableList<CustomersWithSameZipCode> zipCodesReport = DBCustomers.getCountOfCustomersWithSameZipCode();
     public String loggedInUser;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         populateContactList();
         populateMonthAndTypeReport();
-
+        populateCustomersWithSameZipCodeReport();
 
         // Initialize month and type report column names -> string must match the model's spelling/capitalization
         monthColumn.setCellValueFactory(new PropertyValueFactory<MonthAndTypeReport, String>("month"));
@@ -90,9 +92,15 @@ public class ReportScreenController implements Initializable {
         endDateTimeColumn.setCellValueFactory(new PropertyValueFactory<Appointment, LocalDateTime>("endDateTime"));
         customerIdColumn.setCellValueFactory(new PropertyValueFactory<Appointment, Integer>("customerId"));
 
+        // Initialize customers with same zip code column names
+        // -> string must match the model's spelling/capitalization
+        zipCodeColumn.setCellValueFactory(new PropertyValueFactory<CustomersWithSameZipCode, String>("zipCode"));
+        countZipColumn.setCellValueFactory(new PropertyValueFactory<CustomersWithSameZipCode, Integer>("count"));
+
     }
 
     public void contactComboBoxSelected(ActionEvent actionEvent) {
+
         // Get contact id
         int contactId = DBContacts.getContactIdFromName(
                 contactComboBox.getSelectionModel().getSelectedItem().toString());
@@ -112,10 +120,17 @@ public class ReportScreenController implements Initializable {
     }
 
     /**
-     * This method populates the month and type report
+     * This method populates the month and type report table view
      */
     public void populateMonthAndTypeReport() {
         monthAndTypeOfAppointmentsTableView.getItems().setAll(monthAndTypeReports);
+    }
+
+    /**
+     * This method populates the customers with same zip code report table view
+     */
+    public void populateCustomersWithSameZipCodeReport() {
+        customersWithSameZipCodeTableView.getItems().setAll(zipCodesReport);
     }
 
     public void backButtonAction(ActionEvent actionEvent) throws IOException {

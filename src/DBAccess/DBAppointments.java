@@ -247,7 +247,7 @@ public class DBAppointments {
 
     /**
      * This method gets the specified contacts appointments for a report
-     * @param contactId Contact id passed that user wants to get appointments for
+     * @param requestedId Contact id passed that user wants to get appointments for
      * @return Observable list of appointments for specified contact
      */
     public static ObservableList<Appointment> getSpecificContactsAppointments(int requestedId) {

@@ -2,6 +2,7 @@ package DBAccess;
 
 import Database.DBConnection;
 import Models.Customer;
+import Models.CustomersWithSameZipCode;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -214,5 +215,32 @@ public class DBCustomers {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    /**
+     * This method gets the count of customers with the same zip code
+     * @return Returns an observable list of the items in the report
+     */
+    public static ObservableList<CustomersWithSameZipCode> getCountOfCustomersWithSameZipCode() {
+        ObservableList<CustomersWithSameZipCode> reports = FXCollections.observableArrayList();
+
+        String sql = "SELECT Postal_Code, COUNT(Postal_Code) AS count FROM customers GROUP BY Postal_Code";
+        try {
+            PreparedStatement ps = DBConnection.getConnection().prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                String zipCode = rs.getString("postal_code");
+                int count = rs.getInt("count");
+
+                CustomersWithSameZipCode report = new CustomersWithSameZipCode(zipCode, count);
+                reports.add(report);
+            }
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return reports;
     }
 }
