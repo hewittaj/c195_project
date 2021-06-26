@@ -39,7 +39,7 @@ public class LoginScreenController implements Initializable {
     public Label locationLabel;  // Label that is before the location identifier label
 
     public ObservableList<Appointment> appointments = DBAppointments.getAllAppointments();
-
+    public String username = "";
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -71,6 +71,8 @@ public class LoginScreenController implements Initializable {
         String username = userIdTextField.getText();
         String password = passwordField.getText();
 
+        passUsername(username);
+        System.out.println("passed username: " + username);
         // Boolean created to detect if the username/password combo is valid or not
         boolean validLogin = ErrorChecker.validateLogin(username, password);
 
@@ -118,6 +120,12 @@ public class LoginScreenController implements Initializable {
     }
 
     /**
+     * Passes username of user trying to logged in
+     */
+    public void passUsername(String username) {
+        this.username = username;
+    }
+    /**
      * This method displays an alert to the user if there is an appointment within 15 minutes after logging in
      */
     public void appointmentInFifteenMinutesAlert() {
@@ -125,7 +133,8 @@ public class LoginScreenController implements Initializable {
         for(Appointment appointment: appointments) {
             LocalDateTime start = appointment.getStartDateTime();
             // If appointment is within 15 minutes.
-            if(start.isAfter(LocalDateTime.now()) && start.isBefore(LocalDateTime.now().plusMinutes(15))) {
+            if(start.isAfter(LocalDateTime.now()) && start.isBefore(LocalDateTime.now().plusMinutes(15))
+                    && appointment.getLoggedInUser().equals(username)) {
                 // Set up an alert
                 Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
                 alert.setTitle("Appointment Soon!");

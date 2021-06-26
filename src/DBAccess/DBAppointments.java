@@ -94,10 +94,10 @@ public class DBAppointments {
                 String type = rs.getString("Type");
                 LocalDateTime startTime = rs.getTimestamp("Start").toLocalDateTime();
                 LocalDateTime endTime = rs.getTimestamp("End").toLocalDateTime();
-
+                String createdBy = rs.getString("created_by");
                 // Create appointment instance and add to our observable list
                 Appointment appointment = new Appointment(appointmentId, userId, customerId, contactId, title,
-                        description, location, type, startTime, endTime);
+                        description, location, type, startTime, endTime, createdBy);
 
                 appointments.add(appointment);
             }

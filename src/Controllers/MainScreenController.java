@@ -248,8 +248,24 @@ public class MainScreenController implements Initializable {
     /**
      * @param actionEvent
      */
-    public void reportButtonAction(ActionEvent actionEvent) {
-        customerIDColumn.setOnEditStart(customerIDColumn.getOnEditCommit());
+    public void reportButtonAction(ActionEvent actionEvent) throws IOException {
+        //customerIDColumn.setOnEditStart(customerIDColumn.getOnEditCommit()); TODO delete?
+        // Load next screen
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/Views/report_screen.fxml"));
+
+        // Set parent
+        Parent mainScreenParent = loader.load();
+
+        // Instantiate controller and call functions to pass info between screens
+        ReportScreenController controller = loader.getController();
+        controller.passLoggedInUser(loggedInUser);
+        // Set scene
+        Scene mainScreenScene = new Scene(mainScreenParent);
+
+        // This line gets the Stage information
+        Stage window = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+        window.setScene(mainScreenScene);
+        window.show();
     }
 
     /**
