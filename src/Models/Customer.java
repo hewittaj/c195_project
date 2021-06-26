@@ -3,12 +3,12 @@ package Models;
 import DBAccess.DBCustomers;
 
 public class Customer {
-    private int customerId;
     private final int divisionId;
     private final String customerName;
     private final String customerAddress;
     private final String zipCode;
     private final String phoneNumber;
+    private int customerId;
     private String countryName;
     private String divisionName;
     private String loggedInUser;

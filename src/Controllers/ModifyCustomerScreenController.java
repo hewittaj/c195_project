@@ -25,6 +25,7 @@ import java.util.ResourceBundle;
 public class ModifyCustomerScreenController implements Initializable {
 
     public static Customer customer; // Customer info of customer to modify
+    private final ObservableList<Country> countries = DBCountries.getAllCountries();
     @FXML
     public TextField customerIDTextField;
     @FXML
@@ -44,7 +45,6 @@ public class ModifyCustomerScreenController implements Initializable {
     @FXML
     public Button backButton;
     public String loggedInUser;
-    private final ObservableList<Country> countries = DBCountries.getAllCountries();
     private ObservableList<Division> divisions;
 
     @Override

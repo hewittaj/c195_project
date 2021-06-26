@@ -18,7 +18,6 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.net.URL;
 import java.time.*;
-import java.time.chrono.ChronoLocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Optional;
@@ -134,12 +133,22 @@ public class AddAppointmentScreenController implements Initializable {
 
             // Check that times are properly set against EST
             boolean dateTimeValid = validateDateTimeInput();
-            if(dateTimeValid == true){
+            if (dateTimeValid == true) {
                 return;
             }
 
-            newAppointment = new Appointment(appointmentId, userId, customerId, contactId, title, description, location,
-                    type, combinedStartDateTime, combinedEndDateTime, loggedInUser);
+            newAppointment = new Appointment(
+                    appointmentId,
+                    userId,
+                    customerId,
+                    contactId,
+                    title,
+                    description,
+                    location,
+                    type,
+                    combinedStartDateTime,
+                    combinedEndDateTime,
+                    loggedInUser);
             DBAppointments.addAppointment(newAppointment);
 
             // Load main screen
@@ -248,8 +257,7 @@ public class AddAppointmentScreenController implements Initializable {
             String selectedStartHour = startHourComboBox.getSelectionModel().getSelectedItem().toString();
             if (String.valueOf(selectedStartHour).equals("12")) {
                 startingTime = "12:" + startMinuteComboBox.getSelectionModel().getSelectedItem();
-            }
-            else {
+            } else {
                 convertedStartTimeToPm = 12 + Integer.parseInt(startHourComboBox.getSelectionModel()
                         .getSelectedItem().toString());
                 startingTime = convertedStartTimeToPm + ":"
@@ -279,8 +287,7 @@ public class AddAppointmentScreenController implements Initializable {
             String selectedEndHour = endHourComboBox.getSelectionModel().getSelectedItem().toString();
             if (String.valueOf(selectedEndHour).equals("12")) {
                 endingTime = "12:" + endMinuteComboBox.getSelectionModel().getSelectedItem();
-            }
-            else{
+            } else {
                 int convertedEndTimeToPm = 12 + Integer.parseInt(endHourComboBox.getSelectionModel()
                         .getSelectedItem().toString());
                 endingTime = convertedEndTimeToPm + ":"
@@ -467,9 +474,10 @@ public class AddAppointmentScreenController implements Initializable {
 
     /**
      * This method validates the date and time inputs for any errors, false if error detected, true if no error detected
+     *
      * @return Returns a boolean representing if any errors detected. True = error detected, false = no error detected
      */
-    public boolean validateDateTimeInput(){
+    public boolean validateDateTimeInput() {
         // Initialize date times for error checking
 
         // Start initializing business hours
@@ -518,20 +526,20 @@ public class AddAppointmentScreenController implements Initializable {
         // TODO Check that appointment meets EST meeting time needs and show alert
         // If selected time is before 9 am EST
 
-        if(zonedStartTimeOnly.isBefore(startBizHours)){
+        if (zonedStartTimeOnly.isBefore(startBizHours)) {
             ShowAlerts.showAlert(17);
             errorDetected = true;
             return errorDetected;
         }
         // If selected time is after 10pm EST
-        if(zonedEndTimeOnly.isAfter(endBizHours)){
+        if (zonedEndTimeOnly.isAfter(endBizHours)) {
             ShowAlerts.showAlert(18);
             errorDetected = true;
             return errorDetected;
         }
 
         // If start date time is after the end date time throw an error
-        if(targetZonedStartDateTime.isAfter(targetZonedEndDateTime)){
+        if (targetZonedStartDateTime.isAfter(targetZonedEndDateTime)) {
             // Show error
             ShowAlerts.showAlert(15);
             errorDetected = true;
@@ -539,7 +547,7 @@ public class AddAppointmentScreenController implements Initializable {
         }
 
         // If the end date time is before the start date time throw an error
-        else if(targetZonedEndDateTime.isBefore(targetZonedStartDateTime)){
+        else if (targetZonedEndDateTime.isBefore(targetZonedStartDateTime)) {
             // Show error
             ShowAlerts.showAlert(16);
             errorDetected = true;
@@ -547,9 +555,8 @@ public class AddAppointmentScreenController implements Initializable {
         }
 
 
-
         // If start or end date and time is before the current date throw an error
-        if(originEndDateTime.isBefore(LocalDateTime.now()) || originStartDateTime.isBefore(LocalDateTime.now())){
+        if (originEndDateTime.isBefore(LocalDateTime.now()) || originStartDateTime.isBefore(LocalDateTime.now())) {
             ShowAlerts.showAlert(19);
             errorDetected = true;
             return errorDetected;
@@ -560,12 +567,12 @@ public class AddAppointmentScreenController implements Initializable {
         ObservableList<Appointment> customersAppointments =
                 DBAppointments.getAllAppointmentsForSpecificCustomer(Integer.valueOf(customerIDTextField.getText()));
 
-        for (Appointment appointment: customersAppointments) {
+        for (Appointment appointment : customersAppointments) {
             LocalDateTime start = appointment.getStartDateTime();
             LocalDateTime end = appointment.getEndDateTime();
 
             if ((originStartDateTime.isBefore(end) && originStartDateTime.isAfter(start)) ||
-            originEndDateTime.isBefore(end) && originEndDateTime.isAfter(start)) {
+                    originEndDateTime.isBefore(end) && originEndDateTime.isAfter(start)) {
                 // Overlapped appointment, show error
                 ShowAlerts.showAlert(20);
                 errorDetected = true;

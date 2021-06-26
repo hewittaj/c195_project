@@ -219,6 +219,7 @@ public class DBCustomers {
 
     /**
      * This method gets the count of customers with the same zip code
+     *
      * @return Returns an observable list of the items in the report
      */
     public static ObservableList<CustomersWithSameZipCode> getCountOfCustomersWithSameZipCode() {
@@ -236,8 +237,7 @@ public class DBCustomers {
                 CustomersWithSameZipCode report = new CustomersWithSameZipCode(zipCode, count);
                 reports.add(report);
             }
-        }
-        catch (SQLException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
         }
 

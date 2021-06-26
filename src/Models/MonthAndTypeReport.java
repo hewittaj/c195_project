@@ -7,8 +7,9 @@ public class MonthAndTypeReport {
 
     /**
      * Constructor for the report that gets appointments by month and type
+     *
      * @param month Month passed to construct a new report object
-     * @param type Type of appointment passed to construct a new report object
+     * @param type  Type of appointment passed to construct a new report object
      * @param count Count of appointments by month and type
      */
     public MonthAndTypeReport(String month, String type, int count) {

@@ -219,6 +219,7 @@ public class DBAppointments {
 
     /**
      * This gets a report of all the appointments by type and month
+     *
      * @return Observable list of the report which can then be output to a table view
      */
     public static ObservableList<MonthAndTypeReport> getMonthlyAppointmentsByTypeAndMonth() {
@@ -238,8 +239,7 @@ public class DBAppointments {
                 MonthAndTypeReport report = new MonthAndTypeReport(month, type, count);
                 reports.add(report);
             }
-        }
-        catch(SQLException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
         }
         return reports;
@@ -247,6 +247,7 @@ public class DBAppointments {
 
     /**
      * This method gets the specified contacts appointments for a report
+     *
      * @param requestedId Contact id passed that user wants to get appointments for
      * @return Observable list of appointments for specified contact
      */
@@ -277,8 +278,7 @@ public class DBAppointments {
 
                 appointments.add(appointment);
             }
-        }
-        catch(SQLException e){
+        } catch (SQLException e) {
             e.printStackTrace();
         }
         return appointments;

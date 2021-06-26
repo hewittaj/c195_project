@@ -109,7 +109,6 @@ public class ErrorChecker {
         }
 
 
-
         // If no error is detected return -1
         errorNumber = -1;
         return errorNumber;

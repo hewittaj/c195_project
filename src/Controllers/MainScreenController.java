@@ -22,7 +22,6 @@ import javafx.util.converter.IntegerStringConverter;
 import java.io.IOException;
 import java.net.URL;
 import java.time.*;
-import java.time.temporal.TemporalAdjuster;
 import java.time.temporal.TemporalAdjusters;
 import java.time.temporal.WeekFields;
 import java.util.Locale;
@@ -222,7 +221,7 @@ public class MainScreenController implements Initializable {
      */
     public void modifyAppointmentAction(ActionEvent actionEvent) throws IOException {
         Appointment selectedAppointment = appointmentTableView.getSelectionModel().getSelectedItem();
-        if(selectedAppointment == null){
+        if (selectedAppointment == null) {
             ShowAlerts.showAlert(21);
             return;
         }
@@ -524,9 +523,9 @@ public class MainScreenController implements Initializable {
         LocalDate maxDate = YearMonth.from(Instant.now().atZone(ZoneId.systemDefault())).atEndOfMonth();
         LocalDate minDate = YearMonth.from(Instant.now().atZone(ZoneId.systemDefault())).atDay(1);
 
-        for(Appointment appointment: appointments){
+        for (Appointment appointment : appointments) {
             // If appointment is within the month add it to our observable list
-            if(appointment.getStartDateTime().toLocalDate().isBefore(maxDate) &&
+            if (appointment.getStartDateTime().toLocalDate().isBefore(maxDate) &&
                     appointment.getStartDateTime().toLocalDate().isAfter(minDate)) {
                 onlyThisMonthsAppointments.add(appointment);
             }
@@ -550,10 +549,10 @@ public class MainScreenController implements Initializable {
         LocalDate endOfWeek = LocalDate.now().with(TemporalAdjusters.nextOrSame(lastDay));
 
         System.out.println("start of week: " + startOfWeek + " end of week: " + endOfWeek);
-        for (Appointment appointment: appointments) {
+        for (Appointment appointment : appointments) {
             // If appointment is in the current week
             if (appointment.getStartDateTime().toLocalDate().isAfter(startOfWeek) &&
-            appointment.getStartDateTime().toLocalDate().isBefore(endOfWeek)) {
+                    appointment.getStartDateTime().toLocalDate().isBefore(endOfWeek)) {
                 onlyThisWeeksAppointments.add(appointment);
             }
         }

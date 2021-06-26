@@ -7,8 +7,9 @@ public class CustomersWithSameZipCode {
 
     /**
      * This is the constructor for a customer with same zip code reporting object
+     *
      * @param zipCode Zip code that is reported from sql database
-     * @param count Count of that zip code from sql database
+     * @param count   Count of that zip code from sql database
      */
     public CustomersWithSameZipCode(String zipCode, int count) {
         this.zipCode = zipCode;

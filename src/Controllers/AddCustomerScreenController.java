@@ -25,6 +25,9 @@ import java.util.ResourceBundle;
 
 public class AddCustomerScreenController implements Initializable {
 
+    private final ObservableList<Customer> customers = DBCustomers.getMainScreenCustomerInfo();
+    private final ObservableList<Country> countries = DBCountries.getAllCountries();
+    private final ArrayList<TextField> textFields = new ArrayList<>();
     @FXML
     public TextField customerNameTextField;
     @FXML
@@ -43,15 +46,9 @@ public class AddCustomerScreenController implements Initializable {
     public ComboBox countryComboBox;
     @FXML
     public ComboBox divisionComboBox;
-
     public int numberOfCustomers;
     public String loggedInUser;
-    private final ObservableList<Customer> customers = DBCustomers.getMainScreenCustomerInfo();
-    private final ObservableList<Country> countries = DBCountries.getAllCountries();
     private ObservableList<Division> divisions;
-
-    private final ArrayList<TextField> textFields = new ArrayList<>();
-
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {

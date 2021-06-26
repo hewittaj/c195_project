@@ -13,8 +13,14 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.Writer;
 import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Locale;
@@ -72,6 +78,7 @@ public class LoginScreenController implements Initializable {
         String password = passwordField.getText();
 
         passUsername(username);
+        logLoginAttempt();
 
         // Boolean created to detect if the username/password combo is valid or not
         boolean validLogin = ErrorChecker.validateLogin(username, password);
@@ -125,21 +132,22 @@ public class LoginScreenController implements Initializable {
     public void passUsername(String username) {
         this.username = username;
     }
+
     /**
      * This method displays an alert to the user if there is an appointment within 15 minutes after logging in
      */
     public void appointmentInFifteenMinutesAlert() {
         boolean appointmentSoon = false;
-        for(Appointment appointment: appointments) {
+        for (Appointment appointment : appointments) {
             LocalDateTime start = appointment.getStartDateTime();
             // If appointment is within 15 minutes.
-            if(start.isAfter(LocalDateTime.now()) && start.isBefore(LocalDateTime.now().plusMinutes(15))
+            if (start.isAfter(LocalDateTime.now()) && start.isBefore(LocalDateTime.now().plusMinutes(15))
                     && appointment.getLoggedInUser().equals(username)) {
                 // Set up an alert
                 Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
                 alert.setTitle("Appointment Soon!");
                 alert.setHeaderText("Appointment id: " + appointment.getAppointmentId() +
-                        "\nDate and time: " + start.toString() +
+                        "\nDate and time: " + start +
                         "\nAppointment occurring in 15 minutes or less.");
                 alert.setContentText("Click 'OK' to confirm.");
                 alert.showAndWait();
@@ -147,8 +155,42 @@ public class LoginScreenController implements Initializable {
                 break;
             }
         }
-        if(appointmentSoon != true){
+        if (appointmentSoon != true) {
             ShowAlerts.showAlert(22);
+        }
+    }
+
+    /**
+     * This method logs a login attempt of a user with the attempted username and login date
+     * Path "filePath" is relative to a macbook os
+     */
+    public void logLoginAttempt() throws IOException {
+        // Get timestamp of current date and time
+        LocalDateTime timestamp = LocalDateTime.now();
+
+        // Get current path up to the idea src file
+        Path currentPath = Paths.get("src");
+        Path filePath = Path.of(currentPath + "/login_activity.txt");
+
+        System.out.println(filePath);
+
+
+        boolean fileExists = Files.exists(filePath);
+
+        // If the file exists
+        if(fileExists) {
+            Writer output = new BufferedWriter(new FileWriter(String.valueOf(filePath), true));
+            String loginAttemptInfo = "\nUsername: " + username + "\tTimestamp: " + timestamp;
+            output.append(loginAttemptInfo);
+            output.close();
+        }
+        else{
+            // Otherwise file doesn't exist
+            String loginAttemptInfo = "Username: " + username + "\tTimestamp: " + timestamp;
+
+            // Create reference to new file
+            Path newFile = Files.createFile(currentPath.resolve("login_activity.txt"));
+            Files.writeString(newFile,loginAttemptInfo);
         }
     }
 }
