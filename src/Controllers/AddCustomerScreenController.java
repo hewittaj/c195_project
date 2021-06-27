@@ -23,6 +23,9 @@ import java.util.ArrayList;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
+/**
+ * This class is used for the controller of the add customer screen
+ */
 public class AddCustomerScreenController implements Initializable {
 
     private final ObservableList<Customer> customers = DBCustomers.getMainScreenCustomerInfo();
@@ -50,6 +53,11 @@ public class AddCustomerScreenController implements Initializable {
     public String loggedInUser;
     private ObservableList<Division> divisions;
 
+    /**
+     * Initializes the screen for adding a customer
+     * @param url Not used
+     * @param rb Not used
+     */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         fillCountryComboBox();
@@ -59,7 +67,7 @@ public class AddCustomerScreenController implements Initializable {
     /**
      * This method passes the number of customers between screens
      *
-     * @param numberOfCustomers
+     * @param numberOfCustomers Number of customers passed from main screen to this one
      */
     public void passNumberOfCustomers(int numberOfCustomers) {
         this.numberOfCustomers = numberOfCustomers;
@@ -69,7 +77,7 @@ public class AddCustomerScreenController implements Initializable {
     /**
      * This method passes the logged in user between screens
      *
-     * @param loggedInUser
+     * @param loggedInUser Logged in user that is passed from main screen to this one
      */
     public void passLoggedInUser(String loggedInUser) {
         this.loggedInUser = loggedInUser;
@@ -142,12 +150,10 @@ public class AddCustomerScreenController implements Initializable {
     /**
      * Method that goes back to the main screen
      *
-     * @param actionEvent
-     * @throws IOException
+     * @param actionEvent Event that is caught to detect if the back button has been pressed
+     * @throws IOException Exception that is caught to detect IO exception
      */
     public void backButtonAction(ActionEvent actionEvent) throws IOException {
-        // TO DO ASK ARE YOU SURE
-
 
         // Load next screen
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/Views/main_screen.fxml"));

@@ -26,8 +26,6 @@ public class Appointment {
     LocalDateTime startDateTime;
     LocalDateTime endDateTime;
 
-    //TODO java doc
-
     /**
      * Constructor for an appointment
      *

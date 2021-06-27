@@ -26,6 +26,9 @@ import java.time.ZoneId;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
+/**
+ * This class controls the login screen
+ */
 public class LoginScreenController implements Initializable {
     @FXML
     public TextField userIdTextField;
@@ -47,6 +50,11 @@ public class LoginScreenController implements Initializable {
     public ObservableList<Appointment> appointments = DBAppointments.getAllAppointments();
     public String username = "";
 
+    /**
+     * This method initializes the login screen
+     * @param url Not used
+     * @param rb Not used
+     */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // Test for french by using Locale.setDefault(new Locale("fr")); rather than rebooting
@@ -68,6 +76,13 @@ public class LoginScreenController implements Initializable {
         userLocationLabel.setText(ZoneId.systemDefault().toString());
     }
 
+    /**
+     * This method detects if the login button has been pressed and moves to the main screen if valid credentials are
+     * supplied
+     *
+     * @param actionEvent Event that is caught to detect if the login button was pressed
+     * @throws IOException Exception that is caught to detect IO exception
+     */
     public void loginButtonAction(ActionEvent actionEvent) throws IOException {
         /*
         Use google translate in java
@@ -128,6 +143,9 @@ public class LoginScreenController implements Initializable {
 
     /**
      * Passes username of user trying to logged in
+     *
+     * @param  username Username that we pass from what the user supplied, to other parts of the program that otherwise
+     *                  wouldn't have access to it
      */
     public void passUsername(String username) {
         this.username = username;
@@ -162,7 +180,7 @@ public class LoginScreenController implements Initializable {
 
     /**
      * This method logs a login attempt of a user with the attempted username and login date
-     * Path "filePath" is relative to a macbook os
+     * Path "filePath" is relative to a macbook operating system, but should work for Windows as well
      */
     public void logLoginAttempt() throws IOException {
         // Get timestamp of current date and time
@@ -172,9 +190,7 @@ public class LoginScreenController implements Initializable {
         Path currentPath = Paths.get("src");
         Path filePath = Path.of(currentPath + "/login_activity.txt");
 
-        System.out.println(filePath);
-
-
+        // Boolean value representing if file exists, true = yes, false = no
         boolean fileExists = Files.exists(filePath);
 
         // If the file exists

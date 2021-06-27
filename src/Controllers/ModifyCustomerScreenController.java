@@ -22,10 +22,12 @@ import java.net.URL;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
+/**
+ * This class is the controller for the modify customer screen
+ */
 public class ModifyCustomerScreenController implements Initializable {
 
     public static Customer customer; // Customer info of customer to modify
-    private final ObservableList<Country> countries = DBCountries.getAllCountries();
     @FXML
     public TextField customerIDTextField;
     @FXML
@@ -45,8 +47,14 @@ public class ModifyCustomerScreenController implements Initializable {
     @FXML
     public Button backButton;
     public String loggedInUser;
+    private final ObservableList<Country> countries = DBCountries.getAllCountries();
     private ObservableList<Division> divisions;
 
+    /**
+     * This method initializes the modify customer screen, currently nothing in the method
+     * @param url Not used
+     * @param rb Not used
+     */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
 
@@ -111,10 +119,14 @@ public class ModifyCustomerScreenController implements Initializable {
         } else {
             return;
         }
-
-
     }
 
+    /**
+     * This method detects if the back button was pressed and loads the main screen
+     *
+     * @param actionEvent Event that is caught to detect the back button being pressed
+     * @throws IOException Exception that is caught to detect any IO exceptions
+     */
     public void backButtonAction(ActionEvent actionEvent) throws IOException {
         // Set up an alert for confirmation
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
@@ -167,6 +179,12 @@ public class ModifyCustomerScreenController implements Initializable {
 
     }
 
+    /**
+     * This method passes the selected customer to be modified from the main screen and populates the screen
+     * with the current customer information
+     *
+     * @param customer Customer selected on the main screen to be modified
+     */
     public void passCustomer(Customer customer) {
         // Initialize important variables for retrieving data
         ModifyCustomerScreenController.customer = customer;
@@ -192,7 +210,7 @@ public class ModifyCustomerScreenController implements Initializable {
     /**
      * This method passes the logged in user between screens
      *
-     * @param loggedInUser
+     * @param loggedInUser Currently logged in user to pass between screens and for db updates
      */
     public void passLoggedInUser(String loggedInUser) {
         this.loggedInUser = loggedInUser;

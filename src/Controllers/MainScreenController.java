@@ -28,6 +28,9 @@ import java.util.Locale;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
+/**
+ * This class controls the main screen
+ */
 public class MainScreenController implements Initializable {
 
     @FXML
@@ -91,10 +94,19 @@ public class MainScreenController implements Initializable {
     ObservableList<Customer> customers = DBCustomers.getMainScreenCustomerInfo();
     ObservableList<Appointment> appointments = DBAppointments.getAllAppointments();
 
+    /**
+     * This method passes the logged in user between screens
+     * @param loggedInUser Logged in user currently logged in
+     */
     public void passLoggedInUser(String loggedInUser) {
         this.loggedInUser = loggedInUser;
     }
 
+    /**
+     * This method initializes the main screen and the tableviews with associated database data
+     * @param url Not used
+     * @param rb Not used
+     */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // Populate our lists
@@ -160,8 +172,9 @@ public class MainScreenController implements Initializable {
     }
 
     /**
-     * @param actionEvent
-     * @throws IOException
+     * This method detects whether the modify customer button was pressed and loads the screen
+     * @param actionEvent Action event that is caught to detect the button press
+     * @throws IOException Exception that is caught to detect IO exception
      */
     public void modifyCustomerAction(ActionEvent actionEvent) throws IOException {
         try {
@@ -191,8 +204,10 @@ public class MainScreenController implements Initializable {
     }
 
     /**
-     * @param actionEvent
-     * @throws IOException
+     * This method detects if the add appointment action button was pressed
+     *
+     * @param actionEvent Event that is caught to detect the button press of add appointment
+     * @throws IOException Exception that is caught to detect IO exception
      */
     public void addAppointmentAction(ActionEvent actionEvent) throws IOException {
         // Load next screen
@@ -216,8 +231,10 @@ public class MainScreenController implements Initializable {
     }
 
     /**
-     * @param actionEvent
-     * @throws IOException
+     * This method detects if the modify appointment button has been pressed
+     *
+     * @param actionEvent Event that is caught to detect button press
+     * @throws IOException IO exception that is caught in case of IO exception
      */
     public void modifyAppointmentAction(ActionEvent actionEvent) throws IOException {
         Appointment selectedAppointment = appointmentTableView.getSelectionModel().getSelectedItem();
@@ -245,10 +262,12 @@ public class MainScreenController implements Initializable {
     }
 
     /**
-     * @param actionEvent
+     * This method detects if the report button has been pressed
+     *
+     * @param actionEvent Event that is caught to detect button press
+     * @throws IOException Exception that is caught to detect IO exception
      */
     public void reportButtonAction(ActionEvent actionEvent) throws IOException {
-        //customerIDColumn.setOnEditStart(customerIDColumn.getOnEditCommit()); TODO delete?
         // Load next screen
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/Views/report_screen.fxml"));
 
@@ -268,7 +287,9 @@ public class MainScreenController implements Initializable {
     }
 
     /**
-     * @param actionEvent
+     * This method detects if the customer delete button was pressed and handles any errors that may arise
+     *
+     * @param actionEvent Event that is caught to detect delete button press
      */
     public void deleteCustomerAction(ActionEvent actionEvent) {
         // Initialize our selected customer and detect if nothing was selected
@@ -503,6 +524,11 @@ public class MainScreenController implements Initializable {
         }
     }
 
+    /**
+     * This method detects if the all appointments radio button was selected and displays the appropriate data
+     *
+     * @param actionEvent Event that is caught if the radio button was selected
+     */
     public void allAppointmentsAction(ActionEvent actionEvent) {
         // Deselect other buttons and clear table view
         monthlyAppointmentsRadioButton.setSelected(false);
@@ -513,6 +539,15 @@ public class MainScreenController implements Initializable {
         appointmentTableView.setItems(appointments);
     }
 
+    /**
+     * This method detects if the monthly appointments radio button was selected, and displays appropriate data.
+     *
+     * Lambda expression: In the lambda expression used it checks each appointment in our observable list for
+     * whether or not the appointment start and date time is within the month. This simplifies the for loop code
+     * and makes it more accessible to the developer.
+     *
+     * @param actionEvent Event that is caught if the radio button is selected
+     */
     public void monthlyAppointmentsAction(ActionEvent actionEvent) {
         // Deselect other buttons and clear table view
         allAppointmentsRadioButton.setSelected(false);
@@ -523,16 +558,24 @@ public class MainScreenController implements Initializable {
         LocalDate maxDate = YearMonth.from(Instant.now().atZone(ZoneId.systemDefault())).atEndOfMonth();
         LocalDate minDate = YearMonth.from(Instant.now().atZone(ZoneId.systemDefault())).atDay(1);
 
-        for (Appointment appointment : appointments) {
+        // Lambda expression
+        appointments.forEach((appointment) ->{
             // If appointment is within the month add it to our observable list
             if (appointment.getStartDateTime().toLocalDate().isBefore(maxDate) &&
                     appointment.getStartDateTime().toLocalDate().isAfter(minDate)) {
                 onlyThisMonthsAppointments.add(appointment);
             }
-        }
+        });
+
         appointmentTableView.setItems(onlyThisMonthsAppointments);
     }
 
+    /**
+     * This method detects if the weekly appointment radio button was selected and displays the appropriate data from
+     * the database
+     *
+     * @param actionEvent Event that is caught to detect if the weekly radio button was selected
+     */
     public void weeklyAppointmentsAction(ActionEvent actionEvent) {
         // Deselect other buttons and clear table view
         allAppointmentsRadioButton.setSelected(false);

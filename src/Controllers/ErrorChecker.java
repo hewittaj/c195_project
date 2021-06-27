@@ -11,8 +11,18 @@ import javafx.scene.control.TextField;
 
 import java.util.ArrayList;
 
+/**
+ * This class is utilized to check for errors in different parts of the program
+ */
 public class ErrorChecker {
 
+    /**
+     * This method detects if the username and password combo is valid and returns either true or false.
+     *
+     * @param username Username supplied by user
+     * @param password Password supplied by user
+     * @return Returns true or false for valid login. True being it is a valid login, false if not
+     */
     public static boolean validateLogin(String username, String password) {
         // Initialize an observable list of users and a boolean for if the login is valid
         ObservableList<User> users = DBUser.getAllUsersInfo();
@@ -166,6 +176,11 @@ public class ErrorChecker {
         return -1;
     }
 
+    /**
+     * This method detects if the customer address text field in the screen is empty/null
+     * @param newAddress New address that has been supplied by user
+     * @return Returns an error number that dictates if an error is shown or not
+     */
     public static int customerAddressTextBoxEditEvent(String newAddress) {
 
         // If the new address text box is empty
@@ -176,6 +191,11 @@ public class ErrorChecker {
         return -1;
     }
 
+    /**
+     * This method detects if the customer zip code field in the screen is empty/null
+     * @param newZipCode New zip code supplied by user
+     * @return Returns an error number that dictates if an error is shown or not
+     */
     public static int zipCodeTextBoxEditEvent(String newZipCode) {
 
         // If the new zip code text box is empty
@@ -186,6 +206,11 @@ public class ErrorChecker {
         return -1;
     }
 
+    /**
+     * This method detects if the customer phone number field in the screen is empty/null
+     * @param newPhoneNumber New phone number supplied by the user
+     * @return Returns an error number that dictates if an error is shown or not
+     */
     public static int phoneNumberTextBoxEditEvent(String newPhoneNumber) {
 
         // If the new phone number text box is empty
@@ -196,6 +221,11 @@ public class ErrorChecker {
         return -1;
     }
 
+    /**
+     * This method detects if the division id supplied is valid based on what is already in the database
+     * @param newDivisionId New division id supplied by the user
+     * @return Returns an error number that dictates whether an error is shown or not
+     */
     public static int divisionIdTextBoxEvent(int newDivisionId) {
 
         // If the division id text box does not contain a valid division Id
