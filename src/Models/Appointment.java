@@ -2,16 +2,17 @@ package Models;
 
 /*
  * Injecting w/ prepared statement: p.setTimestamp(index, ts)
- * Extracting w/ result set: Timestamp ts = rs.getTimestamp("columName")
+ * Extracting w/ result set: Timestamp ts = rs.getTimestamp("columnName")
  */
 
 import DBAccess.DBAppointments;
-
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 
-
+/**
+ * This class represents an appointment object
+ */
 public class Appointment {
     public int appointmentId;
     public int userId;
@@ -27,17 +28,17 @@ public class Appointment {
     LocalDateTime endDateTime;
 
     /**
-     * Constructor for an appointment
+     * Constructor for an appointment w/o logged in user
      *
-     * @param userId
-     * @param customerId
-     * @param contactId
-     * @param title
-     * @param description
-     * @param location
-     * @param type
-     * @param startDateTime
-     * @param endDateTime
+     * @param userId User Id associated with appointment
+     * @param customerId Customer id associated with appointment
+     * @param contactId Contact id associated with appointment
+     * @param title Title of appointment
+     * @param description Description of appointment
+     * @param location Location of appointment
+     * @param type Type of appointment
+     * @param startDateTime Start date and time of appointment
+     * @param endDateTime End date and time of appointment
      */
     public Appointment(int appointmentId, int userId, int customerId, int contactId, String title, String description, String location, String type
             , LocalDateTime startDateTime, LocalDateTime endDateTime) {
@@ -56,17 +57,16 @@ public class Appointment {
     /**
      * Constructor that includes logged in user for database addition/updates
      *
-     * @param appointmentId
-     * @param userId
-     * @param customerId
-     * @param contactId
-     * @param title
-     * @param description
-     * @param location
-     * @param type
-     * @param startDateTime
-     * @param endDateTime
-     * @param loggedInUser
+     * @param userId User Id associated with appointment
+     * @param customerId Customer id associated with appointment
+     * @param contactId Contact id associated with appointment
+     * @param title Title of appointment
+     * @param description Description of appointment
+     * @param location Location of appointment
+     * @param type Type of appointment
+     * @param startDateTime Start date and time of appointment
+     * @param endDateTime End date and time of appointment
+     * @param loggedInUser Logged in user associated with appointment for db purposes
      */
     public Appointment(int appointmentId, int userId, int customerId, int contactId, String title, String description, String location, String type
             , LocalDateTime startDateTime, LocalDateTime endDateTime, String loggedInUser) {
@@ -98,50 +98,98 @@ public class Appointment {
         return maxId;
     }
 
+    /**
+     * Gets the appointment id
+     * @return Appointment id returned
+     */
     public int getAppointmentId() {
         return appointmentId;
     }
 
+    /**
+     * Gets the user id
+     * @return User id returned
+     */
     public int getUserId() {
         return userId;
     }
 
+    /**
+     * Gets the customer id
+     * @return Id of customer
+     */
     public int getCustomerId() {
         return customerId;
     }
 
+    /**
+     * Gets the contact id
+     * @return Id of contact
+     */
     public int getContactId() {
         return contactId;
     }
 
+    /**
+     * Gets the title of appointment
+     * @return Title of appointment
+     */
     public String getTitle() {
         return title;
     }
 
+    /**
+     * Gets the description of the appointment
+     * @return Description of appointment
+     */
     public String getDescription() {
         return description;
     }
 
+    /**
+     * Gets the location of appointment
+     * @return Location of appointment
+     */
     public String getLocation() {
         return location;
     }
 
+    /**
+     * Gets the contact of appointment
+     * @return Contact of appointment
+     */
     public String getContact() {
         return contact;
     }
 
+    /**
+     * Gets the type of appointment
+     * @return Type of appointment
+     */
     public String getType() {
         return type;
     }
 
+    /**
+     * Gets logged in user of appointment
+     * @return Logged in user
+     */
     public String getLoggedInUser() {
         return loggedInUser;
     }
 
+    /**
+     * Gets start date/time of appointment
+     * @return Start date/time of appointment
+     */
     public LocalDateTime getStartDateTime() {
         return startDateTime;
     }
 
+    /**
+     * Gets the end date/time of appointment
+     * @return End date/time of appointment
+     */
     public LocalDateTime getEndDateTime() {
         return endDateTime;
     }

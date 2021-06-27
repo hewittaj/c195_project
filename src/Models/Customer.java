@@ -2,6 +2,9 @@ package Models;
 
 import DBAccess.DBCustomers;
 
+/**
+ * This class is used for representing and constructing a customer object
+ */
 public class Customer {
     private final int divisionId;
     private final String customerName;
@@ -14,15 +17,16 @@ public class Customer {
     private String loggedInUser;
 
     /**
-     * Constructor used for adding a Customer
+     * Constructor used for adding a Customer w/ logged in user info
      *
-     * @param customerId
-     * @param customerName
-     * @param customerAddress
-     * @param zipCode
-     * @param phoneNumber
-     * @param countryName
-     * @param divisionId
+     * @param customerId Id of customer
+     * @param customerName Name of customer
+     * @param customerAddress Address of customer
+     * @param zipCode Zip code of customer
+     * @param phoneNumber Phone number of customer
+     * @param countryName Country name associated with customer
+     * @param divisionId Division id associated with customer, relates to country name
+     * @param loggedInUser Logged in user associated with customer
      */
     public Customer(int customerId, String customerName, String customerAddress, String zipCode, String phoneNumber, String countryName, int divisionId,
                     String loggedInUser) {
@@ -37,14 +41,15 @@ public class Customer {
     }
 
     /**
-     * Constructor used for getting all customer information for main screen
+     * Constructor used for getting all customer information for main screen, no logged in user associated with this
+     * constructor
      *
-     * @param customerId
-     * @param customerName
-     * @param customerAddress
-     * @param zipCode
-     * @param phoneNumber
-     * @param divisionId
+     * @param customerId Id of customer
+     * @param customerName Name of customer
+     * @param customerAddress Address of customer
+     * @param zipCode Zip code of customer
+     * @param phoneNumber Phone number of customer
+     * @param divisionId Division id associated with customer, relates to country name
      */
     public Customer(int customerId, String customerName, String customerAddress, String zipCode, String phoneNumber, int divisionId) {
         this.customerId = customerId;
@@ -56,60 +61,89 @@ public class Customer {
     }
 
     /**
-     * Gets the last customer Id number for adding a customer functionality
-     *
-     * @return The customer ID for the last customer in the list
+     * Gets the customer id for customer
+     * @return Customer id
      */
-    public static int getLastCustomerId() {
-        int maxId = 0;
-        for (Customer customer : DBCustomers.getMainScreenCustomerInfo()) {
-            if (customer.getCustomerId() > maxId) {
-                maxId = customer.getCustomerId();
-            }
-        }
-        return maxId;
-    }
-
     public int getCustomerId() {
         return customerId;
     }
 
+    /**
+     * Gets the division id for customer
+     * @return Division id
+     */
     public int getDivisionId() {
         return divisionId;
     }
 
+    /**
+     * Gets the zip code for customer
+     * @return Zip code
+     */
     public String getZipCode() {
         return zipCode;
     }
 
+    /**
+     * Gets the phone number for customer
+     * @return Phone number
+     */
     public String getPhoneNumber() {
         return phoneNumber;
     }
 
+    /**
+     * Gets the country name associated with customer
+     * @return Country name
+     */
     public String getCountryName() {
         return countryName;
     }
 
+    /**
+     * Gets the division name associated with customer
+     * @return Division name
+     */
     public String getDivisionName() {
         return divisionName;
     }
 
+    /**
+     * Gets the logged in user associated with customer
+     * @return Logged in user
+     */
     public String getLoggedInUser() {
         return loggedInUser;
     }
 
+    /**
+     * Gets the customer name
+     * @return Customer name
+     */
     public String getCustomerName() {
         return customerName;
     }
 
+    /**
+     * Gets the customers address
+     * @return Custoer address
+     */
     public String getCustomerAddress() {
         return customerAddress;
     }
 
+    /**
+     * Sets the id of the customer
+     * @param id Id to be set for customer
+     */
     public void setId(int id) {
         this.customerId = id;
     }
 
+    /**
+     * Overriden .toString() method for any calls in program
+     * @return Customer name
+     */
     @Override
     public String toString() {
         return customerName;
