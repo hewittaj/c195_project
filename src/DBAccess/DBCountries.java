@@ -9,27 +9,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+/**
+ * This class handles the database management for Countries
+ */
 public class DBCountries {
-
-    // TO DO POSSIBLY DELETE
-    public static int getCountryId(int divisionId) {
-        int countryId = 0;
-        try {
-
-            String sql = "select country_id from countries where country = ?";
-            PreparedStatement ps = DBConnection.getConnection().prepareStatement(sql);
-            ps.setString(1, "test");
-
-            ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
-                countryId = rs.getInt("Country_ID");
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        return countryId;
-    }
 
     /**
      * This method returns the specific country based on the country id

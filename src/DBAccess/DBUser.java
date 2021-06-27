@@ -9,8 +9,15 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-
+/**
+ * This class handles the db management for Users
+ */
 public class DBUser {
+
+    /**
+     * This method returns all users from the data base
+     * @return Returns an observable list of all users info in the database
+     */
     public static ObservableList<User> getAllUsersInfo() {
         ObservableList<User> users = FXCollections.observableArrayList();
 

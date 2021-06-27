@@ -27,6 +27,9 @@ import java.net.URL;
 import java.time.LocalDateTime;
 import java.util.ResourceBundle;
 
+/**
+ * This is the class that controls the report screen
+ */
 public class ReportScreenController implements Initializable {
     // Table Views
     @FXML
@@ -75,6 +78,11 @@ public class ReportScreenController implements Initializable {
     public ObservableList<CustomersWithSameZipCode> zipCodesReport = DBCustomers.getCountOfCustomersWithSameZipCode();
     public String loggedInUser;
 
+    /**
+     * This method initializes the data in the table view and the report screen
+     * @param url Not used
+     * @param rb Not used
+     */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         populateContactList();
@@ -102,6 +110,12 @@ public class ReportScreenController implements Initializable {
 
     }
 
+    /**
+     * This method detects if the contact combo box is selected and populates the report info based on the contact
+     * selected
+     *
+     * @param actionEvent Event that is caught to detect if the combo box was selected
+     */
     public void contactComboBoxSelected(ActionEvent actionEvent) {
 
         // Get contact id
@@ -136,6 +150,12 @@ public class ReportScreenController implements Initializable {
         customersWithSameZipCodeTableView.getItems().setAll(zipCodesReport);
     }
 
+    /**
+     * This method detects if the back button was selected and loads the main screen
+     *
+     * @param actionEvent Event that is caught to detect if the back button was selected
+     * @throws IOException Exception that is caught to detect any IO exceptions
+     */
     public void backButtonAction(ActionEvent actionEvent) throws IOException {
         // Load next screen
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/Views/main_screen.fxml"));
@@ -156,6 +176,11 @@ public class ReportScreenController implements Initializable {
         window.show();
     }
 
+    /**
+     * This method passes the currently logged in user from the main screen to the report screen, for database purposes
+     *
+     * @param loggedInUser Currently logged in user
+     */
     public void passLoggedInUser(String loggedInUser) {
         this.loggedInUser = loggedInUser;
     }

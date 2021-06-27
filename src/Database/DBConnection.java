@@ -9,6 +9,9 @@ import java.sql.SQLException;
 // Built from the following webinar
 // https://wgu.hosted.panopto.com/Panopto/Pages/Viewer.aspx?id=1be32ba5-76c6-47f3-8816-accf0002109b
 
+/**
+ * This class handles the connection to the database
+ */
 public class DBConnection {
     private static final String protocol = "jdbc";
     private static final String vendorName = ":mysql:";
@@ -22,6 +25,11 @@ public class DBConnection {
     private static final String username = "U07jtV";  // Username
     private static Connection conn = null;
 
+    /**
+     * This method starts the connection to the database
+     *
+     * @return Returns the connection to the database
+     */
     public static Connection startConnection() {
         try {
             Class.forName(MYSQLJDBCDriver);
@@ -38,10 +46,18 @@ public class DBConnection {
         return conn;
     }
 
+    /**
+     * This method gets the current connection
+     *
+     * @return Returnst the connection
+     */
     public static Connection getConnection() {
         return conn;
     }
 
+    /**
+     * This method closes the connection to the database
+     */
     public static void closeConnection() {
         try {
             conn.close();

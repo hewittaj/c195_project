@@ -9,9 +9,17 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+/**
+ * This class handles the db management of first level divisions
+ */
 public class DBFirstLevelDivisions {
 
-
+    /**
+     * This method gets the specified division based on the division id
+     *
+     * @param passedDivisionId Passed division id to help retrieve the specified division
+     * @return Returns the division we want based on the division id passed to the method
+     */
     public static Division specifiedDivision(int passedDivisionId) {
         Division division = null;
         try {
@@ -34,6 +42,9 @@ public class DBFirstLevelDivisions {
 
     /**
      * This method returns all the first level division info
+     *
+     * @param countryId Country id passed to the method to retrieve the first level division info for that specified
+     *                  country id
      */
     public static ObservableList<Division> getFirstLevelDivisionInfo(int countryId) {
         ObservableList<Division> divisions = FXCollections.observableArrayList();

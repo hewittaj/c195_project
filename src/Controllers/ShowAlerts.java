@@ -5,6 +5,9 @@ import javafx.scene.control.ButtonType;
 
 import java.util.Optional;
 
+/**
+ * This class is utilized to show any alerts that are detected from various parts of the program
+ */
 public class ShowAlerts {
 
     /**

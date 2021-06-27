@@ -10,6 +10,9 @@ import javafx.scene.control.Alert;
 import java.sql.*;
 import java.time.LocalDateTime;
 
+/**
+ * This class handles database connections for the appointments
+ */
 public class DBAppointments {
 
     /**
@@ -110,6 +113,7 @@ public class DBAppointments {
     /**
      * This method gets all appointments currently in the database for a specific customer
      *
+     * @param id Passed customer id used to retrieve appointments for that specific customer
      * @return Returns an observable list of appointments
      */
     public static ObservableList<Appointment> getAllAppointmentsForSpecificCustomer(int id) {

@@ -12,10 +12,13 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
+/**
+ * This class handles the database management for Customers
+ */
 public class DBCustomers {
 
     /**
-     * This method adds a new customer to the database
+     * This method adds a new customer to the database based on the customer information supplied
      *
      * @param newCustomer Parameter passed that represents the new customer
      */
@@ -51,6 +54,11 @@ public class DBCustomers {
         }
     }
 
+    /**
+     * This method deletes the specified customer from the database based on its customer id
+     *
+     * @param selectedCustomer Selected customer by user to be deleted
+     */
     public static void deleteCustomer(Customer selectedCustomer) {
         String sql = "DELETE FROM customers WHERE customer_id = ?";
         try {
@@ -98,7 +106,6 @@ public class DBCustomers {
      * This method handles the sql statements to update the selected customer
      *
      * @param updatedCustomer Customer that is passed that includes the newly updated information
-     * @return Returns the newly updated customer
      */
     public static void updateCustomer(Customer updatedCustomer) {
 
@@ -131,6 +138,7 @@ public class DBCustomers {
      * This method updates the database with the new customer name typed in from the user
      *
      * @param newCustomerName New customer name that has been passed to be updated
+     * @param customerInfo Customer information that is passed in order to get the customer id for updating purposes
      */
     public static void editCustomerNameEvent(String newCustomerName, Customer customerInfo) {
         try {
@@ -149,6 +157,7 @@ public class DBCustomers {
      * This method updates the database with the new customer address typed in from the user
      *
      * @param newAddress New customer address that has been passed to be updated
+     * @param customerInfo Customer info that is passed in order to get customer id for updating purposes
      */
     public static void editCustomerAddressEvent(String newAddress, Customer customerInfo) {
         try {
@@ -167,6 +176,7 @@ public class DBCustomers {
      * This method updates the database with the new customer zip code typed in from the user
      *
      * @param newZipCode New customer zip code that has been passed to be updated
+     * @param customerInfo Customer info that is passed in order to get customer id for updating purposes
      */
     public static void editZipCodeEvent(String newZipCode, Customer customerInfo) {
         try {
@@ -185,6 +195,7 @@ public class DBCustomers {
      * This method updates the database with the new customer phone number typed in from the user
      *
      * @param newPhoneNumber New customer phone number that has been passed to be updated
+     * @param customerInfo Customer info that is passed in order to get customer id for updating purposes
      */
     public static void editPhoneNumberEvent(String newPhoneNumber, Customer customerInfo) {
         try {
@@ -203,6 +214,7 @@ public class DBCustomers {
      * This method updates the database with the new customer division id typed in from the user
      *
      * @param newDivisionId New customer division id that has been passed to be updated
+     * @param customerInfo Customer info that is passed in order to get customer id for updating purposes
      */
     public static void editDivisionIdEvent(int newDivisionId, Customer customerInfo) {
         try {

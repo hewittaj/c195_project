@@ -9,6 +9,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+/**
+ * This class handles database management for contacts
+ */
 public class DBContacts {
 
     /**
@@ -67,6 +70,11 @@ public class DBContacts {
         return allContacts;
     }
 
+    /**
+     * This method returns the specific contact info based on the contact id passed to the method
+     * @param contactId Contact id passed to the method
+     * @return Returns the contact information
+     */
     public static Contact getSpecificContact(int contactId) {
         // Initialize the contact that we will return
         Contact specificContact = null;
