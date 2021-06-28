@@ -1,86 +1,86 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
-<AnchorPane xmlns:fx="http://javafx.com/fxml/1" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
-            prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/16"
-            fx:controller="Controllers.ReportScreenController">
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.ReportScreenController">
     <children>
-        <HBox alignment="CENTER" layoutX="369.0" layoutY="-13.0" prefHeight="25.0" prefWidth="900.0"
-              AnchorPane.bottomAnchor="550.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
-              AnchorPane.topAnchor="0.0">
+        <HBox alignment="CENTER" layoutX="369.0" layoutY="-13.0" prefHeight="25.0" prefWidth="900.0" AnchorPane.bottomAnchor="550.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <children>
                 <Label text="Reports" underline="true">
                     <font>
-                        <Font size="36.0"/>
+                        <Font size="36.0" />
                     </font>
                     <HBox.margin>
-                        <Insets left="50.0"/>
+                        <Insets left="50.0" />
                     </HBox.margin>
                 </Label>
-                <Button fx:id="backButton" alignment="CENTER" mnemonicParsing="false" onAction="#backButtonAction"
-                        text="Back" translateX="300.0"/>
+                <Button fx:id="backButton" alignment="CENTER" mnemonicParsing="false" onAction="#backButtonAction" text="Back" translateX="300.0" />
             </children>
         </HBox>
-        <VBox layoutX="400.0" layoutY="200.0" prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="0.0"
-              AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="50.0">
+        <VBox layoutX="400.0" layoutY="200.0" prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="50.0">
             <children>
                 <HBox prefHeight="100.0" prefWidth="200.0">
                     <children>
                         <Label text="Appointments by Type and Month" underline="true">
                             <font>
-                                <Font size="24.0"/>
+                                <Font size="24.0" />
                             </font>
                         </Label>
                     </children>
                 </HBox>
                 <TableView fx:id="monthAndTypeOfAppointmentsTableView" prefHeight="200.0" prefWidth="200.0">
                     <columns>
-                        <TableColumn fx:id="monthColumn" prefWidth="300.0" text="Month"/>
-                        <TableColumn fx:id="typeColumn" minWidth="0.0" prefWidth="300.0" text="Type"/>
-                        <TableColumn fx:id="countColumn" prefWidth="300.0" text="Count"/>
+                        <TableColumn fx:id="monthColumn" prefWidth="300.0" text="Month" />
+                        <TableColumn fx:id="typeColumn" minWidth="0.0" prefWidth="300.0" text="Type" />
+                        <TableColumn fx:id="countColumn" prefWidth="300.0" text="Count" />
                     </columns>
                 </TableView>
                 <HBox prefHeight="100.0" prefWidth="200.0">
                     <children>
                         <Label text="Appointments by Contact" underline="true">
                             <font>
-                                <Font size="24.0"/>
+                                <Font size="24.0" />
                             </font>
                             <padding>
-                                <Insets right="100.0"/>
+                                <Insets right="100.0" />
                             </padding>
                         </Label>
-                        <ComboBox fx:id="contactComboBox" onAction="#contactComboBoxSelected" prefWidth="150.0"/>
+                        <ComboBox fx:id="contactComboBox" onAction="#contactComboBoxSelected" prefWidth="150.0" />
                     </children>
                 </HBox>
                 <TableView fx:id="appointmentsByContactTableView" prefHeight="200.0" prefWidth="200.0">
                     <columns>
-                        <TableColumn fx:id="appointmentIdColumn" minWidth="-1.0" prefWidth="150.0"
-                                     text="Appointment ID"/>
-                        <TableColumn fx:id="titleColumn" minWidth="-1.0" prefWidth="150.0" text="Title"/>
-                        <TableColumn fx:id="descriptionColumn" minWidth="-1.0" prefWidth="150.0" text="Description"/>
-                        <TableColumn fx:id="startDateTimeColumn" minWidth="-1.0" prefWidth="150.0"
-                                     text="Start Date/Time"/>
-                        <TableColumn fx:id="endDateTimeColumn" minWidth="-1.0" prefWidth="150.0" text="End Date/Time"/>
-                        <TableColumn fx:id="customerIdColumn" minWidth="-1.0" prefWidth="150.0" text="Customer ID"/>
+                        <TableColumn fx:id="appointmentIdColumn" minWidth="-1.0" prefWidth="106.02083998918533" text="Appointment ID" />
+                  <TableColumn fx:id="contactTypeColumn" minWidth="100.0" prefWidth="125.0" text="Type" />
+                        <TableColumn fx:id="titleColumn" minWidth="100.0" prefWidth="125.0" text="Title" />
+                        <TableColumn fx:id="descriptionColumn" minWidth="100.0" prefWidth="125.0" text="Description" />
+                        <TableColumn fx:id="startDateTimeColumn" minWidth="100.0" prefWidth="163.0" text="Start Date/Time" />
+                        <TableColumn fx:id="endDateTimeColumn" minWidth="100.0" prefWidth="163.0" text="End Date/Time" />
+                        <TableColumn fx:id="customerIdColumn" minWidth="91.63592529296875" prefWidth="91.63592529296875" text="Customer ID" />
                     </columns>
                 </TableView>
                 <HBox prefHeight="100.0" prefWidth="200.0">
                     <children>
                         <Label text="Customers with Same Zip Code" underline="true">
                             <font>
-                                <Font size="24.0"/>
+                                <Font size="24.0" />
                             </font>
                         </Label>
                     </children>
                 </HBox>
                 <TableView fx:id="customersWithSameZipCodeTableView" prefHeight="200.0" prefWidth="200.0">
                     <columns>
-                        <TableColumn fx:id="zipCodeColumn" prefWidth="100.0" text="Zip Code"/>
-                        <TableColumn fx:id="countZipColumn" prefWidth="100.0" text="Count"/>
+                        <TableColumn fx:id="zipCodeColumn" prefWidth="100.0" text="Zip Code" />
+                        <TableColumn fx:id="countZipColumn" prefWidth="100.0" text="Count" />
                     </columns>
                 </TableView>
             </children>

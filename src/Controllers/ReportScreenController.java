@@ -53,6 +53,8 @@ public class ReportScreenController implements Initializable {
     @FXML
     public TableColumn<Appointment, Integer> appointmentIdColumn;
     @FXML
+    public TableColumn<Appointment, String> contactTypeColumn;
+    @FXML
     public TableColumn<Appointment, String> titleColumn;
     @FXML
     public TableColumn<Appointment, String> descriptionColumn;
@@ -78,6 +80,7 @@ public class ReportScreenController implements Initializable {
     public ObservableList<CustomersWithSameZipCode> zipCodesReport = DBCustomers.getCountOfCustomersWithSameZipCode();
     public String loggedInUser;
 
+
     /**
      * This method initializes the data in the table view and the report screen
      *
@@ -98,6 +101,7 @@ public class ReportScreenController implements Initializable {
         // Initialize appointments by contact report column names
         // -> string must match the model's spelling/capitalization
         appointmentIdColumn.setCellValueFactory(new PropertyValueFactory<Appointment, Integer>("appointmentId"));
+        contactTypeColumn.setCellValueFactory(new PropertyValueFactory<Appointment, String>("type"));
         titleColumn.setCellValueFactory(new PropertyValueFactory<Appointment, String>("title"));
         descriptionColumn.setCellValueFactory(new PropertyValueFactory<Appointment, String>("description"));
         startDateTimeColumn.setCellValueFactory(new PropertyValueFactory<Appointment, LocalDateTime>("startDateTime"));
