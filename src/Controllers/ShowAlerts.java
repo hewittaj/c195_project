@@ -189,12 +189,12 @@ public class ShowAlerts {
             alert.showAndWait();
         }
 
-        // Appointment start time is before 9 am EST
+        // Appointment start time is before 8 am EST
         if (number == 17) {
             // Set up an alert
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
             alert.setTitle("Invalid Appointment Times!");
-            alert.setHeaderText("Start time cannot be before 9am Eastern Time!");
+            alert.setHeaderText("Start time cannot be before 8am Eastern Time!");
             alert.setContentText("Click 'OK' to confirm.");
             alert.showAndWait();
         }
