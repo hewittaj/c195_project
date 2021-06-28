@@ -9,7 +9,8 @@ public class Country {
 
     /**
      * Constructor for a country
-     * @param id Id of country
+     *
+     * @param id          Id of country
      * @param countryName Name of country
      */
     public Country(int id, String countryName) {
@@ -19,6 +20,7 @@ public class Country {
 
     /**
      * Gets id of country
+     *
      * @return Id of country
      */
     public int getId() {
@@ -27,6 +29,7 @@ public class Country {
 
     /**
      * Gets name of country
+     *
      * @return Name of country
      */
     public String getName() {
@@ -35,6 +38,7 @@ public class Country {
 
     /**
      * Overridden .toString() method for any calls for the string representation
+     *
      * @return Country name
      */
     @Override

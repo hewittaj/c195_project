@@ -55,8 +55,9 @@ public class AddCustomerScreenController implements Initializable {
 
     /**
      * Initializes the screen for adding a customer
+     *
      * @param url Not used
-     * @param rb Not used
+     * @param rb  Not used
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {

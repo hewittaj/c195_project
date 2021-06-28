@@ -23,6 +23,7 @@ public class MonthAndTypeReport {
 
     /**
      * Gets the month for a report object
+     *
      * @return Month
      */
     public String getMonth() {
@@ -31,6 +32,7 @@ public class MonthAndTypeReport {
 
     /**
      * Sets the month of a report object
+     *
      * @param month Month to be set to
      */
     public void setMonth(String month) {
@@ -39,6 +41,7 @@ public class MonthAndTypeReport {
 
     /**
      * Gets the type associated with report object
+     *
      * @return Type
      */
     public String getType() {
@@ -47,6 +50,7 @@ public class MonthAndTypeReport {
 
     /**
      * Sets the type for an appointment report object
+     *
      * @param type Type
      */
     public void setType(String type) {
@@ -55,6 +59,7 @@ public class MonthAndTypeReport {
 
     /**
      * Gets the count of appointments for the report object
+     *
      * @return Count
      */
     public int getCount() {
@@ -63,6 +68,7 @@ public class MonthAndTypeReport {
 
     /**
      * Sets the count of the report object
+     *
      * @param count Count
      */
     public void setCount(int count) {

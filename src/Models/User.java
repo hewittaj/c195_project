@@ -10,7 +10,8 @@ public class User {
 
     /**
      * This method constructs a user with out their password
-     * @param userId User id of user
+     *
+     * @param userId   User id of user
      * @param userName Name of user
      */
     public User(int userId, String userName) {
@@ -20,7 +21,8 @@ public class User {
 
     /**
      * This method constructs a user object with their password info
-     * @param userId User id of user
+     *
+     * @param userId   User id of user
      * @param userName Name of user
      * @param password Password of user
      */
@@ -32,6 +34,7 @@ public class User {
 
     /**
      * Gets user id of user
+     *
      * @return User id
      */
     public int getUserId() {
@@ -40,6 +43,7 @@ public class User {
 
     /**
      * Gets user name of user
+     *
      * @return User name
      */
     public String getUserName() {
@@ -48,6 +52,7 @@ public class User {
 
     /**
      * Gets password of user
+     *
      * @return Password
      */
     public String getPassword() {
@@ -55,7 +60,8 @@ public class User {
     }
 
     /**
-     * Overriden method for any .toString() calls
+     * Overridden method for any .toString() calls
+     *
      * @return User name
      */
     @Override

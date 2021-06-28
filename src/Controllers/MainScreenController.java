@@ -96,6 +96,7 @@ public class MainScreenController implements Initializable {
 
     /**
      * This method passes the logged in user between screens
+     *
      * @param loggedInUser Logged in user currently logged in
      */
     public void passLoggedInUser(String loggedInUser) {
@@ -104,8 +105,9 @@ public class MainScreenController implements Initializable {
 
     /**
      * This method initializes the main screen and the tableviews with associated database data
+     *
      * @param url Not used
-     * @param rb Not used
+     * @param rb  Not used
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -173,6 +175,7 @@ public class MainScreenController implements Initializable {
 
     /**
      * This method detects whether the modify customer button was pressed and loads the screen
+     *
      * @param actionEvent Action event that is caught to detect the button press
      * @throws IOException Exception that is caught to detect IO exception
      */
@@ -541,7 +544,7 @@ public class MainScreenController implements Initializable {
 
     /**
      * This method detects if the monthly appointments radio button was selected, and displays appropriate data.
-     *
+     * <p>
      * Lambda expression: In the lambda expression used it checks each appointment in our observable list for
      * whether or not the appointment start and date time is within the month. This simplifies the for loop code
      * and makes it more accessible to the developer.
@@ -559,7 +562,7 @@ public class MainScreenController implements Initializable {
         LocalDate minDate = YearMonth.from(Instant.now().atZone(ZoneId.systemDefault())).atDay(1);
 
         // Lambda expression
-        appointments.forEach((appointment) ->{
+        appointments.forEach((appointment) -> {
             // If appointment is within the month add it to our observable list
             if (appointment.getStartDateTime().toLocalDate().isBefore(maxDate) &&
                     appointment.getStartDateTime().toLocalDate().isAfter(minDate)) {

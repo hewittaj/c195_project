@@ -14,6 +14,7 @@ public class Main extends Application {
 
     /**
      * Starts the connection to the database and closes upon program exit
+     *
      * @param args Not used, but arguments passed to the program if needed
      */
     public static void main(String[] args) {
@@ -28,6 +29,7 @@ public class Main extends Application {
 
     /**
      * This method opens the login screen view and starts the program
+     *
      * @param mainStage Stage that is passed to be shown to user
      * @throws Exception Exception that is caught in case of any that are detected
      */

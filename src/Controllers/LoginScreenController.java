@@ -52,8 +52,9 @@ public class LoginScreenController implements Initializable {
 
     /**
      * This method initializes the login screen
+     *
      * @param url Not used
-     * @param rb Not used
+     * @param rb  Not used
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -144,8 +145,8 @@ public class LoginScreenController implements Initializable {
     /**
      * Passes username of user trying to logged in
      *
-     * @param  username Username that we pass from what the user supplied, to other parts of the program that otherwise
-     *                  wouldn't have access to it
+     * @param username Username that we pass from what the user supplied, to other parts of the program that otherwise
+     *                 wouldn't have access to it
      */
     public void passUsername(String username) {
         this.username = username;
@@ -194,19 +195,18 @@ public class LoginScreenController implements Initializable {
         boolean fileExists = Files.exists(filePath);
 
         // If the file exists
-        if(fileExists) {
+        if (fileExists) {
             Writer output = new BufferedWriter(new FileWriter(String.valueOf(filePath), true));
             String loginAttemptInfo = "\nUsername: " + username + "\tTimestamp: " + timestamp;
             output.append(loginAttemptInfo);
             output.close();
-        }
-        else{
+        } else {
             // Otherwise file doesn't exist
             String loginAttemptInfo = "Username: " + username + "\tTimestamp: " + timestamp;
 
             // Create reference to new file
             Path newFile = Files.createFile(currentPath.resolve("login_activity.txt"));
-            Files.writeString(newFile,loginAttemptInfo);
+            Files.writeString(newFile, loginAttemptInfo);
         }
     }
 }

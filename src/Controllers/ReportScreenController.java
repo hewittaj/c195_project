@@ -80,8 +80,9 @@ public class ReportScreenController implements Initializable {
 
     /**
      * This method initializes the data in the table view and the report screen
+     *
      * @param url Not used
-     * @param rb Not used
+     * @param rb  Not used
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {

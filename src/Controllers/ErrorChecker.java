@@ -178,6 +178,7 @@ public class ErrorChecker {
 
     /**
      * This method detects if the customer address text field in the screen is empty/null
+     *
      * @param newAddress New address that has been supplied by user
      * @return Returns an error number that dictates if an error is shown or not
      */
@@ -193,6 +194,7 @@ public class ErrorChecker {
 
     /**
      * This method detects if the customer zip code field in the screen is empty/null
+     *
      * @param newZipCode New zip code supplied by user
      * @return Returns an error number that dictates if an error is shown or not
      */
@@ -208,6 +210,7 @@ public class ErrorChecker {
 
     /**
      * This method detects if the customer phone number field in the screen is empty/null
+     *
      * @param newPhoneNumber New phone number supplied by the user
      * @return Returns an error number that dictates if an error is shown or not
      */
@@ -223,6 +226,7 @@ public class ErrorChecker {
 
     /**
      * This method detects if the division id supplied is valid based on what is already in the database
+     *
      * @param newDivisionId New division id supplied by the user
      * @return Returns an error number that dictates whether an error is shown or not
      */

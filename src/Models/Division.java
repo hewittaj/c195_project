@@ -10,9 +10,10 @@ public class Division {
 
     /**
      * Constructor for a division object
-     * @param divisionId Division id of division
+     *
+     * @param divisionId   Division id of division
      * @param divisionName Name of division
-     * @param countryId Country id associated with division
+     * @param countryId    Country id associated with division
      */
     public Division(int divisionId, String divisionName, int countryId) {
         this.divisionId = divisionId;
@@ -22,6 +23,7 @@ public class Division {
 
     /**
      * Gets the division id
+     *
      * @return Division id
      */
     public int getDivisionId() {
@@ -30,6 +32,7 @@ public class Division {
 
     /**
      * Gets the country id
+     *
      * @return Country id
      */
     public int getCountryId() {
@@ -38,6 +41,7 @@ public class Division {
 
     /**
      * Gets the division name
+     *
      * @return Division name
      */
     public String getDivisionName() {
@@ -46,6 +50,7 @@ public class Division {
 
     /**
      * Overriden method for any .toString() calls
+     *
      * @return Division name
      */
     @Override

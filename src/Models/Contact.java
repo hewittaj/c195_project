@@ -10,8 +10,9 @@ public class Contact {
 
     /**
      * Constructor for a contact
-     * @param contactId Id of contact
-     * @param contactName Name of contact
+     *
+     * @param contactId    Id of contact
+     * @param contactName  Name of contact
      * @param contactEmail Email of contact
      */
     public Contact(int contactId, String contactName, String contactEmail) {
@@ -22,6 +23,7 @@ public class Contact {
 
     /**
      * Gets the contact id of contact
+     *
      * @return Contact id
      */
     public int getContactId() {
@@ -30,6 +32,7 @@ public class Contact {
 
     /**
      * Gets the contact name of contact
+     *
      * @return Contact name
      */
     public String getContactName() {
@@ -38,6 +41,7 @@ public class Contact {
 
     /**
      * Gets the contact email of contact
+     *
      * @return Contact email
      */
     public String getContactEmail() {
@@ -46,6 +50,7 @@ public class Contact {
 
     /**
      * Overriden method for any calls of .toString()
+     *
      * @return Returns the contact name
      */
     @Override

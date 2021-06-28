@@ -28,6 +28,7 @@ import java.util.ResourceBundle;
 public class ModifyCustomerScreenController implements Initializable {
 
     public static Customer customer; // Customer info of customer to modify
+    private final ObservableList<Country> countries = DBCountries.getAllCountries();
     @FXML
     public TextField customerIDTextField;
     @FXML
@@ -47,13 +48,13 @@ public class ModifyCustomerScreenController implements Initializable {
     @FXML
     public Button backButton;
     public String loggedInUser;
-    private final ObservableList<Country> countries = DBCountries.getAllCountries();
     private ObservableList<Division> divisions;
 
     /**
      * This method initializes the modify customer screen, currently nothing in the method
+     *
      * @param url Not used
-     * @param rb Not used
+     * @param rb  Not used
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {

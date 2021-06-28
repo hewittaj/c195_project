@@ -72,6 +72,7 @@ public class DBContacts {
 
     /**
      * This method returns the specific contact info based on the contact id passed to the method
+     *
      * @param contactId Contact id passed to the method
      * @return Returns the contact information
      */

@@ -138,7 +138,7 @@ public class DBCustomers {
      * This method updates the database with the new customer name typed in from the user
      *
      * @param newCustomerName New customer name that has been passed to be updated
-     * @param customerInfo Customer information that is passed in order to get the customer id for updating purposes
+     * @param customerInfo    Customer information that is passed in order to get the customer id for updating purposes
      */
     public static void editCustomerNameEvent(String newCustomerName, Customer customerInfo) {
         try {
@@ -156,7 +156,7 @@ public class DBCustomers {
     /**
      * This method updates the database with the new customer address typed in from the user
      *
-     * @param newAddress New customer address that has been passed to be updated
+     * @param newAddress   New customer address that has been passed to be updated
      * @param customerInfo Customer info that is passed in order to get customer id for updating purposes
      */
     public static void editCustomerAddressEvent(String newAddress, Customer customerInfo) {
@@ -175,7 +175,7 @@ public class DBCustomers {
     /**
      * This method updates the database with the new customer zip code typed in from the user
      *
-     * @param newZipCode New customer zip code that has been passed to be updated
+     * @param newZipCode   New customer zip code that has been passed to be updated
      * @param customerInfo Customer info that is passed in order to get customer id for updating purposes
      */
     public static void editZipCodeEvent(String newZipCode, Customer customerInfo) {
@@ -195,7 +195,7 @@ public class DBCustomers {
      * This method updates the database with the new customer phone number typed in from the user
      *
      * @param newPhoneNumber New customer phone number that has been passed to be updated
-     * @param customerInfo Customer info that is passed in order to get customer id for updating purposes
+     * @param customerInfo   Customer info that is passed in order to get customer id for updating purposes
      */
     public static void editPhoneNumberEvent(String newPhoneNumber, Customer customerInfo) {
         try {
@@ -214,7 +214,7 @@ public class DBCustomers {
      * This method updates the database with the new customer division id typed in from the user
      *
      * @param newDivisionId New customer division id that has been passed to be updated
-     * @param customerInfo Customer info that is passed in order to get customer id for updating purposes
+     * @param customerInfo  Customer info that is passed in order to get customer id for updating purposes
      */
     public static void editDivisionIdEvent(int newDivisionId, Customer customerInfo) {
         try {

@@ -21,6 +21,7 @@ public class CustomersWithSameZipCode {
 
     /**
      * Gets the zip code
+     *
      * @return Zip code
      */
     public String getZipCode() {
@@ -29,6 +30,7 @@ public class CustomersWithSameZipCode {
 
     /**
      * Sets the zip code
+     *
      * @param zipCode Zip code to be set
      */
     public void setZipCode(String zipCode) {
@@ -37,6 +39,7 @@ public class CustomersWithSameZipCode {
 
     /**
      * Gets the count of zip code
+     *
      * @return Count
      */
     public int getCount() {
@@ -45,6 +48,7 @@ public class CustomersWithSameZipCode {
 
     /**
      * Sets the count of zip code
+     *
      * @param count Count to be set to
      */
     public void setCount(int count) {
