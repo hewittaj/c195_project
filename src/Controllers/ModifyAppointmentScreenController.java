@@ -591,7 +591,7 @@ public class ModifyAppointmentScreenController implements Initializable {
 
         // If selected time is after 10 pm EST
         if (zonedEndTimeOnly.isAfter(endBizHours) || (zonedEndTimeOnly.isBefore(startBizHours) &&
-                zonedEndTimeOnly.isAfter(endBizHours))) {
+                zonedEndTimeOnly.isAfter(endBizHours))|| zonedEndTimeOnly.isBefore(startBizHours)) {
             ShowAlerts.showAlert(18);
             errorDetected = true;
             return errorDetected;
