@@ -1,0 +1,1 @@
+DELETE FROM customers where customer_id =
